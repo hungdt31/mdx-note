@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         disableTransitionOnChange
       >
       <head>
-        <title>Contentlayer Next.js Example</title>
+        <title>MDX</title>
         <link rel="icon" type="image/x-icon" href="/favicon.png" />
       </head>
       <body>
