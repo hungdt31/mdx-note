@@ -110,9 +110,6 @@
       @apply px-2;
     }
     pre {
-      @apply bg-card;
-      @apply text-card-foreground;
-      @apply p-4;
       @apply rounded-lg;
       @apply overflow-x-auto;
       @apply my-4;
@@ -122,6 +119,7 @@
       @apply text-center;
     }
     li {
+      @apply mt-2;
       @apply list-disc;
       @apply ml-4;
     }
@@ -131,5 +129,11 @@
       @apply pl-4;
       @apply my-4;
       @apply bg-muted;
+    }
+    code {
+      @apply bg-primary;
+      @apply text-primary-foreground;
+      @apply p-2;
+      @apply rounded-lg;
     }
   }
