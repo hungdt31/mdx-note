@@ -136,4 +136,7 @@
       @apply p-2;
       @apply rounded-lg;
     }
+    a {
+      @apply hover:underline;
+    }
   }
