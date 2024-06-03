@@ -1,8 +1,15 @@
-import Link from 'next/link'
-import { ModeToggle } from './theme-toggle'
+import Link from "next/link";
+import { ModeToggle } from "./theme-toggle";
+import { CircleUser, BookCopy } from "lucide-react";
 function Icon() {
   return (
-    <svg width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 22 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -12,7 +19,7 @@ function Icon() {
         strokeWidth="0.5"
       ></path>
     </svg>
-  )
+  );
 }
 
 function Logo() {
@@ -21,16 +28,28 @@ function Logo() {
       <span className="mr-2">
         <Icon />
       </span>
-      <span className="font-bold mr-9">Markdown Note </span>
-      <ModeToggle/>
+      <span className="font-bold">K.KOI</span>
     </Link>
-  )
+  );
 }
 
 export function Header() {
   return (
-    <header className="p-8 flex justify-center">
+    <header className="p-8 flex justify-around items-center gap-5">
       <Logo />
+      <div className="flex items-center gap-7 flex-wrap">
+        <Link href={"/me"}>
+          <button className="rounded-full flex items-center gap-2">
+            <CircleUser /> <p className="lg:block hidden">About me</p>
+          </button>
+        </Link>
+        <Link href={"/"}>
+          <button className="rounded-full flex items-center gap-2">
+            <BookCopy /> <p className="lg:block hidden">My note</p>
+          </button>
+        </Link>
+        <ModeToggle />
+      </div>
     </header>
-  )
+  );
 }

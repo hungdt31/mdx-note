@@ -4,7 +4,7 @@ import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer/hooks";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Link,ArrowUp } from "lucide-react";
+import { Link,ArrowUp, Bookmark} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -25,13 +25,13 @@ const Table_of_contents = ({tags}) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const h2Elements = Array.from(document.querySelectorAll("h2, h3"));
-      console.log(h2Elements);
+      //console.log(h2Elements);
       const h2contents = h2Elements.map((el) => ({
         id: el.id,
         text: el.textContent,
         type: el.tagName,
       }));
-      console.log(h2contents);
+      //console.log(h2contents);
       setHeadings(h2contents);
     }
   }, []);
@@ -41,11 +41,11 @@ const Table_of_contents = ({tags}) => {
   return (
     <Card className="lg:fixed my-5 lg:right-7">
       <CardHeader>
-        <p className="text-xl font-semibold">Table of contents</p>
+        <p className="text-xl font-semibold flex items-center"><Bookmark className="mr-3"/> Table of contents</p>
       </CardHeader>
       <CardContent>
         {headings.map((heading, index) => (
-          <div key={index} className={heading.type == 'H3' ? 'text-sm ml-9' : 'text-lg'}>
+          <div key={index} className={heading.type == 'H3' ? 'text-base ml-9' : 'text-lg'}>
             <a href={`#${heading.id}`} className="flex gap-3 items-center">
             {heading.type == 'H2' && <Link />} {heading.text}
             </a>
