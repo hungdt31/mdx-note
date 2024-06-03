@@ -12,13 +12,13 @@ import {
   CardHeader,
   CardDescription,
 } from "components/ui/card";
-export const generateStaticParams = async () =>
-  allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
+// export const generateStaticParams = async () =>
+//   allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
 
-export const generateMetadata = ({ params }) => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
-  return { title: post.title };
-};
+// export const generateMetadata = ({ params }) => {
+//   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+//   return { title: post.title };
+// };
 const Table_of_contents = ({tags}) => {
   const [headings, setHeadings] = useState([]);
 

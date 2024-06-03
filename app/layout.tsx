@@ -18,7 +18,6 @@ export default function RootLayout({
         <head>
           <title>MDX</title>
           <link rel="icon" type="image/x-icon" href="/favicon.png" />
-          <script src="https://kit.fontawesome.com/a076d05399.js" />
         </head>
         <body>
           <Header />
