@@ -113,7 +113,7 @@ export function DataTable<TData, TValue>({
       </div>
         {
           choosenTag.length > 0 && (
-            <div className="flex items-center gap-2 mb-5">
+            <div className="flex items-center gap-2 mb-5 flex-wrap">
               <Tags />
               {
                 choosenTag.map((tag) => (

@@ -85,6 +85,29 @@
     h1 {
       @apply text-3xl;
     }
+    h2::before {
+      content: "📝";
+      display: inline;
+      @apply -ml-3;
+    }
+    h2:hover{
+      @apply brightness-110;
+    }
+    button{
+      @apply p-2;
+      @apply border-b-[3px];
+      @apply border-l-[3px];
+      @apply border-t-[1px];
+      @apply border-r-[1px];
+      @apply border-primary;
+      @apply rounded-md;
+    }
+    button:hover{
+      @apply border-t-[3px];
+      @apply border-r-[3px];
+      @apply border-b-[1px];
+      @apply border-l-[1px];
+    }
     h2 {
       @apply text-2xl;
     }
@@ -102,12 +125,14 @@
       @apply text-primary-foreground;
       @apply border-2;
       @apply px-2;
+      @apply border-white;
     }   
     td {
       @apply bg-secondary;
       @apply text-secondary-foreground;
       @apply border-2;
       @apply px-2;
+      @apply border-white;
     }
     pre {
       @apply rounded-lg;
@@ -131,7 +156,6 @@
       @apply bg-muted;
     }
     code {
-      @apply bg-primary;
       @apply text-primary-foreground;
       @apply p-2;
       @apply rounded-lg;

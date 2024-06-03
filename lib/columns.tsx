@@ -50,9 +50,9 @@ export const Docs: ColumnDef<Docs>[] = [
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               {row.original.tags.map((tag, idx) => (
-                <Badge key={idx}>{tag}</Badge>
+                <button key={idx}>{tag}</button>
               ))}
             </div>
             <CardFooter></CardFooter>

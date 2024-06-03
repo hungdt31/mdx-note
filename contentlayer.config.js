@@ -1,15 +1,15 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import remarkMath from 'remark-math'
-import { s } from 'hastscript';
+// import { s } from 'hastscript';
 import remarkFrontmatter from 'remark-frontmatter'
 import rehypeKatex from 'rehype-katex'
-import remarkRehype from 'remark-rehype'
+// import remarkRehype from 'remark-rehype'
 import rehypePrettyCode from 'rehype-pretty-code'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+// import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import remarkParse from 'remark-parse'
-import rehypeStringify from 'rehype-stringify'
+// import remarkParse from 'remark-parse'
+// import rehypeStringify from 'rehype-stringify'
 const Post = defineDocumentType(() => ({
   name: 'Post',
   filePathPattern: `**/*.mdx`,

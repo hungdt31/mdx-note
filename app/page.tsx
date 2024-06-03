@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { compareDesc, format, parseISO } from "date-fns";
 import { allPosts, Post } from "contentlayer/generated";
 import DocsDataTable from "components/docs-datatble";
@@ -42,7 +41,7 @@ export default function Home() {
   return (
     <div className="max-w-xl py-8 mx-auto">
       <div className="flex justify-center gap-3 items-center mb-7">
-        <h1 className="text-3xl font-bold text-center">Note Example</h1>
+        <h1 className="text-3xl font-bold text-center">My note</h1>
       </div>
       <DocsDataTable columns={Docs} data={posts} tags={tags} setChoosenTag={setChoosenTag} choosenTag={choosenTag}/>
     </div>

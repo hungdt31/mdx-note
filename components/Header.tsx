@@ -1,5 +1,5 @@
 import Link from 'next/link'
-
+import { ModeToggle } from './theme-toggle'
 function Icon() {
   return (
     <svg width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,7 +21,8 @@ function Logo() {
       <span className="mr-2">
         <Icon />
       </span>
-      <span className="font-bold">Markdown Note</span>
+      <span className="font-bold mr-9">Markdown Note </span>
+      <ModeToggle/>
     </Link>
   )
 }
