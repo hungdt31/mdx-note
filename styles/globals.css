@@ -68,7 +68,7 @@
 
 @layer base {
   * {
-    font-family: 'Poppins';
+    font-family: "Open Sans", sans-serif;
     @apply border-border;
   }
 

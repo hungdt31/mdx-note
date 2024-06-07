@@ -54,7 +54,7 @@ const Table_of_contents = ({tags}) => {
       </CardContent>
       <CardFooter>
       <div className="flex items-center gap-3 flex-wrap">
-      Tags: {tags.map((tag, idx) => (
+      Tags: {tags?.map((tag, idx) => (
         <button key={idx}>{tag}</button>
       ))}
       </div>
@@ -64,6 +64,7 @@ const Table_of_contents = ({tags}) => {
 };
 const PostLayout = ({ params }: { params: { slug: string } }) => {
   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  // console.log(post);
   if (!post) notFound();
   const Content = getMDXComponent(post.body.code);
 

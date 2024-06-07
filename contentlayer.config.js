@@ -45,7 +45,7 @@ export default makeSource({
   mdx: {
     remarkPlugins: [
       // remarkParse,
-      remarkFrontmatter,
+      // remarkFrontmatter,
       // remarkRehype,
       remarkGfm,
       remarkMath,
