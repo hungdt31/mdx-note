@@ -1,7 +1,7 @@
-import "../styles/globals.css";
+import "@/styles/globals.css";
 import "katex/dist/katex.min.css";
-import { ThemeProvider } from "components/theme-provider";
-import { Header } from "../components/Header";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "@/components/Header";
 export default function RootLayout({
   children,
 }: {

@@ -1,0 +1,95 @@
+---
+title: 'Chapter 1: Computer Networks and the Internet (P1)'
+date: 2024-06-08
+tags: 
+  - Computer Networking
+  - Chuyên ngành
+---
+> **Sách tham khảo**: [James F. Kurose_ Keith Ross - Computer Networking_ A Top-Down Approach-Pearson (2016)](/computer-networking/James%20F.%20Kurose_%20Keith%20Ross%20-%20Computer%20Networking_%20A%20Top-Down%20Approach-Pearson%20(2016).pdf)
+
+## 1.1 Thế nào là Internet?
+
+Thuật ngữ `the nuts and bolts of Internet`: các chi tiết cơ bản của internet.
+
+Là cơ sở hạ tầng cung cấp dịch vụ cho các ứng dụng phân tán ([distributed applications](https://vietnambiz.vn/ung-dung-phan-quyen-distributed-applications-dapps-la-gi-noi-dung-ve-ung-dung-phan-quyen-20200119111332219.htm)).
+
+### 1.1.1 Mô tả các chi tiết của Internet
+
+![Internet](/computer-networking/ch1/1.1.png)
+
+#### End systems
+
+Các hệ thống đầu cuối được kết nối với nhau bằng một mạng lưới các liên kết giao tiếp (network of communication links) và gói chuyển tải (packet switches). Các data trao đổi giữa chúng được đính kèm header bytes cho mỗi phân đoạn (segment), gọi là `The jargon of computer networks` $\rightarrow$ The destination end system (nơi các gói dữ liệu được lắp ráp thành dữ liệu gốc).
+
+**Packet switches:** `routers` (network core) và `link-layer switches` (access networks)
+- Nó được sử dụng để chuyển tiếp các gói dữ liệu từ một đầu cuối đến đầu cuối khác thông qua các `incoming communication links`.
+
+Quá trình chuyển tiếp gói dữ liệu với liên kết giao tiếp được gọi là tuyến đường (route) hoặc đường đi (path) qua Internet.
+
+**Ví dụ minh họa:**
+- Xem xét một nhà máy vận chuyển lượng lớn hàng hóa đến kho đích nào đó cách xa hàng nghìn km.
+- Tại nhà máy, hàng hóa được phân đoạn và chất lên một đội xe tải.
+- Mỗi xe tải di chuyển độc lập qua mạng lưới đường cao tốc, đường bộ và giao lộ tới kho đích.
+- Tại kho đích, hàng hóa được lấy ra và lắp ráp lại thành hàng hóa gốc.
+> Xe tải - Data packets
+<br/> Giao lộ - Packet switches
+<br/> Đường cao tốc - Communication links
+<br/> Kho hàng - Destination end system
+
+#### ISP (Internet Service Provider)
+
+Cung cấp dịch vụ kết nối Internet cho các hệ thống đầu cuối. Người dùng được kết nối với WWW (Web), Mail, Mạng xã hội và các cộng cụ tìm kiếm, ...
+
+- Các gói cước từ nhà mạng Viettel, VNPT, FPT, ...
+- Thiết bị truy cập Internet: Modem, Router, Switch, ... Với thiết bị điện tử cầm tay sẽ có `network adapter (card)`.
+
+#### Protocols (Giao thức)
+> Transmission Control Protocol/Internet Protocol
+
+Chỉ định cách dữ liệu được trao đổi qua Internet.
+- TCP: Đảm bảo dữ liệu được chuyển tiếp một cách đáng tin cậy từ một hệ thống đến hệ thống khác.
+- IP: Định vị hệ thống trên Internet.
+
+### 1.1.2 Mô tả các dịch vụ Internet
+
+Các phần mềm nằm trên hệ thống đầu cuối cần gửi dữ liệu cho nhau, vì vậy cần có cách mô tả cho Internet các lớp phân tầng ứng dụng.
+
+**Socket Interface**: một bộ các quy tắc mà chương trình phải tuân theo để Internet vận chuyển data đến chương trình đích.
+
+> When you develop an Internet application, you too must choose one of the Internet's services for your application.
+
+### 1.1.3 Thế nào là một giao thức (Protocol)?
+
+#### A Human Analogy
+
+![A human protocol and a computer networl protocol](/computer-networking/ch1/1.2.png)
+
+> *Transmitted and received messages: there are specific messages we send, and specific actions we take in response to the received reply messages or other events.*
+
+**Ví dụ minh họa:**
+
+Giả sử bạn đang trong một lớp học Mạng máy tính, giảng viên nói về Protocols và bạn bối rối.
+- Giảng viên dừng lại và hỏi, "Có bất cứ câu hỏi nào không?" (một thông điệp được gửi đi, điều đó làm các học sinh ngủ gật tỉnh dậy).
+- Bạn giơ tay phát biểu (gửi đi một thông điệp ẩn cho giảng viên).
+- Giảng viên đáp lại bạn bằng một nụ cười, nói rằng "Yes ..." (thông điệp được gửi đi khuyến khích bạn hỏi - giảng viên muốn được hỏi), và sau đó bạn hỏi (đó là gửi đi thông điệp của bạn đến giảng viên).
+- Giảng viên nghe câu hỏi (nhận thông điệp câu hỏi của bạn) và trả lời (gửi đi lời đáp đến bạn).
+
+#### Network Protocols
+
+Giao thức mạng tương tự với giao thức con người, trừ việc các thực thể trao đổi thông điệp và thực hiện nhiệm vụ là các phần mềm hoặc phần cứng của một số thiết bị (computer, smartphone, tablet, router,...).
+
+Tất cả các hoạt động trên Internet bao hàm hai hay nhiều thực thể giao tiếp từ xa bị chi phối bởi Protocols (xác định đường đi của data từ nguồn đến đích).
+
+**Mô tả khi truy cập trang web:**
+
+- Gửi request đến Web server (nhấn vào URL của một trang web trên trình duyệt của bạn). 
+- Máy tính của bạn sẽ gửi thông điệp yêu cầu kết nối đến Web server và đợi phản hồi. 
+- Web server sau cùng sẽ nhận yêu cầu kết nối của bạn và trả về kết quả (Nếu OK thì sẽ gửi yêu cầu đến Web document với tên trang web muốn được truy cập từ `GET` message của Web server).
+- Cuối cùng, Web server trả về trang web cho máy tính bạn.
+
+> *A protocol defines the format and the order of messages exchanged between two 
+or more communicating entities, as well as the actions taken on the transmission 
+and/or receipt of a message or other event.*
+
+## 1.2 The Network Edge 
+

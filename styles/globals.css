@@ -89,15 +89,17 @@
     @apply text-3xl;
   }
 
-  h2::before {
+  /* h2::before {
     content: "📝";
     display: inline;
     @apply -ml-3;
     @apply mr-2;
-  }
-
-  h2:hover {
-    @apply brightness-110;
+  } */
+  h1,
+  h2,
+  h3{
+    @apply text-[#7C3AED];
+    @apply my-3;
   }
 
   button {
@@ -125,6 +127,10 @@
     @apply text-xl;
   }
 
+  h4 {
+    @apply text-lg;
+  }
+  
   table {
     @apply w-full;
     @apply my-4;
@@ -174,9 +180,9 @@
   }
 
   code {
-    @apply text-primary-foreground;
-    @apply p-2;
-    @apply rounded-lg;
+    @apply px-2;
+    @apply bg-muted;
+    @apply rounded-md;
   }
 
   a {
