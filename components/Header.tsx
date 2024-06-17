@@ -45,7 +45,7 @@ export function Header() {
         </Link>
         <Link href={"/"}>
           <button className="rounded-full flex items-center gap-2">
-            <BookCopy /> <p className="lg:block hidden">My note</p>
+            <BookCopy /> <p className="lg:block hidden">Home</p>
           </button>
         </Link>
         <ModeToggle />

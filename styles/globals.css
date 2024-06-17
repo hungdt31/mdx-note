@@ -178,7 +178,9 @@
     @apply my-4;
     @apply bg-muted;
   }
-
+  img {
+    @apply my-3;
+  }
   code {
     @apply px-2;
     @apply bg-muted;
@@ -202,19 +204,19 @@
   }
   .box-right-top {
     right: 0;
-    top: 0;
+    @apply top-3;
   }
   .box-left-bottom {
     left: 0;
-    bottom: 0;
+    @apply bottom-3;
   }
   .box-right-bottom {
     right: 0;
-    bottom: 0;
+    @apply bottom-3;
   }
   .box-left-top {
     left: 0;
-    top: 0;
+    @apply top-3;
   }
   .box-right-top::before{
     content: "";

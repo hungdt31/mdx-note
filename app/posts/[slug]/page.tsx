@@ -39,7 +39,7 @@ const Table_of_contents = ({tags}) => {
   // console.log(headings);
 
   return (
-    <Card className="lg:fixed my-5 lg:right-7 lg:top-40">
+    <Card className="my-5">
       <CardHeader>
         <p className="text-xl font-semibold flex items-center"><Bookmark className="mr-3"/> Table of contents</p>
       </CardHeader>
