@@ -1,0 +1,31 @@
+<svg fill="none" viewBox="0 0 500 150" width="500" height="150" xmlns="http://www.w3.org/2000/svg">
+	<foreignObject width="100%" height="100%">
+		<div xmlns="http://www.w3.org/1999/xhtml">
+		<style>
+    *{
+      font-family: 'Pirata One', cursive;
+    }
+    h1{
+      font-size: 35px;
+      color: #80ffff;
+      <!-- text-shadow: 2px 7px 5px rgba(0,0,0,0.3), 
+    0px -4px 10px rgba(255,255,255,0.3); -->
+    }
+
+    h2 {
+      margin-top: -1.15em;
+      font-size: 1.5rem;
+      color: #80ffff;
+      text-align: center;}
+
+    h2 spam {
+      font-size: .5em; 
+    }
+    </style>
+    <header>
+    <h1 data-text="Code something">STUDY WITH ME</h1>
+    <h2>--- &#8707; &#9834; &#10697; ----</h2>
+  </header>
+    </div>
+</foreignObject>
+</svg>
