@@ -139,8 +139,8 @@
 
   th {
     @apply font-bold;
-    @apply bg-primary;
-    @apply text-primary-foreground;
+    @apply bg-[#7355aa];
+    @apply text-white;
     @apply border-2;
     @apply px-2;
     @apply border-white;
@@ -173,7 +173,7 @@
 
   blockquote {
     @apply border-l-4;
-    @apply border-primary;
+    @apply border-[#7355aa];
     @apply pl-4;
     @apply my-4;
     @apply bg-muted;
