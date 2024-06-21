@@ -7,7 +7,8 @@ import { useState } from "react";
 
 function removeDuplicates(arr) {
   let unique = [];
-  arr.forEach(element => {
+  arr.forEach((element : string)=> {
+    element = element.replaceAll("\r","")
     if (!unique.includes(element)) {
       unique.push(element);
     }
