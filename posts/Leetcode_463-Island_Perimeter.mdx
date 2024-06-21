@@ -1,0 +1,103 @@
+---
+title: "463. Island Perimeter"
+date: 2024-03-14
+tags: 
+  - Leetcode
+  - Array
+  - Depth-First Search
+  - Matrix
+  - Breadth-First Search
+  - Easy
+---
+## Topic
+
+Bạn được cho mạng lưới `row x col` biểu diễn một bản đồ mà `grid[i][j] = 1` chỉ định đất và `grid[i][j] = 0` chỉ định nước.
+
+Các ô mạng lưới được kết nối theo chiều dọc hoặc ngang (không tính chéo). Mạng lưới hoàn toàn được bao phủ bởi nước và có chính xác một đảo (i.e., một hay nhiều ô đảo liên kết với nhau).
+
+Đảo không có hồ, nghĩa là nước bên ngoài không kết nối với bên trong đảo. Một ô là một hình vuông cạnh dài 1. Mạng lưới là hình chữ nhật, chiều dài và chiều rộng không quá 100. Xác định chu vi của hòn đảo.
+
+## Example
+
+### Example 1
+
+![Example 1](https://assets.leetcode.com/uploads/2018/10/12/island.png)
+
+> **Input:** `grid = [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]`
+<br/> **Output:** `16`
+
+### Example 2
+
+> **Input:** `grid = [[1]]`
+<br/> **Output:** `4`
+
+### Example 3
+
+> **Input:** `grid = [[1,0]]`
+<br/> **Output:** `4`
+
+## Constraints
+
+- `row == grid.length`
+- `col == grid[i].length`
+- `1 <= row, col <= 100`
+- `grid[i][j]` is `0` or `1`.
+- There is exactly one island in `grid`.
+
+## Code
+
+```c++
+#include <iostream>
+#include <vector>
+using namespace std;
+class Solution {
+public:
+    static int get_perimeter_cell (vector<vector<int>>& grid, int i, int j){
+        int rs = 4;
+        // cases for decreasing 1 unit
+        // to the right, grid[i][j+1] == 1
+        if (j + 1 < grid[0].size() && grid[i][j+1] == 1)
+            rs -= 1;
+        // to the left, grid[i][j-1] == 1
+        if (j - 1 >= 0 && grid[i][j-1] == 1)
+            rs -= 1;
+        // to the top, grid[i-1][j] == 1
+        if (i - 1 >= 0 && grid[i-1][j] == 1)
+            rs -= 1;
+        // to the bottom, grid[i+1][j] == 1
+        if (i + 1 < grid.size() && grid[i+1][j] == 1)
+            rs -= 1;
+        return rs;
+    }
+    static int islandPerimeter(vector<vector<int>>& grid){
+        int island_perimeter = 0;
+        int row = grid.size();
+        int col = grid[0].size();
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < col; j++){
+                if (grid[i][j] == 1)
+                    island_perimeter += get_perimeter_cell(grid, i, j);
+            }
+        }
+        return island_perimeter;
+    }
+};
+int main() {
+  vector <vector<int>> vt;
+  int cols, rows;
+  cout <<"Enter the numbers of column:";
+  cin >> cols;
+  cout <<"Enter the numbers of row:";
+  cin >> rows;
+  for (int i = 0; i < rows; i++){
+      vector<int> temps;
+      for (int j = 0; j < cols; j++){
+          int temp;
+          cin >> temp;
+          temps.push_back(temp);
+      }
+      vt.push_back(temps);
+  }
+  cout << "The island perimeter is " << Solution::islandPerimeter(vt);
+}
+```
