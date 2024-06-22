@@ -57,7 +57,7 @@ export default makeSource({
         rehypePrettyCode,
         {
           theme: "dracula",
-          // keepBackground: false,
+          keepBackground: true,
         },
       ],
       // rehypeStringify
