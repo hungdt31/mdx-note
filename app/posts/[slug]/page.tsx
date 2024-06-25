@@ -1,4 +1,5 @@
 "use client";
+import { CopyIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer/hooks";
@@ -67,7 +68,30 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
   // console.log(post);
   if (!post) notFound();
   const Content = getMDXComponent(post.body.code);
+  useEffect(() => {
+    const preTags = document.querySelectorAll("pre")
+    for (let i = 0; i < preTags.length; i++){
+      const codeTag = preTags[i].querySelector("code")
+      const copiedText = codeTag.textContent
 
+      const cssCopyButton = "absolute top-2 block right-2 z-50 text-[#7355aa] border-2 border-[#7355aa] rounded-md px-3 py-[1px]"
+      const copyButton = document.createElement("button")
+      copyButton.className = cssCopyButton
+      copyButton.innerHTML = '<strong>Copy</strong>'
+
+      const csslanguageButton = "absolute top-2 block left-2 z-50 text-white border-2 border-white px-3 py-[1px] min-w-[80px] rounded-full"
+      const languageButton = document.createElement("label")
+      languageButton.className = csslanguageButton
+      languageButton.innerHTML = `<p className="text-center underline">${codeTag.getAttribute("data-language")}</p>`
+
+      codeTag.appendChild(copyButton)
+      codeTag.appendChild(languageButton)
+
+      copyButton.addEventListener("click", () => {
+        navigator.clipboard.writeText(copiedText)
+      })
+    } 
+  },[])
   return (
     <article className="py-8 mx-auto max-w-xl">
       <div className="mb-8 text-center">

@@ -159,6 +159,12 @@
     @apply overflow-x-auto;
     @apply my-4;
     @apply font-mono;
+    @apply relative;
+  }
+  pre > code {
+    @apply pt-11;
+    @apply pb-5;
+    @apply px-3;
   }
   figcaption {
     @apply -mt-2;
@@ -175,8 +181,11 @@
     @apply border-l-4;
     @apply border-[#7355aa];
     @apply pl-4;
+    @apply pr-2;
     @apply my-4;
     @apply bg-muted;
+    @apply opacity-75;
+    @apply py-2;
   }
   img {
     @apply my-3;
@@ -260,5 +269,18 @@
     height: 10px;
     position: absolute;
     left:0;
+  }
+  block{
+    @apply flex;
+    @apply justify-start;
+    @apply py-5;
+    @apply px-3;
+    @apply border-border;
+    @apply border-2;
+    @apply rounded-md;
+  }
+  block > p {
+    @apply font-mono;
+    @apply opacity-60;
   }
 }
