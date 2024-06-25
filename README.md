@@ -7,3 +7,10 @@
 ***My major is Computer Science.***
 
 ***I'm currently studying at Ho Chi Minh City University of Technology. This is something I collect from daily life.***
+|ツ|💫 ☄️🌟⭐🌙🌘🚀🪐🌌🌅🌍🥏|
+|-|-|
+|Learning at school|[Computer Network](/contents/computer-network.md)|
+|Coding|[Leetcode Collection](/contents/leetcode.md)|
+|Other|[TOEIC](/contents/toeic.md) x  [Chemistry](/contents/chemistry.md)|
+
+
