@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({
             {/* Page content here */}
             <label
               htmlFor="my-drawer"
-              className="bg-[#7C3AED] py-2 rounded-sm text-white px-5 font-bold"
+              className="text-[#7C3AED] py-2 rounded-sm px-5 font-bold border-2 border-[#7C3AED] bg-muted"
             >
               Tags
             </label>

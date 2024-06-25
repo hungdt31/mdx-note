@@ -1,6 +1,8 @@
+"use client";
 import Link from "next/link";
 import { ModeToggle } from "./theme-toggle";
 import { CircleUser, BookCopy } from "lucide-react";
+import { usePathname } from "next/navigation";
 function Icon() {
   return (
     <svg
@@ -32,23 +34,48 @@ function Logo() {
     </Link>
   );
 }
-
+const nav = [
+  {
+    name: "Personal",
+    icon: <CircleUser className="z-50" />,
+    path: "/me",
+  },
+  {
+    name: "Home",
+    icon: <BookCopy className="z-50" />,
+    path: "/",
+  },
+];
 export function Header() {
+  const pathName = usePathname();
   return (
-    <header className="p-8 flex justify-around items-center gap-5">
-      <Logo />
-      <div className="flex items-center gap-7 flex-wrap">
-        <Link href={"/me"}>
-          <button className="rounded-full flex items-center gap-2">
-            <CircleUser /> <p className="lg:block hidden">About me</p>
-          </button>
-        </Link>
-        <Link href={"/"}>
-          <button className="rounded-full flex items-center gap-2">
-            <BookCopy /> <p className="lg:block hidden">Home</p>
-          </button>
-        </Link>
+    <header className="relative mb-3">
+      <div className="p-8 flex gap-5 relative bg-muted opacity-80 items-center">
         <ModeToggle />
+        <Logo />
+      </div>
+      <div>
+        <div className="relative border-primary border-t-2 z-20">
+          <div className="flex items-center gap-7 flex-wrap absolute -top-7 z-auto lg:right-24 sm:right-16 right-5 bg-transparent">
+            {nav.map((el) => {
+              return (
+                <Link href={el.path}>
+                  <button
+                    className={`flex items-center gap-2 bg-background px-3 ${
+                      (pathName.includes(el.path) && el.path != "/") ||
+                      (pathName == "/" && el.path == "/")
+                        ? "text-[#7C3AED]"
+                        : ""
+                    }`}
+                  >
+                    {el.icon} <p className="sm:block hidden z-50 font-semibold">{el.name}</p>
+                  </button>
+                </Link>
+              );
+            })}
+          </div>
+          <div className="bg-background h-[20px] w-[100%] top-0 absolute z-40"></div>
+        </div>
       </div>
     </header>
   );
