@@ -1,0 +1,88 @@
+---
+title: "220. Contains Duplicate III"
+date: 2024-06-24
+tags: 
+  - Leetcode
+  - Array
+  - Hash Table
+  - Sorting
+---
+
+## Description
+
+You are given an integer array `nums` and two integers `indexDiff` and `valueDiff`
+
+Find a pair of indices `(i, j)` such that:
+- `i != j`
+- `abs(i - j) <= indexDiff`.
+- `abs(nums[i] - nums[j]) <= valueDiff`, and
+
+Return `true` *if such pair exists* or `false` *otherwise*.
+
+## Example
+
+<block>
+**Input**: nums = [1,2,3,1], indexDiff = 3, valueDiff = 0
+<br/> **Output**: true
+<br/> **Explanation**: We can choose (i, j) = (0, 3).
+We satisfy the three conditions:
+<br/> `i != j`
+<br/> `abs(i - j) <= indexDiff --> abs(0 - 3) <= 3`
+<br/> `abs(nums[i] - nums[j]) <= valueDiff --> abs(1 - 1) <= 0` 
+
+</block>
+
+## Constraints
+- `2 <= nums.length <= 10^5`
+- `-10^9 <= nums[i] <= 10^9`
+- `1 <= indexDiff <= nums.length`
+- `0 <= valueDiff <= 10^9`
+
+## Code
+The approach to come up with the solution:
+- **Data Structure:** C++ Standard Template Library Set
+
+`std::set <data_type> set_name`
+
+- **Algorithm:** Sliding Window
+
+$\big|$ nums[j] - nums[i] $\big|$ $\le$ valueDiff 
+$\Rightarrow$ nums[j] $\ge$ nums[i]  - valueDiff;
+nums[j] - nums[i] $\le$ valueDiff 
+
+
+```c++
+#include <iostream>
+#include <vector>
+#include <set>
+using namespace std;
+class Solution
+{
+public:
+    static bool containsNearbyAlmostDuplicate(vector<int> &nums, int indexDiff, int valueDiff)
+    {
+        set <int> st;
+        for (int i = 0; i < nums.size(); i++){
+            int num = nums[i];
+            if (i > indexDiff) st.erase(nums[i - indexDiff - 1]);
+            auto pos = st.lower_bound(num - valueDiff);
+            if (pos != st.end() && *pos - num <= valueDiff) return true;
+            st.insert(num);
+        }
+        return false;
+    }
+};
+int main()
+{
+    vector<int> nums;
+    int n, indexDiff, valueDiff;
+    cin >> n >> indexDiff >> valueDiff;
+    for (int i = 0; i < n; i++)
+    {
+        int num;
+        cin >> num;
+        nums.push_back(num);
+    }
+    cout << Solution::containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff);
+}
+```

@@ -1,0 +1,58 @@
+---
+title: "2944. Minimum Number of Coins for Fruits"
+date: 2024-03-14
+tags: 
+  - Leetcode
+  - Array
+  - Heap
+  - Dynamic Programming
+  - Queue
+---
+## Description
+
+Bạn được cung cấp một mảng số nguyên `prices` trong đó `prices[i]` biểu thị số xu cần thiết để mua quả thứ `i`.
+
+Chợ trái cây có phần thưởng sau cho mỗi loại trái cây:
+
+- Nếu bạn mua quả thứ `i` với `prices[i]` xu, bạn có thể nhận được miễn phí bất kỳ số lượng quả `(i + 1)` tiếp theo nào.
+
+**Lưu ý rằng** ngay cả khi bạn có thể lấy trái cây `j` miễn phí, bạn vẫn có thể mua nó với `prices[j]` xu để nhận phần thưởng.
+
+Trả lại số lượng xu **tối thiểu** cần thiết để có được tất cả các loại trái cây.
+
+## Example
+
+### Example 1
+
+<block>
+**Input:** `prices = [3,1,2]`
+<br/>**Output:** `4`
+<br/>**Explanation:**
+<br/> Purchase the `1st` fruit with `prices[0] = 3` coins, you are allowed to take the `2nd` fruit for free.
+<br/> Purchase the `2nd` fruit with `prices[1] = 1` coin, you are allowed to take the `3rd` fruit for free.
+<br/> Take the `3rd` fruit for free.
+<br/> **Note** that even though you could take the 2nd fruit for free as a reward of buying `1st` fruit, you purchase it to receive its reward, which is more optimal.
+</block>
+
+### Example 2
+
+<block>
+**Input:** `prices = [1,10,1,1]`
+<br/> **Output:** `2`
+<br/> **Explanation:**
+<br/> Purchase the 1st fruit with `prices[0] = 1` coin, you are allowed to take the `2nd` fruit for free.
+<br/> Take the `2nd` fruit for free.
+<br/> Purchase the `3rd` fruit for `prices[2] = 1` coin, you are allowed to take the `4th` fruit for free.
+<br/> Take the `4th` fruit for free.
+</block>
+
+## Constraints
+
+- `1 <= prices.length <= 1000`
+- `1 <= prices[i] <= 105`
+
+## Code
+
+```c++
+
+```
