@@ -64,7 +64,10 @@ const Table_of_contents = ({tags}) => {
   );
 };
 const PostLayout = ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post = allPosts.find((post) => {
+    const ind = post._raw.flattenedPath.indexOf("/")
+    return post._raw.flattenedPath.slice(ind + 1) === params.slug
+});
   // console.log(post);
   if (!post) notFound();
   const Content = getMDXComponent(post.body.code);

@@ -12,7 +12,7 @@ import remarkGfm from 'remark-gfm'
 // import rehypeStringify from 'rehype-stringify'
 const Post = defineDocumentType(() => ({
   name: 'Post',
-  filePathPattern: `**/*.mdx`,
+  filePathPattern: `**/**/*.mdx`,
   contentType: 'mdx',
   fields: {
     title: {
@@ -34,7 +34,10 @@ const Post = defineDocumentType(() => ({
   computedFields: {
     url: {
       type: 'string',
-      resolve: (doc) => `/posts/${doc._raw.flattenedPath}`,
+      resolve: (doc) => {
+        const ind = doc._raw.flattenedPath.indexOf("/")
+        return `/posts/${doc._raw.flattenedPath.slice(ind + 1)}`
+      },
     },
   },
 }))

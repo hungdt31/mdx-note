@@ -7,8 +7,7 @@ import { useState } from "react";
 
 function removeDuplicates(arr) {
   let unique = [];
-  arr.forEach((element : string)=> {
-    element = element.replaceAll("\r","")
+  arr.forEach((element: string) => {
     if (!unique.includes(element)) {
       unique.push(element);
     }
@@ -20,6 +19,12 @@ export default function Home() {
   let posts = allPosts.sort((a, b) =>
     compareDesc(new Date(a.date), new Date(b.date))
   );
+  posts = posts.map((post) => {
+    post.tags.map((tag) => {
+      return tag.replaceAll("\r", "");
+    });
+    return post;
+  });
   // lấy ra tất cả các giá trị của trường tags
   posts = posts.filter((post) => {
     if (choosenTag.length === 0) {
@@ -35,16 +40,23 @@ export default function Home() {
       return true;
     }
     return false;
-  })
+  });
   let tags = allPosts.map((post) => post.tags).flat();
   // lọc ra các giá trị trùng lặp
-  tags = removeDuplicates(tags);  
+  tags = removeDuplicates(tags);
+
   return (
     <div className="max-w-xl py-8 mx-auto">
       <div className="flex justify-center gap-3 items-center mb-7">
         <h1 className="text-3xl font-bold text-center">My note</h1>
       </div>
-      <DocsDataTable columns={Docs} data={posts} tags={tags} setChoosenTag={setChoosenTag} choosenTag={choosenTag}/>
+      <DocsDataTable
+        columns={Docs}
+        data={posts}
+        tags={tags}
+        setChoosenTag={setChoosenTag}
+        choosenTag={choosenTag}
+      />
     </div>
   );
 }
