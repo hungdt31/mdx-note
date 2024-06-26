@@ -1,0 +1,215 @@
+---
+title: 'Chapter 1: Computer Networks and the Internet (P1)'
+date: 2024-06-08
+tags: 
+  - Computer Networking
+  - Chuyên ngành
+---
+> **Sách tham khảo**: [James F. Kurose_ Keith Ross - Computer Networking_ A Top-Down Approach-Pearson (2016)](/public/computer-networking/James%20F.%20Kurose_%20Keith%20Ross%20-%20Computer%20Networking_%20A%20Top-Down%20Approach-Pearson%20(2016).pdf)
+<br/> **Bài giảng**: [Computer Networking - Chapter 1: Computer Networks and the Internet](/public/computer-networking/Chapter_1_V7.01_Accessible.pdf)
+## 1.1 Thế nào là Internet?
+
+Thuật ngữ `the nuts and bolts of Internet`: các chi tiết cơ bản của internet.
+
+Là cơ sở hạ tầng cung cấp dịch vụ cho các ứng dụng phân tán ([distributed applications](https://vietnambiz.vn/ung-dung-phan-quyen-distributed-applications-dapps-la-gi-noi-dung-ve-ung-dung-phan-quyen-20200119111332219.htm)).
+
+### 1.1.1 Mô tả các chi tiết của Internet
+
+![Internet](/public/computer-networking/ch1/1.1.png)
+
+#### End systems
+
+Các hệ thống đầu cuối được kết nối với nhau bằng một mạng lưới các liên kết giao tiếp (network of communication links) và gói chuyển tải (packet switches). Các data trao đổi giữa chúng được đính kèm header bytes cho mỗi phân đoạn (segment), gọi là `The jargon of computer networks` $\rightarrow$ The destination end system (nơi các gói dữ liệu được lắp ráp thành dữ liệu gốc).
+
+**Packet switches:** `routers` (network core) và `link-layer switches` (access networks)
+- Nó được sử dụng để chuyển tiếp các gói dữ liệu từ một đầu cuối đến đầu cuối khác thông qua các `incoming communication links`.
+
+Quá trình chuyển tiếp gói dữ liệu với liên kết giao tiếp được gọi là tuyến đường (route) hoặc đường đi (path) qua Internet.
+
+**Ví dụ minh họa:**
+- Xem xét một nhà máy vận chuyển lượng lớn hàng hóa đến kho đích nào đó cách xa hàng nghìn km.
+- Tại nhà máy, hàng hóa được phân đoạn và chất lên một đội xe tải.
+- Mỗi xe tải di chuyển độc lập qua mạng lưới đường cao tốc, đường bộ và giao lộ tới kho đích.
+- Tại kho đích, hàng hóa được lấy ra và lắp ráp lại thành hàng hóa gốc.
+> Xe tải - Data packets
+<br/> Giao lộ - Packet switches
+<br/> Đường cao tốc - Communication links
+<br/> Kho hàng - Destination end system
+
+#### ISP (Internet Service Provider)
+
+Cung cấp dịch vụ kết nối Internet cho các hệ thống đầu cuối. Người dùng được kết nối với WWW (Web), Mail, Mạng xã hội và các cộng cụ tìm kiếm, ...
+
+- Các gói cước từ nhà mạng Viettel, VNPT, FPT, ...
+- Thiết bị truy cập Internet: Modem, Router, Switch, ... Với thiết bị điện tử cầm tay sẽ có `network adapter (card)`.
+
+#### Protocols (Giao thức)
+> Transmission Control Protocol/Internet Protocol
+
+Chỉ định cách dữ liệu được trao đổi qua Internet.
+- TCP: Đảm bảo dữ liệu được chuyển tiếp một cách đáng tin cậy từ một hệ thống đến hệ thống khác.
+- IP: Định vị hệ thống trên Internet.
+
+### 1.1.2 Mô tả các dịch vụ Internet
+
+Các phần mềm nằm trên hệ thống đầu cuối cần gửi dữ liệu cho nhau, vì vậy cần có cách mô tả cho Internet các lớp phân tầng ứng dụng.
+
+**Socket Interface**: một bộ các quy tắc mà chương trình phải tuân theo để Internet vận chuyển data đến chương trình đích.
+
+> When you develop an Internet application, you too must choose one of the Internet's services for your application.
+
+### 1.1.3 Thế nào là một giao thức (Protocol)?
+
+#### A Human Analogy
+
+![A human protocol and a computer networl protocol](/public/computer-networking/ch1/1.2.png)
+
+> *Transmitted and received messages: there are specific messages we send, and specific actions we take in response to the received reply messages or other events.*
+
+**Ví dụ minh họa:**
+
+Giả sử bạn đang trong một lớp học Mạng máy tính, giảng viên nói về Protocols và bạn bối rối.
+- Giảng viên dừng lại và hỏi, "Có bất cứ câu hỏi nào không?" (một thông điệp được gửi đi, điều đó làm các học sinh ngủ gật tỉnh dậy).
+- Bạn giơ tay phát biểu (gửi đi một thông điệp ẩn cho giảng viên).
+- Giảng viên đáp lại bạn bằng một nụ cười, nói rằng "Yes ..." (thông điệp được gửi đi khuyến khích bạn hỏi - giảng viên muốn được hỏi), và sau đó bạn hỏi (đó là gửi đi thông điệp của bạn đến giảng viên).
+- Giảng viên nghe câu hỏi (nhận thông điệp câu hỏi của bạn) và trả lời (gửi đi lời đáp đến bạn).
+
+#### Network Protocols
+
+Giao thức mạng tương tự với giao thức con người, trừ việc các thực thể trao đổi thông điệp và thực hiện nhiệm vụ là các phần mềm hoặc phần cứng của một số thiết bị (computer, smartphone, tablet, router,...).
+
+Tất cả các hoạt động trên Internet bao hàm hai hay nhiều thực thể giao tiếp từ xa bị chi phối bởi Protocols (xác định đường đi của data từ nguồn đến đích).
+
+**Mô tả khi truy cập trang web:**
+
+- Gửi request đến Web server (nhấn vào URL của một trang web trên trình duyệt của bạn). 
+- Máy tính của bạn sẽ gửi thông điệp yêu cầu kết nối đến Web server và đợi phản hồi. 
+- Web server sau cùng sẽ nhận yêu cầu kết nối của bạn và trả về kết quả (Nếu OK thì sẽ gửi yêu cầu đến Web document với tên trang web muốn được truy cập từ `GET` message của Web server).
+- Cuối cùng, Web server trả về trang web cho máy tính bạn.
+
+> *A protocol defines the format and the order of messages exchanged between two 
+or more communicating entities, as well as the actions taken on the transmission 
+and/or receipt of a message or other event.*
+
+## 1.2 The Network Edge 
+
+![End-system interation](/public/computer-networking/ch1/1.3.png)
+
+**THE INTERNET OF THINGS**
+
+- A world where everything is wirelessly connected to the Internet.
+- These things include our smartphones, which already follow us around in our homes, offices, and cars, 
+reporting our geo-locations and usage data to our ISPs and Internet applications. 
+But in addition to our smartphones, a wide-variety of non-traditional “things” are already available as products.
+For example, there are Internet-connected wearables, 
+including watches (from Apple and many others) and eye glasses
+- There are also huge security and privacy risks. For example, attackers, via the Internet, 
+might be able to hack into IoT devices or into the servers collecting data from IoT 
+devices.
+
+Máy chủ chia ra thành hai loại: `clients` và `servers`. Thông thường, `clients` được cài đặt trên máy tính cá nhân và máy tính bàn, điện thoại thông minh, v.vv, trong khi `servers` được cài đặt trên các máy kích thước lớn cùng với hiệu suất cao lưu trữ và phân phối trang mạng, phát video, cung cấp email, và nhiều hơn nữa.
+
+### 1.2.1 Access Networks
+
+Xem xét các ứng dụng và hệ thống đích tại đỉnh của mạng lưới, tiếp đó xem xét đến `truy cập mạng` - mạng lưới mà kết nối vật lý một hệ thống đích đến router đầu tiên trên đường đi từ hệ thống đích đến bất kì hệ thống nào khác.
+
+![Access network](/public/computer-networking/ch1/1.4.png)
+
+#### Home Access: DSL, Cable, FTTH, Dial-Up, and Satellite
+
+#### 1. DSL (Digital Subscriber Line)
+![DSL](/public/computer-networking/ch1/DSL.png)
+
+- Là một công nghệ truyền dữ liệu số qua đường dây điện thoại cáp đồng tiêu chuẩn. Công nghệ này cho phép truy cập internet tốc độ cao bằng cách sử dụng băng thông rộng mà không làm gián đoạn dịch vụ điện thoại truyền thống.
+- **Ưu điểm:**
+> Triển khai dễ dàng: Không cần lắp đặt cơ sở hạ tầng mới.
+<br/> Truy cập liên tục: Kết nối luôn sẵn sàng và không cần quay số mỗi khi truy cập Internet.
+<br/> Tương thích ngược: Có thể sử dụng cùng với dịch vụ điện thoại truyền thống.
+- **Nhược điểm:**
+> Giới hạn khoảng cách: Tốc độ giảm dần khi khoảng cách đến trạm phân phối tăng.
+<br/> Bị ảnh hưởng bởi chất lượng đường dây: Đường dây điện thoại cũ hoặc không tốt có thể làm giảm chất lượng dịch vụ.
+
+<details>
+  <summary>DSLAM (Digital Subscriber Line Access Multiplexer)</summary>
+  <p>
+  Là một thiết bị quan trọng trong mạng DSL (Digital Subscriber Line), có chức năng kết nối và quản lý các kết nối DSL từ các thuê bao đến mạng lõi của nhà cung cấp dịch vụ Internet (ISP).
+  
+  - **Tập hợp tín hiệu:** Nhận và tổng hợp tín hiệu dữ liệu từ nhiều thuê bao DSL qua các đường dây điện thoại riêng biệt.
+  - **Chuyển đổi tín hiệu:** Chuyển đổi tín hiệu DSL thành tín hiệu IP hoặc ATM để truyền qua mạng lõi.
+  - **Phân phối tín hiệu:** Gửi tín hiệu đã chuyển đổi đến mạng lõi của nhà cung cấp dịch vụ Internet (ISP).
+  - **Hỗ trợ dịch vụ:** Cho phép sử dụng đồng thời dịch vụ thoại và dữ liệu trên cùng một đường dây điện thoại.
+  - **Quản lý chất lượng dịch vụ (QoS):** Đảm bảo rằng các loại lưu lượng khác nhau được ưu tiên và xử lý một cách hợp lý.
+  </p>
+</details>
+
+#### 2. Cable Internet
+
+![Cable Internet](/public/computer-networking/ch1/Cable_Internet.png)
+
+- Là một phương thức kết nối Internet sử dụng hạ tầng cáp truyền hình hiện có.
+- **Cáp đồng trục:** Sử dụng cáp đồng trục (coaxial cable) hiện có của mạng truyền hình cáp để truyền dữ liệu Internet.
+- **Hybrid Fiber-Coaxial (HFC):** Kết hợp giữa cáp quang và cáp đồng trục. Cáp quang được sử dụng để truyền dữ liệu đến các khu vực lân cận và cáp đồng trục kết nối từ đó đến từng ngôi nhà.
+
+#### 3. FTTH (Fiber To The Home)
+FTTH là dịch vụ đường truyền sử dụng công nghệ truyền tín hiệu số đối xứng (tốc độ download và upload bằng nhau) và sử dụng cáp quang làm phương tiện truyền dẫn tín hiệu từ nhà cung cấp đến khách hàng. Tốc độ Internet cáp quang không giới hạn, có thể lên đến hàng chục Gbps.
+
+#### 4. Access in the Enterprise (and the Home): Ethernet and WiFi
+
+![Ethernet and WiFi](/public/computer-networking/ch1/Ethernet.png)
+
+Trong các khuôn viên công ty và trường đại học, và ngày càng phổ biến trong gia đình, mạng cục bộ (LAN) được sử dụng để kết nối hệ thống cuối với bộ định tuyến biên. Dù có nhiều loại công nghệ LAN, Ethernet vẫn là công nghệ truy cập phổ biến nhất trong các mạng doanh nghiệp, trường đại học và gia đình. Ethernet sử dụng dây cáp đồng xoắn đôi để kết nối với bộ chuyển mạch Ethernet. Bộ chuyển mạch này hoặc mạng các bộ chuyển mạch kết nối vào mạng Internet lớn hơn. Người dùng Ethernet thường có truy cập tốc độ 100 Mbps hoặc 1 Gbps tới bộ chuyển mạch, trong khi các máy chủ có thể có tốc độ 1 Gbps hoặc thậm chí 10 Gbps.
+
+Ngày càng nhiều người truy cập Internet không dây từ laptop, smartphone, tablet, và các thiết bị khác. Trong mạng LAN không dây, người dùng truyền/nhận gói tin từ điểm truy cập kết nối vào mạng doanh nghiệp (thường sử dụng Ethernet có dây), sau đó kết nối với Internet có dây. Người dùng LAN không dây thường phải ở trong khoảng vài chục mét từ điểm truy cập. Công nghệ LAN không dây dựa trên IEEE 802.11, còn gọi là WiFi, hiện diện khắp nơi như ở các trường đại học, văn phòng, quán cà phê, sân bay, gia đình và thậm chí trên máy bay. 802.11 hiện cung cấp tốc độ truyền tải chung lên tới hơn 100 Mbps.
+
+Nhiều gia đình kết hợp truy cập băng thông rộng (cáp quang hoặc DSL) với công nghệ LAN không dây giá rẻ để tạo ra mạng gia đình mạnh mẽ. Một mạng gia đình điển hình bao gồm một laptop di động và một PC có dây, một trạm cơ sở (điểm truy cập không dây) giao tiếp với PC không dây và các thiết bị không dây khác, một modem cáp cung cấp truy cập băng thông rộng tới Internet, và một bộ định tuyến kết nối trạm cơ sở và PC cố định với modem cáp. Mạng này cho phép các thành viên trong gia đình truy cập băng thông rộng từ phòng bếp tới sân vườn và các phòng ngủ.
+
+#### 5. Wide-Area Wireless Access: 3G and LTE
+
+Các thiết bị như iPhone và Android ngày càng được sử dụng để nhắn tin, chia sẻ ảnh trên mạng xã hội, xem phim và nghe nhạc khi di chuyển. Những thiết bị này sử dụng hạ tầng không dây của mạng di động để gửi/nhận gói tin qua trạm gốc của nhà cung cấp mạng di động. Khác với WiFi, người dùng chỉ cần ở trong vài chục kilomet (thay vì vài chục mét) từ trạm gốc.
+
+Các công ty viễn thông đã đầu tư lớn vào công nghệ mạng không dây thế hệ thứ ba (3G), cung cấp truy cập Internet không dây diện rộng chuyển mạch gói với tốc độ hơn 1 Mbps. Công nghệ truy cập diện rộng tốc độ cao hơn, thế hệ thứ tư (4G) của mạng không dây diện rộng, đã và đang được triển khai. LTE (Long-Term Evolution) có nguồn gốc từ công nghệ 3G và có thể đạt tốc độ trên 10 Mbps. Tốc độ tải xuống LTE của nhiều chục Mbps đã được ghi nhận trong các triển khai thương mại.
+
+### 1.2.2 Physical Media
+
+Để hiểu phương tiện truyền dẫn vật lý là gì, hãy xem xét quá trình di chuyển của một bit từ hệ thống đầu cuối này qua một loạt các liên kết và bộ định tuyến đến hệ thống đầu cuối khác. Mỗi cặp truyền-nhận sẽ truyền bit qua một phương tiện truyền dẫn vật lý bằng sóng điện từ hoặc xung quang học. 
+
+Các phương tiện truyền dẫn vật lý được chia thành hai loại: 
+- Guided media: Với phương tiện dẫn hướng, sóng được dẫn dọc theo một môi trường rắn, như cáp quang, dây đồng xoắn đôi hoặc cáp đồng trục. 
+- Unguided media: Với phương tiện không dẫn hướng, sóng truyền qua không khí và không gian ngoài trời, như trong mạng LAN không dây hoặc kênh vệ tinh kỹ thuật số.
+
+#### Dây đồng xoắn đôi (Twisted-Pair Copper Wire) 
+Là phương tiện truyền dẫn có dẫn hướng rẻ nhất và được sử dụng phổ biến nhất. Nó đã được sử dụng trong mạng điện thoại hơn 100 năm, với hơn 99% kết nối từ điện thoại đến tổng đài sử dụng dây này. Dây đồng xoắn đôi gồm hai dây đồng cách điện, mỗi dây dày khoảng 1 mm, xoắn lại để giảm nhiễu điện từ. Các cặp dây thường được bó lại trong một lớp bảo vệ và một cặp dây tạo thành một liên kết truyền thông.
+
+#### Dây cáp đồng trục (Coaxial Cable) 
+Gồm hai dây dẫn đồng đồng tâm thay vì song song như dây xoắn đôi, với cấu trúc này và lớp cách điện đặc biệt, cáp đồng trục có thể đạt tốc độ truyền dữ liệu cao. Nó thường được sử dụng trong hệ thống truyền hình cáp và, gần đây, kết hợp với modem cáp để cung cấp truy cập Internet cho người dùng gia đình với tốc độ hàng chục Mbps. Trong truyền hình cáp và truy cập Internet qua cáp, tín hiệu số được chuyển sang băng tần cụ thể và tín hiệu analog kết quả được truyền từ bộ phát đến một hoặc nhiều bộ nhận. Cáp đồng trục có thể được sử dụng như một phương tiện truyền dẫn có dẫn hướng chia sẻ, nơi nhiều hệ thống đầu cuối có thể kết nối trực tiếp vào cáp và nhận bất cứ gì được gửi từ các hệ thống đầu cuối khác.
+
+#### Cáp quang (Fiber Optics)
+Là một phương tiện mỏng, linh hoạt, dẫn các xung ánh sáng, mỗi xung đại diện cho một bit. Một sợi quang đơn có thể hỗ trợ tốc độ truyền dữ liệu rất lớn, lên đến hàng chục hoặc hàng trăm gigabit mỗi giây. Cáp quang miễn nhiễm với nhiễu điện từ, có suy giảm tín hiệu rất thấp trong khoảng cách lên đến 100 km và rất khó để nghe lén. Những đặc tính này khiến cáp quang trở thành phương tiện truyền dẫn có dẫn hướng ưa thích cho các liên kết đường dài, đặc biệt là liên kết quốc tế. Nhiều mạng điện thoại đường dài ở Hoa Kỳ và các nơi khác hiện sử dụng hoàn toàn cáp quang. Cáp quang cũng phổ biến trong mạng xương sống của Internet.
+
+#### Terrestrial Radio Channels
+Các kênh radio trên mặt đất mang các tín hiệu trong phổ điện từ. Đây là một phương tiện hấp dẫn vì không cần cài đặt dây vật lý, có thể xuyên qua tường, cung cấp kết nối cho người dùng di động và có thể truyền tín hiệu được xa. Đặc tính của một kênh radio phụ thuộc đáng kể vào môi trường truyền và khoảng cách mà tín hiệu sẽ được truyền đi. Các yếu tố môi trường xác định sự mất mát đường truyền và hiện tượng fading (giảm sức mạnh của tín hiệu khi đi qua các vật cản), fading do đa đường (do tín hiệu phản xạ từ các vật thể gây nhiễu), và nhiễu (do các tín hiệu và sóng điện từ từ các truyền gửi khác).
+
+<details>
+  <summary>Phân loại</summary>
+  <p>
+  Các kênh radio trên mặt đất có thể được phân loại chung thành ba nhóm: những kênh hoạt động trên khoảng cách rất ngắn (ví dụ, một hoặc hai mét); những kênh hoạt động trong các khu vực địa phương, thường là từ mười đến vài trăm mét; và những kênh hoạt động trên diện rộng, bao gồm hàng chục km. Các thiết bị cá nhân như tai nghe không dây, bàn phím và thiết bị y tế hoạt động trên các khoảng cách ngắn; các công nghệ mạng LAN không dây sử dụng các kênh radio khu vực; các công nghệ truy cập di động sử dụng các kênh radio diện rộng.
+  </p>
+</details>
+
+#### Satellite Radio Channels
+Các kênh radio vệ tinh kết nối hai hoặc nhiều trạm phát/nhận sóng siêu cao tần trên trái đất, được gọi là các trạm đất. Vệ tinh nhận tín hiệu trên một dải tần số, tái tạo lại tín hiệu bằng một bộ lặp, và phát lại tín hiệu trên một dải tần số khác. Có hai loại vệ tinh được sử dụng trong viễn thông: *geostationary satellites* và *low-earth orbiting (LEO) satellites*.
+
+<details>
+  <summary>Geostationary satellites</summary>
+  <p>
+  Vệ tinh địa tĩnh luôn luôn ở trên cùng một điểm trên Trái Đất. Sự hiện diện tĩnh này được đạt được bằng cách đặt vệ tinh vào quỹ đạo ở độ cao 36.000 km trên bề mặt Trái Đất. Khoảng cách lớn này từ trạm đất qua vệ tinh và trở lại trạm đất tạo ra một độ trễ truyền tín hiệu đáng kể là 280 miligiây. Tuy nhiên, các liên kết vệ tinh, có thể hoạt động ở tốc độ hàng trăm Mbps, thường được sử dụng ở các khu vực không có truy cập Internet qua DSL hoặc cáp.
+  </p>
+</details>
+
+
+<details>
+  <summary>Low-earth orbiting (LEO) satellites</summary>
+  <p>
+  Các vệ tinh LEO được đặt gần Trái Đất hơn và không ở một điểm cố định trên Trái Đất. Chúng quay quanh Trái Đất (như cách mặt Trăng làm) và có thể giao tiếp với nhau cũng như với các trạm đất. Để cung cấp phủ sóng liên tục cho một khu vực, nhiều vệ tinh cần được đặt vào quỹ đạo. Hiện có nhiều hệ thống viễn thông ở độ cao thấp đang được phát triển. Công nghệ vệ tinh LEO có thể được sử dụng cho việc truy cập Internet vào một ngày nào đó trong tương lai.
+  </p>
+</details>
