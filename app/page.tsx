@@ -4,16 +4,8 @@ import { allPosts, Post } from "contentlayer/generated";
 import DocsDataTable from "components/docs-datatble";
 import { Docs } from "lib/columns";
 import { useState } from "react";
+import removeDuplicates from "helpers/removeDuplicates";
 
-function removeDuplicates(arr) {
-  let unique = [];
-  arr.forEach((element: string) => {
-    if (!unique.includes(element)) {
-      unique.push(element);
-    }
-  });
-  return unique;
-}
 export default function Home() {
   const [choosenTag, setChoosenTag] = useState<string[]>([]);
   let posts = allPosts.sort((a, b) =>
