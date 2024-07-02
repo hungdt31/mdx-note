@@ -11,10 +11,10 @@ export default function TopicPage() {
     })
   );
   return (
-    <div className="flex flex-wrap gap-5 justify-center pt-7">
+    <div className="flex flex-wrap gap-5 pt-7">
       {topics.map((topic, index) => {
         return (
-          <Link href={`/topics/${topic}`} key={index} className="flex items-center shadow-sm">
+          <Link href={`/topics/${topic}`} key={index} className="flex items-center shadow-sm min-h-[80px]">
             <div className="border-primary border-2 h-[100%] rounded-l-lg border-r-0">
             <Image
               src={`/${topic}/index.jpg`}
