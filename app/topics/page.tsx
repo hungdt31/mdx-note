@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 export default function TopicPage() {
   const topics = removeDuplicates(
@@ -22,34 +22,37 @@ export default function TopicPage() {
   return (
     <div className="flex justify-center lg:px-9 px-3">
       <Table>
-  <TableCaption>A list of your recent note.</TableCaption>
-  <TableHeader>
-    <TableRow>
-      <TableHead className="w-[100px]">No.</TableHead>
-      <TableHead></TableHead>
-      <TableHead>Topic</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-  {topics.map((topic, index) => {
-        return (
+        <TableCaption>A list of your recent note.</TableCaption>
+        <TableHeader>
           <TableRow>
-            <TableCell className="font-medium">{index+1}</TableCell>
-          <TableCell>
-          <Image
-              src={`/${topic}/index.jpg`}
-              alt={`image about ${topic}`}
-              width="64"
-              height="64"
-            />
-          </TableCell>
-          <TableCell className="uppercase"><Link href={`/topics/${topic}`} key={index}>{topic}</Link></TableCell>
-        </TableRow>
-        );
-      })}
-    
-  </TableBody>
-</Table>
+            <TableHead className="w-[100px]">No.</TableHead>
+            <TableHead></TableHead>
+            <TableHead>Topic</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {topics.map((topic, index) => {
+            return (
+              <TableRow>
+                <TableCell className="font-medium">{index + 1}</TableCell>
+                <TableCell>
+                  <Image
+                    src={`/${topic}/index.jpg`}
+                    alt={`image about ${topic}`}
+                    width="64"
+                    height="64"
+                  />
+                </TableCell>
+                <TableCell className="uppercase">
+                  <Link href={`/topics/${topic}`} key={index}>
+                    {topic}
+                  </Link>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
     </div>
   );
 }
