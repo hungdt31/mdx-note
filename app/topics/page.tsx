@@ -2,6 +2,15 @@ import { allPosts } from "contentlayer/generated";
 import removeDuplicates from "helpers/removeDuplicates";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 export default function TopicPage() {
   const topics = removeDuplicates(
@@ -11,25 +20,36 @@ export default function TopicPage() {
     })
   );
   return (
-    <div className="flex flex-wrap gap-5 pt-7">
-      {topics.map((topic, index) => {
+    <div className="flex justify-center lg:px-9 px-3">
+      <Table>
+  <TableCaption>A list of your recent note.</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead className="w-[100px]">No.</TableHead>
+      <TableHead></TableHead>
+      <TableHead>Topic</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+  {topics.map((topic, index) => {
         return (
-          <Link href={`/topics/${topic}`} key={index} className="flex items-center shadow-sm min-h-[80px]">
-            <div className="border-primary border-2 h-[100%] rounded-l-lg border-r-0">
-            <Image
+          <TableRow>
+            <TableCell className="font-medium">{index+1}</TableCell>
+          <TableCell>
+          <Image
               src={`/${topic}/index.jpg`}
               alt={`image about ${topic}`}
               width="64"
               height="64"
-              className="h-[100%] m-0 rounded-l-lg"
             />
-            </div>
-            <div className="border-2 h-[100%] rounded-r-lg border-primary border-l-0">
-              <p className="text-center uppercase font-semibold p-3">{topic}</p>
-            </div>
-          </Link>
+          </TableCell>
+          <TableCell className="uppercase"><Link href={`/topics/${topic}`} key={index}>{topic}</Link></TableCell>
+        </TableRow>
         );
       })}
+    
+  </TableBody>
+</Table>
     </div>
   );
 }
