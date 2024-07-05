@@ -70,6 +70,7 @@
   * {
     font-family: "Open Sans", sans-serif;
     @apply border-border;
+    box-sizing: border-box;
   }
 
   body {
@@ -179,28 +180,29 @@
 
   blockquote {
     @apply border-l-4;
-    @apply border-[#7355aa];
+    @apply border-cyan-700;
     @apply pl-4;
     @apply pr-2;
     @apply my-4;
     @apply bg-muted;
     @apply opacity-75;
     @apply py-2;
+    @apply rounded-l-lg;
   }
   img {
     @apply my-3;
   }
   code {
     @apply px-2;
-    @apply bg-code;
     @apply rounded-md;
     @apply overflow-auto;
+    @apply text-cyan-600;
   }
 
   a {
     @apply hover:underline;
+    @apply text-cyan-700;
   }
-
   .avatar {
     border-radius: 10px;
     border-width: 10px;
@@ -270,7 +272,7 @@
     position: absolute;
     left:0;
   }
-  block{
+  /* block{
     @apply flex;
     @apply justify-start;
     @apply py-5;
@@ -282,5 +284,5 @@
   block > p {
     @apply font-mono;
     @apply opacity-60;
-  }
+  } */
 }

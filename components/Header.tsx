@@ -26,11 +26,13 @@ function Icon() {
 
 function Logo() {
   return (
-    <Link href="/" className="inline-flex justify-center items-center">
-      <span className="mr-2">
-        <Icon />
-      </span>
-      <span className="font-bold">K.KOI</span>
+    <Link href="/" className="inline-flex justify-center items-center relative text-lg">
+      <span>K</span>
+      <div className="w-[10px] h-[5px] border-cyan-700 top-0 border-2"></div>
+      <span>K</span>
+      <div className="w-[10px] h-[15px] border-cyan-700 top-0 border-2">
+      </div>
+      <span>I</span>
     </Link>
   );
 }

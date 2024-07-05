@@ -8,8 +8,8 @@ export default function Page({ params }: { params: { slug: string } }) {
   })
   return (
     <div>
-      <div className="flex gap-5 items-center">
-        <CircleChevronRight />
+      <div className="flex gap-5 items-center justify-center">
+        {/* <CircleChevronRight /> */}
         <h2 className="uppercase">{params.slug}</h2>
       </div>
       {

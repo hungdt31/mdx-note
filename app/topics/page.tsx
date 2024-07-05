@@ -33,7 +33,7 @@ export default function TopicPage() {
         <TableBody>
           {topics.map((topic, index) => {
             return (
-              <TableRow>
+              <TableRow key={index}>
                 <TableCell className="font-medium">{index + 1}</TableCell>
                 <TableCell>
                   <Image
@@ -43,7 +43,7 @@ export default function TopicPage() {
                     height="64"
                   />
                 </TableCell>
-                <TableCell className="uppercase">
+                <TableCell className="uppercase font-bold">
                   <Link href={`/topics/${topic}`} key={index}>
                     {topic}
                   </Link>

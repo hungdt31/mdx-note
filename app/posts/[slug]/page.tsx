@@ -5,7 +5,7 @@ import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer/hooks";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Link,ArrowUp, Bookmark} from "lucide-react";
+import { GitCommitVertical, GitMerge, ArrowUp, Bookmark} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -42,13 +42,13 @@ const Table_of_contents = ({tags}) => {
   return (
     <Card className="my-5">
       <CardHeader>
-        <p className="text-xl font-semibold flex items-center"><Bookmark className="mr-3"/> Table of contents</p>
+        <p className="text-xl font-semibold flex items-center"><Bookmark className="mr-3"/> Table Of Contents</p>
       </CardHeader>
       <CardContent>
         {headings.map((heading, index) => (
           <div key={index} className={heading.type == 'H3' ? 'text-base ml-9' : 'text-lg'}>
-            <a href={`#${heading.id}`} className="flex gap-3 items-center">
-            {heading.type == 'H2' && <Link />} {heading.text}
+            <a href={`#${heading.id}`} className="flex gap-3 items-center text-cyan-700">
+            {heading.type == 'H2' ? <GitCommitVertical /> : <GitMerge size={16}/>} {heading.text}
             </a>
           </div>
         ))}
