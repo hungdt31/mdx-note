@@ -206,10 +206,10 @@
   .avatar {
     border-radius: 10px;
     border-width: 10px;
-    border-color: #7355aa;
+    border-color: #0ecad8;
   }
   .box {
-    @apply bg-[#7C3AED];
+    @apply bg-[#80e0e7];
     width: 20px;
     height: 20px;
     position: absolute;
