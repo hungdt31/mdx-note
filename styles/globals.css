@@ -206,7 +206,7 @@
   .avatar {
     border-radius: 10px;
     border-width: 10px;
-    @apply border-cyan-500;
+    @apply border-cyan-600;
   }
   .box {
     @apply bg-cyan-700;
