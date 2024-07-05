@@ -106,7 +106,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
       <Table_of_contents tags={post.tags}/>
       <Content />
       <a className="fixed bottom-2 right-2 bg-transparent" href="#my-title">
-        <button>
+        <button className="border-cyan-700">
           <ArrowUp />
         </button>
       </a>
