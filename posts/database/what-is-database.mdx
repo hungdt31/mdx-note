@@ -1,0 +1,97 @@
+---
+title: 'Week 1: What is database?'
+date: 2024-07-04
+tags: 
+  - Database
+  - Chuyên ngành
+---
+## I. Mở đầu
+
+Hệ quản trị cơ sở dữ liệu là phần mềm được sử dụng để quản lý cơ sở dữ liệu. 
+
+Các chủ đề nổi bật:
+- Mô hình ER
+- Keys
+- Relational Model
+- Join operation
+- SQL
+- Functional dependency
+- Transaction
+- Concurrency Control
+- ....
+
+## II. What is Database?
+The database is a *collection* of inter-related data which is used to *retrieve*, *insert* and *delete* the data efficiently. 
+
+It is also used to organize the data in the form of a *table*, *schema*, *views*, and *reports*, etc.
+## III. Database Management System
+- Quản lý dữ liệu: MySQL, Oracle, ...
+- Nó cung cấp sự bảo vệ và bảo mật cho cơ sở dữ liệu. Trong trường hợp có nhiều người dùng, nó cũng duy trì tính nhất quán của dữ liệu.
+- DBMS cung cấp giao diện để thực hiện các hoạt động khác nhau như tạo cơ sở dữ liệu, lưu trữ dữ liệu trong đó, cập nhật dữ liệu, tạo bảng trong cơ sở dữ liệu và hơn thế nữa.
+#### DBMS cho phép người dùng thực hiện các tác vụ sau:
+- **Data Definition:** It is used for creation, modification, and removal of definition that defines the organization of data in the database.
+- **Data Updation:** It is used for the insertion, modification, and deletion of the actual data in the database.
+- **Data Retrieval:** It is used to retrieve the data from the database which can be used by applications for various purposes.
+- **User Administration:** It is used for registering and monitoring users, maintain data integrity, enforcing data security, dealing with concurrency control, monitoring performance and recovering information corrupted by unexpected failure.
+### Tạo data sample với PostgreSQL
+#### 1. Kết nối đến cơ sở dữ liệu: 
+Sử dụng công cụ như psql (PostgreSQL interactive terminal), pgAdmin, hoặc bất kỳ công cụ quản lý cơ sở dữ liệu nào bạn ưa thích để kết nối đến cơ sở dữ liệu của bạn.
+#### 2. Tạo cơ sở dữ liệu và bảng: 
+Bạn cần phải tạo một cơ sở dữ liệu và các bảng cần thiết. Dưới đây là ví dụ tạo cơ sở dữ liệu và bảng đơn giản:
+```sql
+-- Tạo cơ sở dữ liệu
+CREATE DATABASE sample_db;
+
+-- Kết nối đến cơ sở dữ liệu
+\c sample_db;
+
+-- Tạo bảng
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    product_name VARCHAR(100),
+    amount DECIMAL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+```
+#### 3. Chèn dữ liệu mẫu: 
+Bây giờ bạn có thể chèn dữ liệu mẫu vào các bảng. Dưới đây là ví dụ:
+```sql
+-- Chèn dữ liệu vào bảng users
+INSERT INTO users (name, email) VALUES
+('Alice', 'alice@example.com'),
+('Bob', 'bob@example.com'),
+('Charlie', 'charlie@example.com');
+
+-- Chèn dữ liệu vào bảng orders
+INSERT INTO orders (user_id, product_name, amount) VALUES
+(1, 'Product A', 25.50),
+(2, 'Product B', 15.75),
+(1, 'Product C', 45.00),
+(3, 'Product D', 20.00);
+
+```
+#### 4. Kiểm tra dữ liệu: 
+Bạn có thể kiểm tra dữ liệu đã chèn bằng các truy vấn SELECT.
+```sql
+-- Kiểm tra dữ liệu trong bảng users
+SELECT * FROM users;
+
+-- Kiểm tra dữ liệu trong bảng orders
+SELECT * FROM orders;
+
+```
+### Tìm hiểu về các câu lệnh SQL
+**Thứ tự thực hiện:** FROM $\rightarrow$ WHERE $\rightarrow$ SELECT $\rightarrow$ ORDER BY $\rightarrow$ LIMIT
+
+## IV. Tài liệu tham khảo
+
+[Tuần 1: Ngôn ngữ SQL và PostgreSQL Database](/public/database/Tuần%201_%20Ngôn%20ngữ%20SQL%20và%20PostgreSQL%20Database.pdf)
