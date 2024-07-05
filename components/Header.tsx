@@ -27,6 +27,7 @@ function Icon() {
 function Logo() {
   return (
     <Link href="/" className="inline-flex justify-center items-center relative text-lg">
+      <span>I</span>
       <span>K</span>
       <div className="w-[10px] h-[5px] border-cyan-700 top-0 border-2"></div>
       <span>K</span>
@@ -71,7 +72,7 @@ export function Header() {
                     className={`flex items-center gap-2 bg-background px-3 ${
                       (pathName.includes(el.path) && el.path != "/") ||
                       (pathName == "/" && el.path == "/")
-                        ? "text-[#7C3AED]"
+                        ? "text-cyan-500"
                         : ""
                     }`}
                   >

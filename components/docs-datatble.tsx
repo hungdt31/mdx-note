@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({
             {/* Page content here */}
             <label
               htmlFor="my-drawer"
-              className="text-[#7C3AED] py-2 rounded-sm px-5 font-bold border-2 border-[#7C3AED] bg-muted"
+              className="text-cyan-700 py-2 rounded-sm px-5 font-bold border-2 border-cyan-700 bg-muted"
             >
               Tags
             </label>
@@ -105,7 +105,7 @@ export function DataTable<TData, TValue>({
                       setTags(tags.filter((el) => el.includes(e.target.value)));
                     }}
                   />
-                  <Button onClick={() => setChoosenTag([])}>
+                  <Button onClick={() => setChoosenTag([])} className="bg-cyan-500 text-white hover:bg-cyan-500">
                     <TbZoomReset size={20}/>
                   </Button>
                 </div>
@@ -202,7 +202,7 @@ export function DataTable<TData, TValue>({
               }}
               className={
                 table.getState().pagination.pageIndex === i
-                  ? "border-[#7C3AED] text-[#7C3AED] px-3"
+                  ? "border-cyan-500 text-cyan-500 px-3"
                   : "px-3 border-0"
               }
               // disabled={table.getState().pagination.pageIndex === i}

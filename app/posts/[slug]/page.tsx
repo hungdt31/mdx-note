@@ -77,7 +77,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
       const codeTag = preTags[i].querySelector("code")
       const copiedText = codeTag.textContent
 
-      const cssCopyButton = "absolute top-2 block right-2 z-50 text-[#7355aa] border-2 border-[#7355aa] rounded-md px-3 py-[1px]"
+      const cssCopyButton = "absolute top-2 block right-2 z-50 text-cyan-900 border-2 border-cyan-900 rounded-md px-3 py-[1px]"
       const copyButton = document.createElement("button")
       copyButton.className = cssCopyButton
       copyButton.innerHTML = '<strong>Copy</strong>'

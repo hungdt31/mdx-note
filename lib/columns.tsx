@@ -34,10 +34,11 @@ export const Docs: ColumnDef<Docs>[] = [
             <CardTitle>
               <Link
                 href={row.original.url}
-                className="text-blue-700 hover:text-blue-900"
                 legacyBehavior
               >
-                {row.original.title}
+                <p className="hover:underline">
+                  {row.original.title}
+                </p>
               </Link>
             </CardTitle>
             <CardDescription>

@@ -99,7 +99,7 @@
   h1,
   h2,
   h3{
-    @apply text-[#7C3AED];
+    @apply text-cyan-500;
     @apply my-3;
   }
 
@@ -140,7 +140,7 @@
 
   th {
     @apply font-bold;
-    @apply bg-[#7355aa];
+    @apply bg-cyan-600;
     @apply text-white;
     @apply border-2;
     @apply p-2;
