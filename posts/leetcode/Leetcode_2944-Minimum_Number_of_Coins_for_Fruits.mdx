@@ -48,7 +48,70 @@ Trả lại số lượng xu **tối thiểu** cần thiết để có được 
 - `1 <= prices[i] <= 105`
 
 ## Code
+Cho mảng prices `5 9 3 4 5`
 
+**Chiến lược:** Dynamic Programming, dùng mảng dp để lưu các min ở từng index (khởi tạo ban đầu bằng -1), dp[i] khác - 1 thì trả về (memorization).
+
+Ta chèn index 0 giá trị -1, để bắt đầu duyệt mảng ở index 1;
+
+- Khi mua trái ở vị trí số 1, ta được free trái giá 9 xu (tức là được free i quả tiếp theo), có hai trường hợp: bạn xét tiếp min ở quả 9 xu hoặc là bỏ qua xét tiếp quả 3 xu (i = 3)
+
+`min(1) = min((min(2) + 5), (min(3) + 5))`
+
+- Bạn xét quả 9 xu (i = 2), sẽ được free 2 quả là 3 xu và 4 xu, có 3 trường hợp: bạn xét tiếp quả 3 xu hoặc 4 xu hoặc 5 xu:
+
+`min(2) = min((9 + min(3)),(9 + min(4)),(9 + min(5)))`
+
+- Bạn xét quả 3 xu (i = 3), bạn được free 3 quả:
+
+`min(3) = min((3 + min(4)),(3 + min(5)),(3 + min(6)),(3 + min(7)))`
+
+Do số phần tử là 5 nên `min(6) = 0`, `min(7) = 0`
+
+....
+
+- Khi mua trái cây ở index i, bạn được free i quả, ta có các tính toán sau:
+`Duyệt mảng từ i -> 2*i: min(i) = min(min(i), price[i] + min(i+1))`
 ```c++
-
+#include <iostream>
+#include <vector>
+using namespace std;
+class Solution {
+  int n;
+  vector<int> dp;
+  public:
+  int solve(int ind,vector<int>& prices){
+      if(ind >= n)
+          return 0;
+      if(dp[ind] != -1)
+          return dp[ind];
+      int ans = INT_MAX;
+      int x = prices[ind];
+      for(int i = ind; i <= 2*ind; i++){
+          int y = solve(i+1,prices);
+          ans = min(ans,x+y);
+      }
+      return dp[ind] = ans;
+  }
+  int minimumCoins(vector<int>& prices) {
+      //To make it 1-indexed array
+      prices.insert(prices.begin(),0);
+      n = prices.size();
+      dp.resize(n,-1);
+      return solve(1,prices);
+  }
+};
+int main() {
+  vector <int> vt;
+  Solution sol;
+  int n;
+  cout <<"Enter the number of price:";
+  cin >> n;
+  for (int i = 0; i < n; i++){
+      int temp;
+      cin >> temp;
+      vt.push_back(temp);
+  }
+  cout << "Minimum Number of Coins for Fruits is " << sol.minimumCoins(vt);
+}
 ```
