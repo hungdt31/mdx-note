@@ -2,7 +2,7 @@
 
 ## Essential Words For The Toeic
 
-> Link sách: [600_Essential_Toeic](/public/eng/600_Essential_Words_Toeic.pdf)
+> Link sách: [600_Essential_Toeic](/public/toeic/600_Essential_Words_Toeic.pdf)
 
 ## Các chủ đề:
 
