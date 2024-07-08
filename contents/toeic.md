@@ -13,4 +13,5 @@
 
 ### PERSONNEL
 
-- [Lesson 12: Applying and Applying](/posts/toeic/Toeic-Lesson_12-Applying_and_Interviewing.mdx)
+- [Lesson 12: Applying and Interviewing](/posts/toeic/Toeic-Lesson_12-Applying_and_Interviewing.mdx)
+- [Lesson 13: Hiring and Training](/posts/toeic/Toeic-Lesson_13-Hiring_and_Training.mdx)
