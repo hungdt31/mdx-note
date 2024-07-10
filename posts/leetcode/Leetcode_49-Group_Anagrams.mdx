@@ -1,0 +1,74 @@
+---
+title: "49. Group Anagrams"
+date: 2024-07-10
+tags: 
+  - Leetcode
+  - Array
+  - String
+  - Hash Table
+  - Sorting
+---
+## Description
+Cho một mảng các chuỗi `strs`, hãy nhóm các đảo chữ cái lại với nhau. Bạn có thể trả lời câu trả lời theo bất kỳ thứ tự nào.
+
+Đảo chữ là một từ hoặc cụm từ được hình thành bằng cách sắp xếp lại các chữ cái của một từ hoặc cụm từ khác, thường sử dụng tất cả các chữ cái gốc chính xác một lần.
+
+## Example
+
+### Example 1
+
+> **Input:** `strs = ["eat","tea","tan","ate","nat","bat"]`
+<br/> **Output:** `[["bat"],["nat","tan"],["ate","eat","tea"]]`
+
+### Example 2
+
+> **Input:** `strs = [""]`
+<br/> **Output:** `[[""]]`
+
+### Example 3
+
+> **Input:** `strs = ["a"]`
+<br/> **Output:** `[["a"]]`
+
+### Constraints
+
+- `1 <= strs.length <= 1000`
+- `0 <= strs[i].length <= 100`
+- `strs[i]` được tạo thành từ các chữ cái tiếng Anh viết thường.
+
+### Code
+
+```c++
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        // lưu trữ các nhóm anagram. 
+        // key là một chuỗi đại diện cho tần suất ký tự, 
+        // và value là một vector chứa các chuỗi thuộc nhóm anagram đó.
+        unordered_map<string, vector<string>> ans;
+
+        for (auto& s : strs) {
+            // tạo một vector count có kích thước 26 (số lượng chữ cái trong bảng chữ cái tiếng Anh) 
+            // và khởi tạo tất cả các phần tử bằng 0.
+            vector<int> count(26, 0);
+            for (char c : s) {
+                count[c - 'a']++;
+            }
+
+            string key;
+            for (int i : count) {
+                key += "#" + to_string(i);
+            }
+
+            ans[key].push_back(s);
+        }
+
+        vector<vector<string>> result;
+        for (auto& pair : ans) {
+            result.push_back(pair.second);
+        }
+
+        return result;
+    }
+};
+```
