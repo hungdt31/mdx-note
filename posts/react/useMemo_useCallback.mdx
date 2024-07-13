@@ -1,0 +1,195 @@
+---
+title: "So sánh useMemo với useCallback"
+date: 2024-07-13
+tags: 
+  - React
+---
+
+
+## Vấn đề
+
+- **React.StrictMode:** render 2 lần, chỉ hoạt động với dev mode
+- Một component bị **re-render** lại khi props truyền từ component cha nó bị thay đổi hoặc state nội tại của nó bị thay đổi.
+- Code example:
+
+```js
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+function fibonacci(n){
+  if (n <= 2) return 1;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+function App() {
+  const [count, setCount] = useState(0)
+  console.time('fibonacci')
+  const result = fibonacci(40)
+  console.timeEnd('fibonacci')
+  return (
+    <>
+      <p className="count">{count} {result}</p>
+      <div className="container">
+      <button onClick={() => setCount(prev => prev + 1)}>Increase</button>
+      <button onClick={() => setCount(prev => prev - 1)}>Decrease</button>
+      </div>
+    </>
+  )
+}
+export default App
+
+```
+
+**Kết quả khi chạy:** trong khoảng thời gian chạy hàm `fibonacci` thì UI bị block, dẫn đến khi bấm nút button thay đổi giá trị count sẽ mất một lúc để UI thay đổi (re-render lại toàn bộ function `App`).
+![result](/public/react/useMemo_useCallback/problem.png)
+
+$\Rightarrow$ Mỗi lần re-render `<App/>` phải tính toán lại giá trị Fibonacci gây lãng phí tài nguyên.
+
+## Hướng giải quyết
+
+Áp dụng Memoization trong React
+
+### useMemo
+
+> **useMemo** is a React Hook that lets you cache the result of a calculation between re-renders.
+<br/> `useMemo(calculateValue, dependencies)`
+```js
+...
+  // không bị tính toán lại khi component re-render
+  const result = useMemo(() => {
+    return fibonacci(40);
+  },[])
+...
+```
+
+### React.memo
+
+Ở cấp cao so với component `<Form/>`, giúp nó tránh bị re-render khi component `<App/>` thay đổi state count.
+
+- Check props `weather` có thay đổi giá trị so với trước hay không - Higher Order Function.
+
+```js
+// File: Form.tsx
+import React from "react"
+export default React.memo(function Form({weather}) {
+  alert("WEATHER TOGGLE")
+  return (
+    <div>
+      {weather ? "Sun" : "Rain"}
+    </div>
+  )
+})
+```
+
+```js
+// File: App.tsx
+import { useState, useMemo } from 'react'
+import './App.css'
+import Form from "./Form.tsx"
+
+function fibonacci(n){
+  if (n <= 2) return 1;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+function App() {
+  const [count, setCount] = useState(0)
+  const [weather, setWeather] = useState(true)
+  console.time('fibonacci')
+  const result = useMemo(() => {
+    return fibonacci(40);
+  },[])
+  // const result = fibonacci(40);
+  console.timeEnd('fibonacci')
+  return (
+    <div>
+      <p className="count">{count} {result}</p>
+      <div className="container">
+      <button onClick={() => setCount(prev => prev + 1)}>Increase</button>
+      <button onClick={() => setCount(prev => prev - 1)}>Decrease</button>
+      <button onClick={() => setWeather(prev => !prev)}>
+      <Form weather={weather}/>
+      </button>
+      </div>
+    </div>
+  )
+}
+export default App
+
+```
+
+### useCallback
+
+- Khi truyền props kiểu hàm vào `<Form/>` thì React.memo so sánh bằng phương thức `Object.is()`.
+
+- Mỗi lần re-render `<App/>` thì hàm `preConfig` tuy không đổi về content nhưng bị đổi về địa chỉ (tham chiếu), dẫn đến props `preConfig` của Form bị thay đổi $\Rightarrow$ re-render `<Form/>`.
+
+```js
+import React from 'react';
+export default React.memo(function Form({ weather, preConfig }) {
+  alert('WEATHER TOGGLE');
+  return (
+    <div>
+      {preConfig()} {weather ? 'Sun' : 'Rain'}
+    </div>
+  );
+});
+```
+
+- Giải pháp:
+
+> **useCallback** is a React Hook that lets you cache a function definition between re-renders.
+<br/> `const cachedFn = useCallback(fn, dependencies)`
+
+```js
+import { useState, useMemo, useCallback } from 'react'
+import './App.css'
+import Form from "./Form.tsx"
+
+function fibonacci(n){
+  if (n <= 2) return 1;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+function App() {
+  const [count, setCount] = useState(0)
+  const [weather, setWeather] = useState(true)
+  const preConfig = useCallback(() => {
+    return "It's ";
+  },[])
+  console.time('fibonacci')
+  const result = useMemo(() => {
+    return fibonacci(40);
+  },[])
+  // có thể thay thế useCallback với useMemo
+  // const preConfig = useMemo(() => {
+  //   return(() => {
+  //     return "It's ";
+  //   })
+  // },[])
+  // const result = fibonacci(40);
+  console.timeEnd('fibonacci')
+  return (
+    <div>
+      <p className="count">{count} {result}</p>
+      <div className="container">
+      <button onClick={() => setCount(prev => prev + 1)}>Increase</button>
+      <button onClick={() => setCount(prev => prev - 1)}>Decrease</button>
+      <button onClick={() => setWeather(prev => !prev)}>
+      <Form weather={weather} preConfig={preConfig}/>
+      </button>
+      </div>
+      
+    </div>
+  )
+}
+export default App
+```
+
+## Tài liệu tham khảo
+
+**Code:** [https://stackblitz.com/edit/vitejs-vite-8gbmub?file=README.md](https://stackblitz.com/edit/vitejs-vite-8gbmub?file=README.md)
+
+**Link video:** [https://www.youtube.com/watch?v=pNX5GBTlc70&t=11s](https://www.youtube.com/watch?v=pNX5GBTlc70&t=11s)
+
+**useMemo Docs:** [https://react.dev/reference/react/useCallback](https://react.dev/reference/react/useCallback)
+
+**useCallback Docs:** [https://react.dev/reference/react/useMemo](https://react.dev/reference/react/useMemo)
