@@ -59,7 +59,7 @@ export default makeSource({
       [
         rehypePrettyCode,
         {
-          theme: "dracula",
+          //theme: "dracula",
           keepBackground: true,
         },
       ],
