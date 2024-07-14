@@ -23,3 +23,7 @@
 - [220. Contains Duplicate III](/posts/leetcode/Leetcode_220-Contains_Duplicate_III.mdx)
 - [2944. Minimum Number of Coins for Fruits](/posts/leetcode/Leetcode_2944-Minimum_Number_of_Coins_for_Fruits.mdx)
 - [242. Valid Anagram](/posts/leetcode/Leetcode_242-Valid_Anagram.mdx)
+
+## Stack
+
+- [1717. Maximum Score From removing Substrings](/posts/leetcode/Leetcode_1717-Maximum_Score_From_emoving_Substrings.mdx)

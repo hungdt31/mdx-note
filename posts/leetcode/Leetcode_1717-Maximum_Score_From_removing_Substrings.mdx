@@ -1,0 +1,125 @@
+---
+title: "1717. Maximum Score From Removing Substrings"
+date: 2024-07-13
+tags: 
+  - Leetcode
+  - String
+  - Stack
+  - Greedy
+---
+
+## Description
+
+Bạn được cho một chuỗi s và hai số nguyên x và y. Bạn có thể thực hiện hai loại thao tác với số lần bất kỳ.
+
+- Xóa chuỗi con `"ab"` và nhận được x điểm.
+
+Ví dụ: khi xóa `"ab"` khỏi "cabxbae", nó sẽ trở thành `"cxbae"`.
+
+- Xóa chuỗi con `"ba"` và nhận được y điểm.
+
+Ví dụ: khi xóa `"ba"` khỏi `"cabxbae"`, nó sẽ trở thành `"cabxe"`.
+
+Trả về số điểm tối đa bạn có thể đạt được sau khi áp dụng các thao tác trên vào s.
+
+## Example
+
+### Example 1
+
+> **Input:** s = "cdbcbbaaabab", x = 4, y = 5
+<br/> **Output:** 19
+<br/> Explanation:
+<br/> - Remove the "ba" underlined in "cdbcbbaaabab". Now, s = "cdbcbbaaab" and 5 points are added to the score.
+<br/> - Remove the "ab" underlined in "cdbcbbaaab". Now, s = "cdbcbbaa" and 4 points are added to the score.
+<br/> - Remove the "ba" underlined in "cdbcbbaa". Now, s = "cdbcba" and 5 points are added to the score.
+<br/> - Remove the "ba" underlined in "cdbcba". Now, s = "cdbc" and 5 points are added to the score.
+<br/> Total score = 5 + 4 + 5 + 5 = 19.
+
+### Example 2
+
+> **Input:** s = "aabbaaxybbaabb", x = 5, y = 4
+<br/> **Output:** 20
+
+## Constraints:
+- `1 <= s.length <= 105`
+- `1 <= x, y <= 104`
+- `s` consists of lowercase English letters.
+
+## Code
+
+**Mục tiêu:** Tối đa hóa điểm số bằng cách loại bỏ các cặp có giá trị cao hơn trước và sau đó là các cặp có giá trị thấp hơn, 
+sử dụng ngăn xếp để xác định và loại bỏ các cặp một cách hiệu quả từ chuỗi.
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pi 3.14
+#define inf 1000000000
+#define mod 1000000007
+
+class Solution {
+public:
+    int maximumGain(string s, int x, int y) {
+        int totalScore = 0;
+        string highPriorityPair = x > y ? "ab" : "ba";
+        string lowPriorityPair = highPriorityPair == "ab" ? "ba" : "ab";
+
+        // First pass: remove high priority pair
+        string stringAfterFirstPass = removeSubstring(s, highPriorityPair);
+        int removedPairsCount =
+            (s.length() - stringAfterFirstPass.length()) / 2;
+
+        // Calculate score from first pass
+        totalScore += removedPairsCount * max(x, y);
+
+        // Second pass: remove low priority pair
+        string stringAfterSecondPass =
+            removeSubstring(stringAfterFirstPass, lowPriorityPair);
+        removedPairsCount =
+            (stringAfterFirstPass.length() - stringAfterSecondPass.length()) /
+            2;
+
+        // Calculate score from second pass
+        totalScore += removedPairsCount * min(x, y);
+
+        return totalScore;
+    }
+
+private:
+    string removeSubstring(const string& input, const string& targetPair) {
+        stack<char> charStack;
+
+        // Iterate through each character in the input string
+        for (char currentChar : input) {
+            // Check if current character forms the target pair with the top of
+            // the stack
+            if (currentChar == targetPair[1] && !charStack.empty() &&
+                charStack.top() == targetPair[0]) {
+                charStack
+                    .pop();  // Remove the matching character from the stack
+            } else {
+                charStack.push(currentChar);
+            }
+        }
+
+        // Reconstruct the remaining string after removing target pairs
+        string remainingChars;
+        while (!charStack.empty()) {
+            remainingChars += charStack.top();
+            charStack.pop();
+        }
+        reverse(remainingChars.begin(), remainingChars.end());
+        return remainingChars;
+    }
+};
+int main()
+{
+	Solution sol;
+	string str;
+	getline(cin, str);
+	int m, n;
+	cin >> m >> n;
+	cout << sol.maximumGain(str, m, n);
+}
+```
