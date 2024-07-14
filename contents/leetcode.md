@@ -26,4 +26,4 @@
 
 ## Stack
 
-- [1717. Maximum Score From removing Substrings](/posts/leetcode/Leetcode_1717-Maximum_Score_From_emoving_Substrings.mdx)
+- [1717. Maximum Score From removing Substrings](/posts/leetcode/Leetcode_1717-Maximum_Score_From_removing_Substrings.mdx)

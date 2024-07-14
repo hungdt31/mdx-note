@@ -29,9 +29,9 @@ function Logo() {
     <Link href="/" className="inline-flex justify-center items-center relative text-lg">
       <span>I</span>
       <span>K</span>
-      <div className="w-[10px] h-[5px] border-cyan-700 top-0 border-2"></div>
+      <div className="w-[10px] h-[5px] border-cyan-700 top-0 border-2 rounded-sm"></div>
       <span>K</span>
-      <div className="w-[10px] h-[15px] border-cyan-700 top-0 border-2">
+      <div className="w-[5px] h-[10px] border-cyan-700 top-0 border-2 outline outline-2 outline-offset-1 mx-1 rounded-sm">
       </div>
       <span>I</span>
     </Link>

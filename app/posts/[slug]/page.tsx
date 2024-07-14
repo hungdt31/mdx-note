@@ -1,5 +1,5 @@
 "use client";
-import { CopyIcon } from "lucide-react";
+import { TagIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer/hooks";
@@ -55,7 +55,7 @@ const Table_of_contents = ({tags}) => {
       </CardContent>
       <CardFooter>
       <div className="flex items-center gap-3 flex-wrap">
-      Tags: {tags?.map((tag, idx) => (
+      <TagIcon/> {tags?.map((tag, idx) => (
         <button key={idx}>{tag}</button>
       ))}
       </div>

@@ -288,4 +288,24 @@
     @apply font-mono;
     @apply opacity-60;
   } */
+  /* .outside {
+    position: relative;
+    width: 20px;
+    height: 10px;
+    @apply bg-border;
+    -webkit-clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+    clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+  }
+  
+  .inside {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    color: white;
+    background: rgb(30, 165, 140);
+    -webkit-clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+    clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+  } */
 }

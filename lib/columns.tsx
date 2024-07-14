@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "components/ui/badge";
+import { TbH1 } from "react-icons/tb";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Docs = {
@@ -36,9 +37,9 @@ export const Docs: ColumnDef<Docs>[] = [
                 href={row.original.url}
                 legacyBehavior
               >
-                <p className="hover:underline">
+                <h2 className="hover:underline">
                   {row.original.title}
-                </p>
+                </h2>
               </Link>
             </CardTitle>
             <CardDescription>
