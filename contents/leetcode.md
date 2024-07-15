@@ -23,6 +23,7 @@
 - [220. Contains Duplicate III](/posts/leetcode/Leetcode_220-Contains_Duplicate_III.mdx)
 - [2944. Minimum Number of Coins for Fruits](/posts/leetcode/Leetcode_2944-Minimum_Number_of_Coins_for_Fruits.mdx)
 - [242. Valid Anagram](/posts/leetcode/Leetcode_242-Valid_Anagram.mdx)
+- [347. Top K Frequent Elements](/posts/leetcode/Leetcode_347-Top_K_Frequent_Elements.mdx)
 
 ## Stack
 
