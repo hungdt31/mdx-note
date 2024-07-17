@@ -24,6 +24,7 @@
 - [2944. Minimum Number of Coins for Fruits](/posts/leetcode/Leetcode_2944-Minimum_Number_of_Coins_for_Fruits.mdx)
 - [242. Valid Anagram](/posts/leetcode/Leetcode_242-Valid_Anagram.mdx)
 - [347. Top K Frequent Elements](/posts/leetcode/Leetcode_347-Top_K_Frequent_Elements.mdx)
+- [271. Encode and Decode Strings](/posts/leetcode/Leetcode_271-Encode_and_Decode_Strings.mdx)
 
 ## Stack
 
