@@ -1,0 +1,70 @@
+---
+title: "3216. Lexicographically Smallest String After a Swap"
+date: 2024-07-17
+tags: 
+  - Leetcode
+  - String
+---
+## Description
+Cho một chuỗi `s` chỉ chứa các chữ số, trả về `chuỗi nhỏ nhất theo từ điển`
+có thể đạt được sau khi hoán đổi các chữ số liền kề trong `s` có cùng số chẵn lẻ nhiều nhất một lần.
+
+Các chữ số có cùng tính chẵn lẻ nếu cả hai đều là số lẻ hoặc cả hai đều là số chẵn. Ví dụ: 5 và 9, cũng như 2 và 4, có cùng số chẵn lẻ, trong khi 6 và 9 thì không.
+
+## Example
+
+### Example 1
+
+> **Input:** `s = "45320"`
+<br/> **Output:** `"43520"`
+<br/> **Explanation:**
+`s[1] == '5'` and `s[2] == '3'` both have the same parity, and swapping them results in the lexicographically smallest string.
+
+### Example 2
+
+> **Input:** `s = "001"`
+<br/> **Output:** `"001"`
+<br/> **Explanation:** There is no need to perform a swap because s is already the lexicographically smallest.
+
+
+## Constraints
+- `2 <= s.length <= 100`
+- `s` consists only of digits.
+
+## Code
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pi 3.14
+#define inf 1000000000
+#define mod 1000000007
+ 
+class Solution {
+public:
+  string getSmallestString(string s) {
+    for (int i = 0; i < s.length() - 1; i++){
+      int n1 = s[i] - '0';
+      int n2 = s[i+1] - '0';
+      if ((n1 % 2 == 0 && n2 % 2 == 0) || (n1 % 2 == 1 && n2 % 2 == 1)) {
+        if (n1 > n2) {
+          char temp = s[i];
+          s[i] = s[i+1];
+          s[i+1] = temp;
+          return s;
+        }
+      } 
+    }
+    return s;
+  }
+};
+ 
+int main()
+{
+	string s;
+	Solution sol;
+	cin >> s;
+	cout << sol.getSmallestString(s);
+}
+```
