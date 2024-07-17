@@ -25,6 +25,7 @@
 - [242. Valid Anagram](/posts/leetcode/Leetcode_242-Valid_Anagram.mdx)
 - [347. Top K Frequent Elements](/posts/leetcode/Leetcode_347-Top_K_Frequent_Elements.mdx)
 - [271. Encode and Decode Strings](/posts/leetcode/Leetcode_271-Encode_and_Decode_Strings.mdx)
+- [128. Longest Consecutive Sequence](/posts/leetcode/Leetcode_128-Longest_Consecutive_Sequence.mdx)
 
 ## Stack
 
