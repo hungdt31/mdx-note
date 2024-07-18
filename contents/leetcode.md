@@ -27,6 +27,7 @@
 - [271. Encode and Decode Strings](/posts/leetcode/Leetcode_271-Encode_and_Decode_Strings.mdx)
 - [128. Longest Consecutive Sequence](/posts/leetcode/Leetcode_128-Longest_Consecutive_Sequence.mdx)
 - [3216. Lexicographically Smallest String After a Swap](/posts/leetcode/Leetcode_3216-Lexicographically_Smallest_String_After_a_Swap.mdx)
+- [238. Product of Array Except Self](/posts/leetcode/Leetcode_238-Product_of_Array_Except_Self.mdx)
 
 ## Stack
 

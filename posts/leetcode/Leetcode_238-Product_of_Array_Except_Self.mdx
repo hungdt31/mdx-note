@@ -1,0 +1,84 @@
+---
+title: "238. Product of Array Except Self"
+date: 2024-07-18
+tags: 
+  - Leetcode
+  - Prefix Sum
+---
+## Description
+*Given an integer array `nums`, return an array answer such that `answer[i]` is equal to the product of all the elements of `nums` except `nums[i]`.*
+
+The product of any prefix or suffix of nums is **guaranteed** to fit in a **32-bit** integer.
+
+You must write an algorithm that runs in `O(n)` time and without using the division operation.
+
+## Example
+
+### Example 1
+
+> **Input:** `nums = [1,2,3,4]`
+<br/> **Output:** `[24,12,8,6]`
+
+### Example 2
+
+> **Input:** `nums = [-1,1,0,-3,3]`
+<br/> **Output:** `[0,0,9,0,0]`
+
+
+## Constraints
+- `2 <= nums.length <= 105`
+- `-30 <= nums[i] <= 30`
+- The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+## Code
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pi 3.14
+#define inf 1000000000
+#define mod 1000000007
+
+class Solution {
+public:
+  // Dynamic Programming
+  // Use two arrays to store the product of all the elements 
+  // to the left and right of every component of the array
+  // Time complexity O(n)
+  // Space complexity O(n)
+  vector<int> productExceptSelf(vector<int>& nums) {
+    int n = nums.size();
+    vector <int> rs;
+    int left_product[n], right_product[n];
+    fill_n(left_product, n, 1);
+    fill_n(right_product, n, 1);
+    for (int i = 1; i < n; i++){
+      left_product[i] = nums[i-1] * left_product[i-1];
+    }
+    for (int i = n - 2; i >= 0; i--){
+      right_product[i] = nums[i+1] * right_product[i+1];
+    }
+    for (int i = 0; i < n; i++){
+      rs.push_back(left_product[i] * right_product[i]);
+    }
+    return rs;
+  }
+};
+int main()
+{
+  int n;
+  Solution sol;
+  vector <int> nums;
+  cin >> n;
+  for (int i = 0; i < n; i++){
+    int temp;
+    cin >> temp;
+    nums.push_back(temp);
+  }
+  vector <int> rs = sol.productExceptSelf(nums);
+  for (auto x : rs){
+    cout << x <<" ";
+  }
+}
+```
