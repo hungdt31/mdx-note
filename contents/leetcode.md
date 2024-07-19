@@ -28,6 +28,7 @@
 - [128. Longest Consecutive Sequence](/posts/leetcode/Leetcode_128-Longest_Consecutive_Sequence.mdx)
 - [3216. Lexicographically Smallest String After a Swap](/posts/leetcode/Leetcode_3216-Lexicographically_Smallest_String_After_a_Swap.mdx)
 - [238. Product of Array Except Self](/posts/leetcode/Leetcode_238-Product_of_Array_Except_Self.mdx)
+- [1380. Lucky Numbers in a Matrix](/posts/leetcode/Leetcode_1380-Lucky_Numbers_in_a_Matrix.mdx)
 
 ## Stack
 
