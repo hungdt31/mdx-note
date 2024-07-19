@@ -52,7 +52,6 @@ public:
 
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
-        int temp = matrix[i][j];
         min_row[i] = min(min_row[i], matrix[i][j]);
         max_col[j] = max(max_col[j], matrix[i][j]);
       }
