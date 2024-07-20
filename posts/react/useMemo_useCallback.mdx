@@ -4,12 +4,10 @@ date: 2024-07-13
 tags: 
   - React
 ---
-
-
 ## Vấn đề
 
 - **React.StrictMode:** render 2 lần, chỉ hoạt động với dev mode
-- Một component bị **re-render** lại khi props truyền từ component cha nó bị thay đổi hoặc state nội tại của nó bị thay đổi.
+- Một `function component` bị **re-render** khi props truyền từ component cha nó bị thay đổi hoặc state nội tại của nó bị thay đổi.
 - Code example:
 
 ```js
@@ -43,7 +41,7 @@ export default App
 **Kết quả khi chạy:** trong khoảng thời gian chạy hàm `fibonacci` thì UI bị block, dẫn đến khi bấm nút button thay đổi giá trị count sẽ mất một lúc để UI thay đổi (re-render lại toàn bộ function `App`).
 ![result](/public/react/useMemo_useCallback/problem.png)
 
-$\Rightarrow$ Mỗi lần re-render `<App/>` phải tính toán lại giá trị Fibonacci gây lãng phí tài nguyên.
+$\Rightarrow$ Mỗi lần re-render `<App/>` phải tính toán lại giá trị Fibonacci gây lãng phí tài nguyên và mất thời gian.
 
 ## Hướng giải quyết
 
@@ -119,7 +117,7 @@ export default App
 
 ### useCallback
 
-- Khi truyền props kiểu hàm vào `<Form/>` thì React.memo so sánh bằng phương thức `Object.is()`.
+- Khi truyền props kiểu hàm vào `<Form/>` thì **React.memo** so sánh bằng phương thức `Object.is()`.
 
 - Mỗi lần re-render `<App/>` thì hàm `preConfig` tuy không đổi về content nhưng bị đổi về địa chỉ (tham chiếu), dẫn đến props `preConfig` của Form bị thay đổi $\Rightarrow$ re-render `<Form/>`.
 
@@ -184,12 +182,22 @@ function App() {
 export default App
 ```
 
+## Tổng kết
+
+||**useMemo**|**useCallback**|
+|--|--|--|
+|**Mô tả**|giữ cho kết quả phép tính không tính toán lại lần nữa|giữ cho một hàm không được tạo lại lần nữa|
+|**Dependencies**|Có|Có|
+|**Kết quả trả về**|Kết quả của một function hoặc function (dùng để thay thế cho useCallback)|function|
+|**Khi nào sử dụng**|Chỉ nên sử dụng khi lưu trữ kết quả tính toán lớn, vì việc lưu trữ các kết quả đôi khi không cần thiết, làm giảm hiệu suất ứng dụng.|Sử dụng nó khi mà bạn muốn truyền fuction vào component con và chặn không cho một hàm nào đó tiêu tốn thời gian, tài nguyên phải tạo lại.|
 ## Tài liệu tham khảo
 
 **Code:** [https://stackblitz.com/edit/vitejs-vite-8gbmub?file=README.md](https://stackblitz.com/edit/vitejs-vite-8gbmub?file=README.md)
 
 **Link video:** [https://www.youtube.com/watch?v=pNX5GBTlc70&t=11s](https://www.youtube.com/watch?v=pNX5GBTlc70&t=11s)
 
-**useMemo Docs:** [https://react.dev/reference/react/useCallback](https://react.dev/reference/react/useCallback)
+**useCallback Docs:** [https://react.dev/reference/react/useCallback](https://react.dev/reference/react/useCallback)
 
-**useCallback Docs:** [https://react.dev/reference/react/useMemo](https://react.dev/reference/react/useMemo)
+**useMemo Docs:** [https://react.dev/reference/react/useMemo](https://react.dev/reference/react/useMemo)
+
+[https://viblo.asia/p/react-hooks-su-khac-nhau-giua-usememo-va-usecallback-gDVK24jwlLj](https://viblo.asia/p/react-hooks-su-khac-nhau-giua-usememo-va-usecallback-gDVK24jwlLj)
