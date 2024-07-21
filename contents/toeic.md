@@ -19,6 +19,7 @@
 
 - [Lesson 16: Shopping](/posts/toeic/Toeic-Lesson_16-Shopping.mdx)
 - [Lesson 17: Ordering Supplies](/posts/toeic/Toeic-Lesson_17-Ordering_Supplies.mdx)
+- [Lesson 18: Shipping](/posts/toeic/Toeic-Lesson_18_Shipping.mdx)
 
 ## HACKER TOEIC START LISTENING
 
