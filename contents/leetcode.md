@@ -33,3 +33,7 @@
 ## Stack
 
 - [1717. Maximum Score From removing Substrings](/posts/leetcode/Leetcode_1717-Maximum_Score_From_removing_Substrings.mdx)
+
+## 1-D Dynamic Programming
+
+- [746. Min Cost Climbing Stairs](/posts/leetcode/Leetcode_746-Min_Cost_Climbing_Stairs.mdx)
