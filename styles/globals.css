@@ -310,4 +310,12 @@
     -webkit-clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
     clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
   } */
+  hr {
+    @apply w-48;
+    @apply h-1;
+    @apply mx-auto;
+    @apply my-4;
+    @apply rounded;
+    @apply bg-cyan-500;
+  }
 }
