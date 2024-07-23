@@ -9,13 +9,10 @@ import TagProps from "interfaces/tag-props";
 
 export default function Home() {
   const [choosenTag, setChoosenTag] = useState<string[]>([]);
-  let posts = allPosts.sort((a, b) =>
-    compareDesc(new Date(a.date), new Date(b.date))
-  );
-  posts = posts.map((post) => {
-    post.tags.map((tag) => {
-      return tag.replaceAll("\r", "");
-    });
+  let posts = allPosts
+  .sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)))
+  .map((post) => {
+    post.tags = post.tags.map((tag) => tag.replace(/\r/g, ""));
     return post;
   });
   // lấy ra tất cả các giá trị của trường tags
@@ -34,9 +31,8 @@ export default function Home() {
     }
     return false;
   });
-  console.log(1)
   // lọc ra các giá trị trùng lặp
-  const tagMap : TagProps[] = removeDuplicates(allPosts.map((post) => post.tags).flat());
+  const tags : TagProps[] = removeDuplicates(posts.map((post) => post.tags).flat());
 
   return (
     <div className="max-w-xl py-8 mx-auto">
@@ -46,7 +42,7 @@ export default function Home() {
       <DocsDataTable
         columns={Docs}
         data={posts}
-        tags={tagMap}
+        tags={tags}
         setChoosenTag={setChoosenTag}
         choosenTag={choosenTag}
       />

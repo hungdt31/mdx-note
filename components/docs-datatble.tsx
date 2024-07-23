@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
                   <Input
                     placeholder="Search tag"
                     onChange={(e) => {
-                      setTags(tags.filter((el : TagProps) => el.name = e.target.value));
+                      setTags(tags.filter((el : TagProps) => el.name.includes(e.target.value)));
                     }}
                   />
                   <Button onClick={() => setChoosenTag([])} className="bg-cyan-500 text-white hover:bg-cyan-500">
