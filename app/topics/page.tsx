@@ -13,12 +13,19 @@ import {
 } from "@/components/ui/table";
 
 export default function TopicPage() {
-  const topics = removeDuplicates(
+  const getAllTopic = (arr : string[]) => {
+    let set = new Set <string>()
+    arr.forEach((el : string) => {
+      set.add(el)
+    })
+    return Array.from(set)
+  }
+  const topics = getAllTopic(
     allPosts.map((post) => {
       const ind = post._raw.flattenedPath.indexOf("/");
       return post._raw.flattenedPath.slice(0, ind);
     })
-  );
+  )
   return (
     <div className="flex justify-center lg:px-9 px-3">
       <Table>
