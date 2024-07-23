@@ -5,7 +5,6 @@ export default function removeDuplicates(arr : Array<string>) {
     if(count === undefined) map.set(element, 1);
     else map.set(element, count + 1);
   });
-  console.log(map)
   let new_arr = []
   map.forEach((value, key) => {
     new_arr.push({
