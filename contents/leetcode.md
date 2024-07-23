@@ -2,7 +2,7 @@
 
 ## For beginner
 
-- <[Two Sum](https://leetcode.com/problems/two-sum/)>
+<<[Two Sum](https://leetcode.com/problems/two-sum/)>
 , <[Roman to Integer](https://leetcode.com/problems/roman-to-integer/)>
 , <[Palindrome Number](https://leetcode.com/problems/palindrome-number/)>
 , <[Maximum Subarray](https://leetcode.com/problems/maximum-subarray/)>
@@ -12,7 +12,7 @@
 , <[Majority Element](https://leetcode.com/problems/majority-element/)>
 , <[Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)>
 , <[Valid Anagram](https://leetcode.com/problems/valid-anagram/)>
-, <[Group Anagrams](https://leetcode.com/problems/group-anagrams/)>
+, <[Group Anagrams](https://leetcode.com/problems/group-anagrams/)>>
 
 ## Arrays & Hashing
 
