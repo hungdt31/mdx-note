@@ -1,9 +1,17 @@
 export default function removeDuplicates(arr : Array<string>) {
-  let unique = [];
+  const map : Map<string, number> = new Map()
   arr.forEach((element: string) => {
-    if (!unique.includes(element)) {
-      unique.push(element);
-    }
+    let count = map.get(element);
+    if(count === undefined) map.set(element, 1);
+    else map.set(element, count + 1);
   });
-  return unique;
+  console.log(map)
+  let new_arr = []
+  map.forEach((value, key) => {
+    new_arr.push({
+      name: key,
+      count: value
+    })
+  })
+  return new_arr;
 }

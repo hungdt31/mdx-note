@@ -176,10 +176,12 @@
 
   li {
     @apply mt-2;
-    @apply list-disc;
+    list-style:square;
     @apply ml-4;
   }
-
+  li > ul > li {
+    list-style:lower-latin;
+  }
   blockquote {
     @apply border-l-4;
     @apply border-cyan-700;

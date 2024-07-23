@@ -5,6 +5,7 @@ import DocsDataTable from "components/docs-datatble";
 import { Docs } from "lib/columns";
 import { useState } from "react";
 import removeDuplicates from "helpers/removeDuplicates";
+import TagProps from "interfaces/tag-props";
 
 export default function Home() {
   const [choosenTag, setChoosenTag] = useState<string[]>([]);
@@ -33,9 +34,9 @@ export default function Home() {
     }
     return false;
   });
-  let tags = allPosts.map((post) => post.tags).flat();
+  console.log(1)
   // lọc ra các giá trị trùng lặp
-  tags = removeDuplicates(tags);
+  const tagMap : TagProps[] = removeDuplicates(allPosts.map((post) => post.tags).flat());
 
   return (
     <div className="max-w-xl py-8 mx-auto">
@@ -45,7 +46,7 @@ export default function Home() {
       <DocsDataTable
         columns={Docs}
         data={posts}
-        tags={tags}
+        tags={tagMap}
         setChoosenTag={setChoosenTag}
         choosenTag={choosenTag}
       />

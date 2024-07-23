@@ -18,13 +18,12 @@ import { SetStateAction } from "react";
 import React from "react";
 import { Button } from "components/ui/button";
 import { Input } from "components/ui/input";
-import { ListRestart } from "lucide-react";
-import { TbZoomReset } from "react-icons/tb";
+import TagProps from "interfaces/tag-props";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  tags: string[];
+  tags: TagProps[];
   setChoosenTag?: Dispatch<SetStateAction<string[]>>;
   choosenTag?: string[];
 }
@@ -37,7 +36,7 @@ export function DataTable<TData, TValue>({
   choosenTag,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [Tags, setTags] = React.useState<string[]>(tags);
+  const [Tags, setTags] = React.useState<TagProps[]>(tags);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
@@ -102,35 +101,35 @@ export function DataTable<TData, TValue>({
                   <Input
                     placeholder="Search tag"
                     onChange={(e) => {
-                      setTags(tags.filter((el) => el.includes(e.target.value)));
+                      setTags(tags.filter((el : TagProps) => el.name = e.target.value));
                     }}
                   />
                   <Button onClick={() => setChoosenTag([])} className="bg-cyan-500 text-white hover:bg-cyan-500">
-                    <TbZoomReset size={20}/>
+                    Reset
                   </Button>
                 </div>
                 <hr />
               </div>
-              {Tags.map((tag) => (
+              {Tags.map((tag, index) => (
                 <button
-                  key={tag}
+                  key={index}
                   // style item base checked or not
                   className={
-                    choosenTag.includes(tag)
+                    choosenTag.includes(tag.name)
                       ? "bg-primary-foreground text-primary-background my-1 inline mr-2"
                       : "my-1 inline mr-2"
                   }
                   onClick={() =>
-                    setChoosenTag((prev) =>
-                      prev.includes(tag)
-                        ? prev.filter((item) => item !== tag)
-                        : [...prev, tag]
+                    setChoosenTag((prev : string[]) =>
+                      prev.includes(tag.name)
+                        ? prev.filter((item : string) => item !== tag.name)
+                        : [...prev, tag.name]
                     )
                   }
                 >
                   <div className="flex justify-center items-center">
-                    <p>{tag}</p>
-                    {choosenTag.includes(tag) && (
+                    <p>{tag.name} ({tag.count})</p>
+                    {choosenTag.includes(tag.name) && (
                       <CircleCheckBig className="w-4 h-4 ml-2" />
                     )}
                   </div>
