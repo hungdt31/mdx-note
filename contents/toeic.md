@@ -21,6 +21,7 @@
 - [Lesson 17: Ordering Supplies](/posts/toeic/Toeic-Lesson_17-Ordering_Supplies.mdx)
 - [Lesson 18: Shipping](/posts/toeic/Toeic-Lesson_18_Shipping.mdx)
 - [Lesson 19: Invoices](/posts/toeic/Toeic-Lesson_19-Invoices.mdx)
+- [Lesson 20: Inventory](/posts/toeic/Toeic-Lesson_20-Inventory.mdx)
 
 ## HACKER TOEIC START LISTENING
 
