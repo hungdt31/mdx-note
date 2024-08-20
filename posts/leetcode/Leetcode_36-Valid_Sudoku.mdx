@@ -58,39 +58,46 @@ Xác định rằng một bảng `9 x 9` Sudoku có hợp lệ hay không. Chỉ
 
 ## Code
 
+**Ý tưởng của bài toán:**
+
+**Bước 1:** Khởi tạo các cấu trúc dữ liệu `STL Map`:
+- `cols` dùng để lưu trữ các giá trị của cột đó;
+- `rows` dùng để lưu trữ các giá trị của hàng đó;
+- `squares` dùng để lưu trữ các khối `3x3`.
+
+
+**Bước 2:** Duyệt qua tất cả phần tử của mảng hai chiều `board`:
+
+- `board[r][c] == '.'`: bỏ qua
+- Nếu `board[r][c]` đã tồn tại trong `rows` và `cols` (sử dụng hàm `.count(giá_trị_cần_xét)` trả về số lượng các phần tử có giá trị bằng với `giá_trị_cần_xét`) thì return `false`.
+- **QUAN TRỌNG** - Cách xác định `board[r][c]` thuộc `square` nào:
+    - Số thứ tự của khối: `index` = phần nguyên của (r / 3) * 3 + phần nguyên của (c / 3);
+    - Nếu `board[r][c]` đã tồn tại trong `square[index]` thì return false
+- Insert phần tử vào các `map` nếu chúng không thuộc các trường hợp trên.
+
 ```c++
-#include <iostream>
-#include <vector>
-using namespace std;
 class Solution {
 public:
-    static bool isValidSudoku(vector<vector<char>>& board) {
-        int cols[9][9], rows[9][9], squares[9][9] = {0};
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] == '.') continue;
-                int num = board[i][j] - '0' - 1;
-                int index = i / 3 * 3 + j / 3; // calculate the index of sub-box for this cell 
-                if (rows[i][num] || cols[j][num] || squares[index][num])
+    bool isValidSudoku(vector<vector<char>>& board) {
+        unordered_map<int, unordered_set<char>> cols;
+        unordered_map<int, unordered_set<char>> rows;
+        unordered_map<int, unordered_set<char>> squares;  // key = (r / 3) * 3 + c / 3
+
+        for (int r = 0; r < 9; r++) {
+            for (int c = 0; c < 9; c++) {
+                char cell = board[r][c];
+                if (cell == '.') {
+                    continue;
+                }
+                if (rows[r].count(cell) || cols[c].count(cell) || squares[(r / 3) * 3 + c / 3].count(cell)) {
                     return false;
-                // indicate this cell checked
-                squares[index][num] = rows[i][num] = cols[j][num] = 1;
+                }
+                cols[c].insert(cell);
+                rows[r].insert(cell);
+                squares[(r / 3) * 3 + c / 3].insert(cell);
             }
         }
         return true;
     }
 };
-int main() {
-    vector<vector<char>> board;
-    for (int i = 0; i < 9; i++) {
-        vector<char> temps;
-        for (int j = 0; j < 9; j++) {
-            char temp;
-            cin >> temp;
-            temps.push_back(temp);
-        }
-        board.push_back(temps);
-    }
-    cout << Solution::isValidSudoku(board);
-}
 ```
