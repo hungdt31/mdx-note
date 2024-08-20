@@ -27,7 +27,7 @@
 ||Problems|
 |--|:--|
 |Easy|[1717. Maximum Score From removing Substrings](/posts/leetcode/Leetcode_1717-Maximum_Score_From_removing_Substrings.mdx) <br/> [20. Valid Parentheses](/posts/leetcode/Leetcode_20-Valid_Parentheses.mdx)|
-|Medium||
+|Medium|[155. Min Stack](/posts/leetcode/Leetcode_155-Min_Stack.mdx)|
 |Hard||
 
 ## 1-D Dynamic Programming
