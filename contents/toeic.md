@@ -23,6 +23,10 @@
 - [Lesson 19: Invoices](/posts/toeic/Toeic-Lesson_19-Invoices.mdx)
 - [Lesson 20: Inventory](/posts/toeic/Toeic-Lesson_20-Inventory.mdx)
 
+### Financing and budgeting
+
+- [Lesson 25: Financial Statements](/posts/toeic/Toeic-Lesson_25-Financial_Statements.mdx)
+
 ## HACKER TOEIC START LISTENING
 
 - [Day 11: Các tình huống diễn ra nơi công sở (1)](/posts/toeic/Hackers_Toeic_Start_Day_11.mdx)
