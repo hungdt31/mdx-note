@@ -180,7 +180,10 @@
     @apply ml-4;
   }
   li > ul > li {
-    list-style:lower-latin;
+    list-style-type: disc;
+  }
+  li > ul > li > ul > li{
+    list-style-type: circle;
   }
   blockquote {
     @apply border-l-4;
