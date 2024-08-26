@@ -8,6 +8,7 @@
 - [#4. Relational Data Model And Relational Mapping](/public/database/slide/4_RelationalDataModelAndRelationalMapping.pdf)
 - [#5. Relationa Algebra no sol](/public/database/slide/5_RelationaAlgebra_no_sol.pdf)
 - [#6. SQL](/public/database/slide/6_SQL.pdf)
+- [#6. Advance SQL](/public/database/slide/6_AdvanceSQL.pdf)
 - [#7. FD](/public/database/slide/7_FD.pdf)
 - [#8. Data Storage Indexing Structures](/public/database/slide/8_DataStorageIndexingStructures.pdf)
 - [#9. DBS](/public/database/slide/9_DBS.pdf)
