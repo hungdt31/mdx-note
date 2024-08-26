@@ -9,8 +9,6 @@
 ***I'm currently studying at Ho Chi Minh City University of Technology. This is something I collect from daily life.***
 |ツ|💫 ☄️🌟⭐🌙🌘🚀🪐🌌🌅🌍🥏|
 |-|-|
-|Learning at school|[Computer Network](/contents/computer-network.md)|
+|Learning at school|[Computer Network](/contents/computer-network.md) x [Database System](/contents/database.md)|
 |Coding|[Leetcode Collection](/contents/leetcode.md) x [React](/contents/react.md)|
 |Other|[TOEIC](/contents/toeic.md) x  [Chemistry](/contents/chemistry.md)|
-
-
