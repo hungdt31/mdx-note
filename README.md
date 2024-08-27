@@ -10,5 +10,5 @@
 |ツ|💫 ☄️🌟⭐🌙🌘🚀🪐🌌🌅🌍🥏|
 |-|-|
 |Learning at school|[Computer Network](/contents/computer-network.md) x [Database System](/contents/database.md)|
-|Coding|[Leetcode Collection](/contents/leetcode.md) x [React](/contents/react.md)|
+|Coding|[Leetcode Collection](/contents/leetcode.md) x [React](/contents/react.md) x [Java](/contents/java-collection.md)|
 |Other|[TOEIC](/contents/toeic.md) x  [Chemistry](/contents/chemistry.md)|
