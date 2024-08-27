@@ -1,0 +1,94 @@
+---
+title: "22. Generate Parentheses"
+date: 2024-08-27
+tags:
+  - Toeic
+  - String
+  - Dynamic Programming
+  - Backtracking
+---
+## Description
+
+Given `n` pairs of parentheses, write a function to `generate all combinations of well-formed parentheses`.
+
+## Example
+
+### Example 1
+
+> **Input**: `n = 1`
+<br/> **Output**: `["()"]`
+
+### Example 2
+
+> **Input**: `n = 3`
+<br/> **Output**: `["((()))","(()())","(())()","()(())","()()()"]`
+
+## Constraints
+
+- `1 <= n <= 8`
+
+## Code
+
+- **Cách 1:** dùng *Stack* kết hợp với *Backtracking*
+```c++
+class Solution {
+public:
+    vector<string> result;
+    bool isValid(string str) {
+        stack<char> st;
+        for (char c : str) {
+            if (c == '(') {
+                st.push(c);
+            } else {
+                if (st.empty()) return false;
+                st.pop();
+            }
+        }
+        return st.empty(); // Stack should be empty for a valid string
+    }
+    void createParenthesis (string k, int n) {
+        if (k.length() == 2 * n) {
+            if (isValid(k)) { // Only add if the combination is valid
+                result.push_back(k);
+            }
+            return;
+        }
+        char arr[2] = {'(',')'};
+        for (int i = 0; i < 2; i++) {
+            createParenthesis(k + arr[i], n);
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        createParenthesis ("", n);
+        return result;
+    }
+};
+```
+
+- **Cách 2:** dùng tính chất đóng mở của ()
+
+```c++
+class Solution {
+public:
+    vector<string> result;
+    
+    void createParenthesis(string current, int open, int close, int n) {
+        if (current.length() == 2 * n) {
+            result.push_back(current);
+            return;
+        }
+        
+        if (open < n) {
+            createParenthesis(current + '(', open + 1, close, n);
+        }
+        if (close < open) {
+            createParenthesis(current + ')', open, close + 1, n);
+        }
+    }
+    
+    vector<string> generateParenthesis(int n) {
+        createParenthesis("", 0, 0, n);
+        return result;
+    }
+};
+```
