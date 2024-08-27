@@ -1,0 +1,219 @@
+---
+title: "Classpath và biên dịch Java từ command line"
+date: 2024-08-27
+tags:
+  - Java
+---
+
+**Overview:** 
+- Tìm hiểu về *Classpath* trong java;
+- Biên dịch code java thành bytecode;
+- Chạy bytecode thông qua command line.
+
+## Sơ lược và chuẩn bị
+
+### 1.1. `javac` và `java` command
+
+```bash
+# Biên dịch Main.java thành Main.class
+javac Main.java
+
+# Chạy bytecode trong file Main.class
+java Main
+```
+Khi chương trình có import nhiều file với nhau thì sử dụng về classpath để cấu hình cho đúng.
+
+### 1.2. Code ví dụ
+
+Chương trình demo classpath sẽ gồm 3 file như sau.
+
+- **Main.java**:
+```java filename="Main.java"
+import toyota.Car;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Bike: " + Bike.WHEEL_COUNT);
+        System.out.println("Car: " + Car.WHEEL_COUNT);
+    }
+}
+```
+
+- File **Bike.java** cùng thư mục với **Main.java**:
+```java filename="Bike.java"
+public class Bike {
+    public static int WHEEL_COUNT = 2;
+}
+```
+
+- File **Car.java** nằm trong một thư mục con **toyota** (dùng test package khi custom classpath).
+
+```java filename="toyota/Car.java"
+package toyota;
+
+public class Car {
+  public static int WHEEL_COUNT = 4;
+  public static void main(String[] args){
+      System.out.println("Car is OKE!");
+  }
+}
+```
+
+Quá trình biên dịch tạo ra 3 file `.class` tương ứng với vị trí file `.java`. Khi biên dịch, các class liên quan, được sử dụng trong `Main.java` sẽ được biên dịch theo (và ngược lại thì không biên dịch).
+
+![Run 3 file](/public/java-collection/number_1/run_code.png)
+
+Nếu muốn các file `.class` nằm riêng trong một thư mục nào đó, chỉ định thêm flag `-d` như sau. Cấu trúc thư mục `target/` lúc này tương ứng với cấu trúc source code.
+
+```bash
+javac -d ./target Main.java
+```
+
+Có thể dùng dấu wildcard `*` để biên dịch toàn bộ file `.java` trong một thư mục cụ thể (không tính các thư mục con).
+
+```bash
+javac ./toyota/*.java
+```
+
+## 2. Khái niệm Classpath
+
+### 2.1. Classpath khi compile
+
+Mặc định classpath sẽ là thư mục hiện tại.
+
+![classpath](/public/java-collection/number_1/classpath.png)
+
+Vì vậy, cần chỉ định classpath khi biên dịch bằng flag `-cp` hoặc `-classpath` như sau:
+
+```bash
+javac -d ./target -cp ./${path} ./${path}/Main.java
+```
+
+### 2.2. Classpath ở runtime
+
+```bash
+# Biên dịch trước
+javac -d ./target -cp ./${path} ./${path}/Main.java
+
+# Chạy class của file bạn trỏ tới
+java -cp ./target ${class_name}
+```
+
+- Sử dụng file `bash` để chạy tất cả câu lệnh:
+```bash
+#!/bin/bash
+
+# Tên file Java (không có phần mở rộng .java)
+JAVA_FILE=$1 # Tham số đầu tiên
+
+# Biên dịch file Java vào thư mục ./target
+javac -d ./target "$JAVA_FILE.java"
+
+# Kiểm tra xem file có biên dịch thành công không
+if [ $? -eq 0 ]; then
+  # Chạy file Java đã biên dịch
+  java -cp ./target "$JAVA_FILE"
+else
+  echo "Biên dịch thất bại. Vui lòng kiểm tra lại mã nguồn."
+fi
+```
+
+- Kết quả:
+![](/public/java-collection/number_1/main.png)
+
+## 3. Các khía cạnh khác
+
+### 3.1. Chỉ định nhiều classpath
+
+Sẽ có lúc cần chỉ định nhiều classpath cùng lúc, như khi dùng các file `.class` từ thư viện khác (nhưng được để ở thư mục riêng). Lúc này cần chỉnh lại flag `-cp` gồm nhiều thư mục phân tách với nhau:
+
+- Dùng dấu `;` trên Windows
+- Dùng dấu `:` trên Linux
+
+- File **toyota/Car.java**:
+
+```java
+// Class Car sẽ cùng default package với Main
+// package toyota;
+
+public class Car {
+    public static int WHEEL_COUNT = 4;
+}
+```
+
+- File **Main.java**:
+
+```java 
+// Không cần import do default package
+// import toyota.Car;
+
+public class Main {
+	public static void main(String[] args) {
+		System.out.println("Bike: " + Bike.WHEEL_COUNT);
+		System.out.println("Car: " + Car.WHEEL_COUNT);
+	}
+}
+```
+
+Và khi biên dịch cần chỉ định 2 classpath tương ứng 2 thư mục chứa `Main.java` và `Car.java`.
+
+```bash
+# Biên dịch
+javac -cp "./${path}:./${path}/toyota" ./${path}/Main.java
+
+# Chạy bytecode
+java -cp "./${path}:./${path}/toyota" Main
+
+```
+
+### 3.2. Classpath với file JAR
+
+Hầu như các thư viện Java được đóng gói dưới dạng file JAR (Java Archive). Nếu muốn biên dịch và chạy chương trình gồm file JAR qua command line thì làm thế nào?
+
+File `.jar` có thể xem như một thư mục chứa các file `.class` (thử mở bằng WinRAR xem). Như vậy, việc sử dụng JAR chỉ đơn giản là thêm một classpath thôi. Khi biên dịch, compiler tìm được file `.class` rồi sẽ không cần file `.java` để biên dịch nữa.
+
+![lib](/public/java-collection/number_1/lib.png)
+
+Ngoài ra, có thể sử dụng wildcard `*` như sau để tìm và load toàn bộ JAR trong thư mục như sau. Chú ý phần `*` chỉ đứng một mình (dạng `/*.jar` hay `/**/*` là không đúng) và chỉ load đúng một thư mục được chỉ định (không tính các thư mục con).
+
+- File `run_code.sh`:
+```bash
+#!/bin/bash
+
+# Tên file Java (không có phần mở rộng .java)
+JAVA_FILE=$1 # Tham số đầu tiên
+
+# Biên dịch file Java vào thư mục ./target
+javac -d ./target -cp "./;./lib/commons-lang3-3.16.0/commons-lang3-3.16.0.jar" $JAVA_FILE.java
+
+# Kiểm tra xem file có biên dịch thành công không
+if [ $? -eq 0 ]; then
+  # Chạy file Java đã biên dịch
+  java -cp "./target;./lib/commons-lang3-3.16.0/commons-lang3-3.16.0.jar" $JAVA_FILE
+else
+  echo "Biên dịch thất bại. Vui lòng kiểm tra lại mã nguồn."
+fi
+```
+
+- File `Main.java`:
+```java
+import toyota.Car;
+import org.apache.commons.lang3.StringUtils;
+
+public class Main {
+  public static void main(String[] args) {
+    System.out.println("Bike: " + Bike.WHEEL_COUNT);
+    System.out.println("Car: " + Car.WHEEL_COUNT);
+    String reversed = StringUtils.reverse("Apache Commons Lang"); // "gnaL snommoC ehcapA"
+    System.out.println(reversed);
+  }
+}
+```
+
+## Source Code
+
+[https://drive.google.com/drive/folders/1ofbvGf2Ex0LEU-Z3lcU47cDsiEhGU20a?usp=sharing](https://drive.google.com/drive/folders/1ofbvGf2Ex0LEU-Z3lcU47cDsiEhGU20a?usp=sharing)
+
+
+
+
