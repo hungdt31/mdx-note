@@ -1,0 +1,137 @@
+---
+title: "739. Daily Temperatures"
+date: 2024-08-31
+tags:
+  - Stack
+  - Array
+  - Hash Table
+---
+## Description
+
+Given an array of integers `temperatures` represents the daily temperatures, return an array `answer` such that `answer[i]` is *the number of days you have to wait after the ith day to get a warmer temperature*. If there is no future day for which this is possible, keep `answer[i] == 0` instead.
+
+## Example
+
+### Example 1
+
+> **Input:** `temperatures = [73,74,75,71,69,72,76,73]`
+<br/> **Output:** `[1,1,4,2,1,1,0,0]`
+
+### Example 2
+
+> **Input:** `temperatures = [30,40,50,60]`
+<br/> **Output:** `[1,1,1,0]`
+
+### Example 3
+
+> **Input:** `temperatures = [30,60,90]`
+<br/> **Output:** `[1,1,0]`
+
+## Constraints
+
+- `1 <= temperatures.length <= 105`
+- `30 <= temperatures[i] <= 100`
+
+## Code
+
+- **Sử dụng hash map để giải quyết bài toán này**
+  - Ta sẽ duyệt ngược từ cuối mảng về đầu mảng.
+  - Nếu phần tử tiếp theo lớn hơn phần tử hiện tại thì ta sẽ đưa vào mảng kết quả 1.
+  - Nếu không thì ta sẽ duyệt từ phần tử tiếp theo đến khi nào tìm được phần tử lớn hơn phần tử hiện tại thì ta sẽ đưa vào mảng kết quả số ngày cần phải chờ.
+```c++
+#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+#define ll long long
+#define pi 3.14
+#define inf 1000000000
+#define mod 1000000007
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        vector<int> rs;
+        int arr[1000000] = {0};
+        int leng = temperatures.size();
+        for (int i = leng - 2; i >= 0; i--) {
+            int j = i + 1;
+            if (temperatures[j] > temperatures[i]) {
+                rs.push_back(1);
+                arr[i] = 1;
+                continue;
+            }
+            int ind = j + arr[j];
+            if (ind == j) {
+                arr[i] = 0;
+                rs.push_back(0);
+            }
+            while (ind != j) {
+                if (temperatures[ind] > temperatures[i]) {
+                    rs.push_back(ind - i);
+                    arr[i] = ind - i;
+                    break;
+                }
+                if (arr[ind] == 0) {
+                    arr[i] = 0;
+                    rs.push_back(0);
+                    break;
+                }
+                ind += arr[ind];
+            }
+        }
+        reverse(rs.begin(), rs.end());
+        rs.push_back(0);
+        return rs;
+    }
+};
+int main()
+{
+    vector<int> vt;
+    Solution sol;
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; ++i) {
+        int num;
+        cin >> num;
+        vt.push_back(num);
+    }
+
+    vector<int> rs = sol.dailyTemperatures(vt);
+
+    for (auto x : rs) {
+        cout << x << " ";
+    }
+
+    return 0;
+}
+```
+
+- **Sử dụng stack để giải quyết bài toán này**
+  - Ta sẽ duyệt từ đầu mảng đến cuối mảng.
+  - Nếu phần tử hiện tại lớn hơn phần tử ở đỉnh stack thì ta sẽ lấy ra phần tử ở đỉnh stack và đưa vào mảng kết quả số ngày cần phải chờ.
+  - Nếu không thì ta sẽ đưa phần tử hiện tại vào stack.
+```c++
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int leng = temperatures.size();
+        vector<int> rs(leng, 0);
+        stack<int> s;
+        
+        for (int i = 0; i < leng; i++) {
+            while (!s.empty() && temperatures[i] > temperatures[s.top()]) {
+                int prevIndex = s.top();
+                s.pop();
+                rs[prevIndex] = i - prevIndex;
+            }
+            s.push(i);
+        }
+        
+        return rs;
+    }
+};
+```
+
+
+
