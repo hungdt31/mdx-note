@@ -1,0 +1,86 @@
+---
+title: "853. Car Fleet"
+date: 2024-09-09
+tags: 
+  - Leetcode
+  - Array
+  - Sorting
+  - Stack
+---
+
+## Description
+
+Có `n` chiếc xe cách điểm xuất phát tại dặm 0 một khoảng nhất định, và chúng đang di chuyển để đến đích tại dặm mục tiêu.
+
+Bạn được cung cấp hai mảng số nguyên là `position` và `speed`, cả hai đều có độ dài n, trong đó `position[i]` là vị trí xuất phát (dặm) của xe thứ i và `speed[i]` là tốc độ của xe thứ i tính theo dặm/giờ.
+
+Một chiếc xe không thể vượt qua chiếc xe khác, nhưng nó có thể bắt kịp và sau đó di chuyển cùng với tốc độ của chiếc xe chậm hơn.
+
+Một **đoàn xe** là một hoặc nhiều chiếc xe di chuyển cùng nhau. **Tốc độ** của đoàn xe là tốc độ nhỏ nhất của bất kỳ chiếc xe nào trong đoàn.
+
+Nếu một chiếc xe bắt kịp một đoàn xe tại đích đến, nó vẫn được coi là một phần của đoàn xe.
+
+*Hãy trả về số lượng đoàn xe sẽ đến đích*.
+
+## Example
+
+### Example 1
+
+> **Input**: `target = 10, position = [1,4], speed = [3,2]`
+<br/> **Output**: 1
+
+**Explanation**: The cars starting at 1 (speed 3) and 4 (speed 2) become a fleet, meeting each other at 10, the destination.
+
+### Example 2
+
+> **Input:** `target = 10, position = [4,1,0,7], speed = [2,2,1,1]`
+<br/> **Output**: 3
+
+**Explanation**: The cars starting at 4 and 7 become a fleet at position 10. The cars starting at 1 and 0 never catch up to the car ahead of them. Thus, there are 3 car fleets that will arrive at the destination.
+
+## Constraints
+
+- `n == position.length == speed.length`
+- `1 <= n <= 105`
+- `0 < target <= 106`
+- `0 <= position[i] < target`
+- `All the values of position are unique`
+- `0 < speed[i] <= 106`
+
+## Code
+
+```c++
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        int n = position.size();
+        vector<pair<double, double>> pairs(n);
+        for (int i = 0; i < n; i++) {
+            pairs[i] = { position[i], speed[i] };
+        }
+        // Sắp xếp theo vị trí từ xa đến gần
+        // Xe ở vị trí xa hơn (tức là có giá trị position lớn hơn) sẽ được xét trước. Điều này giúp dễ dàng theo dõi cách các xe bắt kịp hoặc hình thành đoàn xe từ vị trí xa nhất đến vị trí gần nhất.
+        sort(pairs.begin(), pairs.end(), [](const pair<double, double>& a, const pair<double, double>& b) {
+            return b.first < a.first;
+        });
+
+
+        int fleetCount = 0;
+        vector<double> timeToReach(n);
+        // fleetCount: Biến đếm số lượng đoàn xe.
+        // timeToReach[i]: Tính thời gian cần thiết để xe thứ i đến đích. Thời gian này được tính bằng công thức:
+        // timeToReach[i]= (target − position[i]) / speed[i]
+        // Tức là quãng đường còn lại đến đích chia cho tốc độ của xe.
+        for (int i = 0; i < n; i++) {
+            timeToReach[i] = (target - pairs[i].first) / pairs[i].second;
+            if (i >= 1 && timeToReach[i] <= timeToReach[i - 1]) {
+                timeToReach[i] = timeToReach[i - 1];
+            } else {
+                fleetCount++;
+            }
+        }
+        return fleetCount;
+    }
+};
+```
+
