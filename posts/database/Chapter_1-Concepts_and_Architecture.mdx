@@ -1,0 +1,274 @@
+---
+title: "Chapter 1: Chủ đề và Kiến trúc"
+date: 2024-09-26
+tags:
+  - Database
+---
+
+## 1. Giới thiệu
+
+Database là tập hợp các dữ liệu có mối liên hệ với nhau, thể hiện một vài khía cạnh của thế giới thực.
+
+Được thiết kế, xây dựng, và lưu trữ dữ liệu cho một mục đích cụ thể.
+
+**Ví dụ**: UNIVERSITY database đề cập đến học sinh, khóa học và lớp học trong môi trường đại học.
+
+$\Rightarrow$ Data records: STUDENT, COURSE, SECTION, GRADE_REPORT, LECTURER.
+
+### 1.1. Phân loại database:
+
+- **Database truyền thống**: thông tin văn bản hoặc số.
+- **Database đa phương tiện**: ảnh, audio clips và video streams.
+- **Database không gian**: lưu trữ và phân tích bản đồ, dữ liệu thời tiết và hình ảnh vệ tinh.
+- **Database tạm thời**: dữ liệu lịch sử.
+
+### 1.2. Database management system (DBMS)
+
+Tập hợp các chương trình dùng để tạo và duy trì một database.
+
+![DBMS](/public/database/chapter1/dbms.png)
+
+*Database sinh ra do nhu cầu lưu trữ và sử dụng dữ liệu từ thực tế (cho các mục đích như quản lý cửa hàng bán hàng, trường học, ký túc xá, ...). Do đó hình thành các chủ thể có các thông tin liên quan mật thiết với nhau, cần có một hệ thống quản lý các dữ liệu này là DBMS*.
+
+## 2. File-based Approach and Database Approach
+
+### 2.1. File-based Approach
+
+Dữ liệu được lưu trữ ở một hay nhiều file máy tính riêng biệt.
+
+Sau đó dữ liệu được xử lý bởi các chương trình - ứng dụng máy tính.
+
+![File-based Approach](/public/database/chapter1/file-based.png)
+
+Khi lưu trữ dữ liệu bằng cách này xảy ra các vấn đề:
+
+- **Data Redundancy**: Dữ liệu giống nhau được lưu trữ ở các nơi khác nhau, gây tốn không gian lưu trữ và mất nhiều công sức.
+- **Data Inconsistency**: Xảy ra khi dữ liệu không được quản lý tập trung
+  - Khi lưu file ở hai nơi A và B, nếu cập nhật thông tin ở A không đồng bộ hóa ở B thì sẽ tạo ra các bản sao không nhất quán.
+  - Tương tự, việc định dạng dữ liệu cũng có thể khác nhau.
+
+$\Rightarrow$ Trong file-based systems, các tệp khác nhau có thể chứa dữ liệu liên quan, nhưng do không có cơ chế kiểm soát chung, các thay đổi hoặc cập nhật sẽ không được phản ánh trên tất cả các tệp liên quan, dẫn dến sự không nhất quán trong dữ liệu.
+
+### 2.2. Shared File Approach
+
+Là một phương pháp lưu trữ và truy cập dữ liệu mà trong đó nhiều ứng dụng hoặc người dùng cùng truy cập và sử dụng chung một hoặc nhiều tệp dữ liệu trên hệ thống tệp (file system). Dữ liệu trong các tệp này có thể được chia sẻ giữa các ứng dụng mà không cần phải sao chép dữ liệu sang các vị trí khác, giúp giảm thiểu việc trùng lặp dữ liệu.
+
+![Shared File Approach](/public/database/chapter1/shared-file.png)
+
+- **Khó duy trì tính nhất quán**: Dễ gặp phải vấn đề không nhất quán dữ liệu khi có nhiều người dùng hoặc ứng dụng cùng truy cập.
+- **Khả năng mở rộng kém**: Khi số lượng dữ liệu hoặc người dùng tăng, việc quản lý và duy trì tính nhất quán của dữ liệu trở nên khó khăn.
+- **Không có tính toàn vẹn và bảo mật**: Không có cơ chế kiểm soát quyền truy cập và đảm bảo tính toàn vẹn của dữ liệu.
+
+### 2.3. Database Approach
+
+![dbms-components.png](/public/database/chapter1/dbms-components.png)
+
+#### 2.3.1. Self-describing nature of data (Tính chất tự mô tả của dữ liệu)
+
+Trong hệ thống cơ sở dữ liệu, định nghĩa về toàn bộ cơ sở dữ liệu chính (meta-data) được lưu trữ trong một "catalog cơ sở dữ liệu." 
+
+Đây là nơi chứa thông tin về **cấu trúc dữ liệu**, **kiểu dữ liệu**, và **các mối quan hệ giữa chúng**.
+
+**DBMS (Hệ quản trị cơ sở dữ liệu)** có thể truy cập các cơ sở dữ liệu khác nhau bằng cách trích xuất định nghĩa từ catalog và sử dụng chúng để truy vấn dữ liệu.
+
+#### 2.3.2. Insulation between programs and data, and data abstraction (Sự cách ly giữa chương trình và dữ liệu, và trừu tượng hóa dữ liệu)
+
+- **Program-data independence (Sự độc lập giữa chương trình và dữ liệu)**: Cấu trúc của dữ liệu được lưu trữ trong catalog của DBMS tách biệt với chương trình truy cập. Điều này giúp giấu đi những chi tiết không cần thiết với người dùng, tránh việc phải cập nhật mã nguồn khi dữ liệu thay đổi.
+
+- **Data abstraction (Trừu tượng hóa dữ liệu)**: DBMS cung cấp một biểu diễn khái niệm của dữ liệu mà không cần hiển thị cách lưu trữ dữ liệu hoặc cách thực hiện các thao tác trên dữ liệu. Đây là cách mà hệ thống cơ sở dữ liệu cho phép người dùng làm việc với dữ liệu mà không cần biết cách dữ liệu được lưu trữ hay quản lý.
+
+#### 2.3.3. Support of multiple views of the data (Hỗ trợ nhiều góc nhìn khác nhau của dữ liệu)
+
+- **View (Góc nhìn)**: Là một tập hợp con của cơ sở dữ liệu, có thể chứa dữ liệu ảo không được lưu trữ trực tiếp trong cơ sở dữ liệu. Mỗi người dùng có thể có một góc nhìn khác nhau về dữ liệu tùy thuộc vào nhu cầu của họ.
+  - Ví dụ: Một người dùng muốn xem bảng điểm của sinh viên sẽ có một góc nhìn khác với người dùng muốn kiểm tra các môn học tiên quyết mà sinh viên đã hoàn thành.
+
+#### 2.3.4. Sharing of data and multi-user transaction processing (Chia sẻ dữ liệu và xử lý giao dịch đa người dùng)
+
+- **Concurrency control (Kiểm soát đồng thời)**: Đảm bảo rằng nhiều người dùng cùng truy cập và cập nhật dữ liệu một cách có kiểm soát để kết quả luôn đúng. 
+  - Ví dụ, khi nhiều người cùng đặt vé xem phim, hệ thống phải đảm bảo chỉ một người có thể đặt vé cho một ghế duy nhất tại một thời điểm.
+
+#### 2.3.5. OLTP (Online Transaction Processing) (Xử lý giao dịch trực tuyến)
+
+- **OLTP** là hệ thống xử lý giao dịch trong thời gian thực, được sử dụng cho các hoạt động như ngân hàng trực tuyến, đặt vé trực tuyến, gửi tin nhắn, thêm sản phẩm vào giỏ hàng, v.v.
+  - Ví dụ: Hệ thống ATM đảm bảo rằng hai người không thể rút cùng một số tiền vượt quá số dư có sẵn trong tài khoản ngân hàng của họ cùng một lúc. OLTP tối ưu hóa việc xử lý giao dịch thay vì phân tích dữ liệu.
+
+#### 2.3.5. Transaction (Giao dịch)
+
+Giao dịch là một chương trình hoặc quá trình thực hiện một hoặc nhiều thao tác trên cơ sở dữ liệu (như đọc hoặc cập nhật).
+
+- **ACID Properties**:
+  - **Atomicity (Tính nguyên tử)**: Giao dịch phải được thực hiện hoàn toàn hoặc không được thực hiện chút nào. Nếu giao dịch bị hủy, mọi thay đổi phải được hoàn tác lại. Ví dụ: Nếu quá trình rút tiền từ ATM bị gián đoạn, số dư tài khoản sẽ được khôi phục như ban đầu.
+  - **Consistency (Tính nhất quán)**: Dữ liệu phải nhất quán trước và sau khi thực hiện giao dịch. Ví dụ: Tổng số tiền trong một giao dịch chuyển khoản phải bằng nhau trước và sau khi giao dịch kết thúc.
+  - **Isolation (Tính cô lập)**: Các giao dịch đồng thời phải hoạt động độc lập, không ảnh hưởng lẫn nhau. Thay đổi trong một giao dịch sẽ không được nhìn thấy bởi các giao dịch khác cho đến khi thay đổi đó được hoàn thành.
+  - **Durability (Tính bền vững)**: Sau khi giao dịch được hoàn thành, mọi thay đổi sẽ được lưu trữ vĩnh viễn và không bị mất ngay cả khi hệ thống gặp sự cố.
+
+Những đặc điểm này giúp DBMS trở thành một giải pháp ưu việt trong việc quản lý, xử lý và bảo mật dữ liệu, so với các phương pháp truyền thống dựa trên file.
+
+## 3. Three-Schema Architecture and Data Independence
+
+![db](/public/database/chapter1/db.png)
+
+- **External Level**:
+  - Đây là cấp độ mà người dùng cuối tương tác với cơ sở dữ liệu thông qua các view (góc nhìn) khác nhau.
+  - Các view cung cấp cách tiếp cận dữ liệu tùy chỉnh cho từng người dùng hoặc nhóm người dùng. Ví dụ, User 1 chỉ nhìn thấy "View 1", User 2 nhìn thấy "View 2", và cứ tiếp tục như vậy.
+  - Mỗi view chỉ thể hiện một phần dữ liệu mà người dùng quan tâm và ẩn đi những chi tiết phức tạp không liên quan đến họ.
+- **Conceptual Level**:
+  - Cấp độ này thể hiện toàn bộ cấu trúc logic của cơ sở dữ liệu, bao gồm các mối quan hệ giữa các bảng, kiểu dữ liệu, thuộc tính, và ràng buộc.
+  - Đây là cấp độ tập trung vào việc mô tả dữ liệu ở mức khái niệm và không quan tâm đến cách dữ liệu được lưu trữ thực tế.
+- **Internal Level**:
+  - Cấp độ này xác định cách dữ liệu được lưu trữ trong cơ sở dữ liệu ở dạng vật lý, chẳng hạn như tổ chức dữ liệu thành các bảng, file, chỉ mục.
+  - Internal schema chịu trách nhiệm quản lý cách thức dữ liệu được lưu trữ và tối ưu hóa truy vấn trên cơ sở dữ liệu.
+- **Physical Data Organization**:
+  - Đây là phần thấp nhất, liên quan trực tiếp đến cách dữ liệu được lưu trữ trên thiết bị lưu trữ vật lý như ổ đĩa cứng.
+
+- Ví dụ minh họa:
+
+![three-schema](/public/database/chapter1/three-schema.png)
+
+$\Rightarrow$ **Trừu tượng hóa dữ liệu** giúp phân tách dữ liệu thành nhiều lớp, giúp người dùng không cần biết cách dữ liệu được lưu trữ hoặc quản lý ở mức vật lý. Người dùng chỉ cần làm việc với những view cung cấp thông tin cần thiết, trong khi DBMS quản lý tất cả các chi tiết phức tạp ở cấp độ bên dưới.
+
+**Nguyên tắc**: 
+
+![three-explain](/public/database/chapter1/three-explain.png)
+
+- **Data Independence**: Khả năng thay đổi lược đồ ở một mức mà không ảnh hưởng mức khác
+- **Logical Data Independence**: Thay đổi lược đồ khái niệm không ảnh hưởng lược đồ bên ngoài
+- **Physical Data Independence**: Thay đổi lược đồ nội bộ không ảnh hưởng lược đồ khái niệm/bên ngoài
+
+## 4. Database Languages
+
+### 4.1. Data Definition Language (DDL)
+
+Cho phép người quản trị cơ sở dữ liệu hoặc người dùng mô tả và đặt tên các **thực thể (entity)**, **thuộc tính (attribute)**, và **mối quan hệ (relationship)** cần thiết cho ứng dụng.
+
+DDL còn giúp thiết lập các ràng buộc về **tính toàn vẹn (integrity)** và **an ninh (security)**.
+
+Ví dụ:
+
+Dùng để tạo bảng trong cơ sở dữ liệu:
+
+```sql
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  Name VARCHAR(100),
+  Age INT,
+  Department VARCHAR(50)
+);
+```
+
+### 4.1. Data Manipulation Language (DML)
+
+Cung cấp các thao tác cơ bản như *select* (truy vấn), *insert* (chèn), *update* (cập nhật), và *delete* (xóa) trên dữ liệu trong cơ sở dữ liệu.
+
+Ví dụ:
+
+- Chèn dữ liệu:
+
+```sql
+INSERT INTO Employees (EmployeeID, Name, Age, Department)
+VALUES (1, 'Nguyen Van A', 28, 'Marketing');
+```
+
+- Truy vấn dữ liệu:
+
+```sql
+SELECT * FROM Employees WHERE Department = 'Marketing';
+```
+
+- Cập nhật dữ liệu:
+
+```sql
+UPDATE Employees
+SET Age = 29
+WHERE EmployeeID = 1;
+```
+
+- Xóa dữ liệu:
+
+```sql
+DELETE FROM Employees WHERE EmployeeID = 1;
+```
+
+### 4.3. Data Control Language (DCL)
+
+Cấp quyền truy cập (granting privileges) cho người dùng hoặc xác định khi nào thay đổi trong cơ sở dữ liệu được chấp nhận một cách vĩnh viễn.
+
+```sql
+GRANT SELECT, INSERT ON Employees TO user1;
+```
+
+### 4.4. Procedural DML vs. Non-Procedural DML
+
+- **Procedural DML**: Bạn phải chỉ rõ cách thức lấy dữ liệu, thường gặp trong các hệ quản trị cơ sở dữ liệu cũ.
+
+- **Non-Procedural DML** (ví dụ: SQL): Chỉ cần nêu rõ dữ liệu bạn cần.
+
+```sql
+SELECT Name FROM Employees WHERE Age > 25;
+````
+
+Trong câu lệnh này, bạn chỉ cần mô tả dữ liệu cần lấy mà không phải nói rõ từng bước để lấy nó.
+
+## 5. Data Models, Database Schema, Database State
+
+### 5.1. Data Models (Mô hình dữ liệu)
+
+Là tập hợp các khái niệm để mô tả dữ liệu, mối quan hệ giữa các dữ liệu, và các ràng buộc trên dữ liệu trong một tổ chức.
+
+Phân loại:
+
+- **Object-based (Mô hình hướng đối tượng)**: Mô tả dữ liệu ở cấp độ khái niệm, ví dụ như *Entity-Relationship (ER)*, *Object-Oriented*.
+
+Bạn có thực thể **Student** với các thuộc tính như StudentID, Name, và DateOfBirth. Một thực thể khác là **Course** với các thuộc tính CourseID, CourseName. Mối quan hệ giữa **Student** và **Course** là "enrolled in" (tham gia vào).
+
+- **Record-based (Mô hình đại diện)**: Mô tả dữ liệu dưới dạng bản ghi, ví dụ như *Relational (quan hệ)*, *Network (mạng)*, *Hierarchical (phân cấp)*.
+  - **Students**: với cột `StudentID`, `Name`, `DateOfBirth`
+  - **Courses**: với cột `CourseID`, `CourseName`
+  - **Enrollments**: với cột `StudentID`, `CourseID` (để thể hiện mối quan hệ tham gia khóa học).
+
+- **Physical**: Mô tả cách dữ liệu được lưu trữ ở mức vật lý trong hệ thống, tập trung vào cấu trúc dữ liệu ở cấp độ nội bộ.
+
+### 5.2. Database Schema (Lược đồ cơ sở dữ liệu)
+
+- Là bản mô tả cấu trúc của cơ sở dữ liệu, được xác định trong quá trình thiết kế và thường không thay đổi nhiều.
+
+- **Schema Diagram (Sơ đồ lược đồ)**: Là hình ảnh trực quan thể hiện cấu trúc của lược đồ.
+
+Trong ví dụ trên, lược đồ cơ sở dữ liệu có thể được mô tả bằng các bảng như sau:
+
+- **Students**:
+  - StudentID: `INT`
+  - Name: `VARCHAR(100)`
+  - DateOfBirth: `DATE`
+- **Courses**:
+  - CourseID: `INT`
+  - CourseName: `VARCHAR(100)`
+- **Enrollments**:
+  - StudentID: `INT`
+  - CourseID: `INT`
+
+### 5.3. Database State (Trạng thái cơ sở dữ liệu)
+
+Là dữ liệu trong cơ sở dữ liệu tại một thời điểm cụ thể (còn gọi là *Snapshot*). Trạng thái này có thể thay đổi thường xuyên khi dữ liệu được thêm, cập nhật, hoặc xóa.
+
+![snap-shot](/public/database/chapter1/snap-shot.png)
+
+## 6. Data Management Systems Framework
+
+![framework](/public/database/chapter1/framework.png)
+
+## Tổng kết
+
+Chương 1 cung cấp nền tảng kiến thức về khái niệm cơ bản của hệ thống cơ sở dữ liệu, vai trò của DBMS, và kiến trúc tổng quan của nó. Những kiến thức này là cơ sở để hiểu rõ cách thiết kế, quản lý, và vận hành hệ thống cơ sở dữ liệu một cách hiệu quả trong các tổ chức và doanh nghiệp
+
+
+
+
+
+
+
+
+
+
+
+

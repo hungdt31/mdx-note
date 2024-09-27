@@ -19,4 +19,4 @@
 - [Database Systems – A Practical Approach to Design, Implementation, and Management](/public/database/textbook/Pearson_Database_Systems_A_Practical_Approach_to_Design_Implementation_and_Management_6th_Global_Edition_1292061189.pdf)
 ## Tìm hiểu
 
-- [Database definition](/posts/database/what-is-database.mdx)
+- [Chapter 1: Concepts and Architecture](/posts/database/Chapter_1-Concepts_and_Architecture.mdx)
