@@ -1,0 +1,297 @@
+---
+title: "Chapter 2: Mô hình thực thể - mối quan hệ"
+date: 2024-09-28
+tags:
+  - Database
+---
+
+## 1. Overview of Database Design Process
+
+- **Thiết kế cơ sở dữ liệu**: thiết kế lược đồ chủ đề cho một ứng dụng cơ sở dữ liệu.
+- **Thiết kế ứng dụng**:
+  - Tập trung vào chương trình và giao diện tiếp cận với cơ sở dữ liệu
+  - Thường được coi là một phần của công nghệ phần mềm
+
+![overview](/public/database/chapter2/overview.png)
+
+- **Requirements - Collection & Analysis**:
+  - Nghiên cứu cơ sở dữ liệu người dùng kì vọng.
+  - Yêu cầu:
+    - Yêu cầu dữ liệu
+    - Yêu cầu chức năng
+- **Conceptual Design**:
+  - Tạo ra một lược đồ chủ đề sử dụng mô hình thực thể - quan hệ.
+  - Đặc tả kiểu thực thể, quan hệ và các ràng buộc.
+  - Nơi lưu trữ độc lập và chi tiết cách thực hiện.
+- **Logical Design (Data Model Mapping)**:
+  - Tạo ra lược đồ cơ sở dữ liệu dựa trên mô hình dữ liệu trong một DBMS.
+  - Data Model Mapping thường được thực hiện tự động hoặc bán tự động bằng công cụ thiết kế database.
+- **Physical Design**:
+  - Xác định cách dữ liệu sẽ được lưu trữ trên đĩa.
+  - Thiết lập các chỉ mục để tối ưu hóa truy vấn.
+  - Xác định các đường dẫn truy cập dữ liệu nhằm đảm bảo hiệu suất tốt nhất.
+
+## 2. A Sample Database Application
+
+- The **COMPANY** database: keeps track of employees, 
+departments, and projects.
+
+- The company is organized into **DEPARTMENTs**. Each 
+department has a unique name, a unique number, and 
+a particular employee who *manages* the department. 
+We keep track of the start date when that employee 
+began managing the department. A department may 
+have several locations.
+
+- A department *controls* a number of **PROJECT**s, each of 
+which has a unique name, a unique number, and a 
+single location.
+
+- We store **EMPLOYEE**’s name, Social Security number, 
+address, salary, sex, and birth date. An employee is 
+assigned to one department, but may work on several 
+projects, which are not necessarily controlled by the 
+same department. We keep track of the current 
+number of hours per week that an employee works on 
+each project. We also keep track of the direct 
+supervisor of each employee.
+
+- We want to keep track of the **DEPENDENT**s of each 
+employee, including first name, sex, birth date, and 
+relationship to the employee.
+
+![company](/public/database/chapter2/company.png)
+
+## 3. What is ER Model? And Why?
+
+Là một mô hình dữ liệu khái niệm (conceptual data model) phổ biến dùng để biểu diễn logic tổ chức dữ liệu trong một hệ thống cơ sở dữ liệu.
+- **ER Diagrams (ERD)**: Là biểu đồ dùng để thể hiện mô hình ER
+- **Conceptual Design**: Data Requirements $\rightarrow$ Conceptual Schema (ERD)
+
+- **Sử dụng ER data modelling mang lại nhiều lợi ích**:
+  - **Xác định yêu cầu người dùng rõ ràng**: Mô hình ER giúp bạn xác định yêu cầu người dùng một cách chính xác và không mơ hồ.
+  - **Dễ hiểu với người dùng không chuyên**: ERD sử dụng các ký hiệu trực quan nên dễ dàng truyền tải thông tin cho người dùng không có kiến thức chuyên sâu về cơ sở dữ liệu.
+  - **Cầu nối giữa yêu cầu người dùng và thiết kế**: Nó tạo một cầu nối hiệu quả giữa yêu cầu người dùng và quá trình thiết kế cũng như triển khai cơ sở dữ liệu logic.
+  - **Độc lập với DBMS**: Mô hình dữ liệu khái niệm không phụ thuộc vào bất kỳ hệ quản trị cơ sở dữ liệu (DBMS) cụ thể nào, giúp linh hoạt trong việc chuyển đổi qua các hệ thống khác nhau.
+  - **Không liên quan đến chi tiết vật lý**: Mô hình ER tập trung vào khía cạnh khái niệm mà không liên quan đến chi tiết kỹ thuật hoặc triển khai, giúp đơn giản hóa quá trình thiết kế ban đầu.
+
+## 4. ER Model Concepts
+
+ER model mô tả dữ liệu qua các khái niệm:
+- Entities
+- Attributes
+- Relationships
+
+### 4.1. Entity (Thực thể)
+
+- **Entity** là một sự vật trong thế giới thực tồn tại độc lập.
+- Một thực thể có thể là một đối tượng vật lý (một người, một xe, một nhà, hoặc một người lao động) hoặc một khái niệm được định nghĩa (một công ty, một công việc, hoặc một khóa học).
+- Ví dụ: Trong một **COMPANY**: 
+  - the EMPLOYEE *John Smith*
+  - the *Research* DEPARTMENT
+  - the *ProductX* PROJECT
+
+### 4.2. Attribute (Thuộc tính)
+
+Dùng để mô tả một thực thể (entity): How to identify it, What Name can we call, Where it Exists, ...
+- Ex: an EMPLOYEE entity may have Name, SSN, Address, Sex, BirthDate
+
+Mỗi thực thể cụ thể sẽ có một giá trị cho mỗi thuộc tính của nó.
+
+Mỗi thuộc tính sẽ có một tập các giá trị (hoặc kiểu dữ liệu) liên kết với nó.
+
+![types-of-attribute](/public/database/chapter2/types-of-attribute.png)
+
+### 4.3. Entities and Attributes
+
+![entity-and-attributes](/public/database/chapter2/entity-and-attributes.png)
+
+- **Kiểu thực thể**: tập hợp các thực thể có cùng các thuộc tính.
+
+![entity-type](/public/database/chapter2/entity-types.png)
+
+- **Key (hay uniqueness constraint)** là ràng buộc dùng để đảm bảo mỗi thực thể trong tập thực thể có giá trị thuộc tính là duy nhất:
+  - **Đặc điểm chính**: Thuộc tính của khóa có giá trị riêng biệt cho từng thực thể trong tập thực thể. Ví dụ, SSN (Số an sinh xã hội) của thực thể **EMPLOYEE** là duy nhất cho mỗi nhân viên.
+  - **Yêu cầu tính duy nhất**: Tính duy nhất này phải được đảm bảo cho tất cả các thực thể trong tập thực thể của loại thực thể đó.
+  - **Nhiều khóa**: Một loại thực thể có thể có nhiều khóa. Ví dụ, thực thể **STUDENT** trong ngữ cảnh của trường đại học có thể có hai khóa:
+    - **Citizen ID** (CMND/CCCD)
+    - **Student ID** (Mã số sinh viên)
+- **Notations of Entity type, Attributes, Key**:
+
+![notation-1](/public/database/chapter2/notation-1.png)
+
+![notation-2](/public/database/chapter2/notation-2.png)
+
+**Entity Type CAR with two keys and a corresponding Entity Set**
+
+![company](/public/database/chapter2/school.png)
+
+| SCHOOL | <ins>ID</ins>, Name, <ins>Address</ins>(Number, Street, State), \{Color\}, \{Contact\} (Phone, Email), Establish_year |
+|------------|---------------------------------------------------------------------------------------------|
+| School_1   | #1, Le Thi Cam Le, (69, Ton Duc Thang, Bac Lieu City), (0291 3824 924, thcslethicamle.bl@sobaclieu.edu.vn), \{yellow, white\}, 2004 |
+| School_2   | #2, Nguyen Van Troi, (12, Nguyen Trai, Ho Chi Minh City), (028 3854 7621, nguyenvantroi.hcm@sogd.edu.vn), \{blue, white\}, 1995    |
+| School_3   | #3, Tran Phu, (34, Tran Hung Dao, Da Nang City), (0236 3892 574, tranphu.dn@sogd.edu.vn), \{green, white\}, 1988                  |
+| School_4   | #4, Le Hong Phong, (101, Le Lai, Hai Phong City), (0225 3845 678, lehongphong.hp@sogd.edu.vn), \{red, white\}, 1976               |
+| School_5   | #5, Vo Thi Sau, (78, Nguyen Hue, Hue City), (0234 3825 389, vothisau.hue@sogd.edu.vn), \{orange, white\}, 1999                   |
+| School_6   | #6, Nguyen Trai, (56, Ly Thuong Kiet, Hanoi City), (024 3826 5721, nguyentrai.hn@sogd.edu.vn), \{purple, white\}, 1980           |
+
+### 4.4. Relationships and Relationship Types
+
+**a. Relationships (Quan hệ)**
+
+Quan hệ là mối liên kết giữa các bảng (entities) trong cơ sở dữ liệu. Chúng cho phép các bảng trao đổi và chia sẻ dữ liệu, thiết lập sự liên kết logic giữa các bảng dựa trên dữ liệu chung.
+
+**b. Relationship Types (Loại quan hệ)**
+
+Có 3 loại quan hệ chính:
+
+- **One-to-One (1:1)**:
+  - Mỗi bản ghi của bảng A liên kết với duy nhất một bản ghi của bảng B, và ngược lại.
+  - Ví dụ: Trong một công ty, mỗi phòng ban chỉ cần một người quản lý. Mối quan hệ giữa **Employee** và **Department** là một-một (1:1).
+
+![1-1](/public/database/chapter2/1-1.png)
+
+
+- **One-to-Many (1:N)**:
+  - Một bản ghi của bảng A liên kết với nhiều bản ghi của bảng B, nhưng mỗi bản ghi của bảng B chỉ liên kết với một bản ghi của bảng A.
+  - Ví dụ: Một **Teacher** có thể giảng dạy nhiều **Course**s, nhưng mỗi **Course** chỉ có một **Teacher**.
+- **Many-to-Many (M:N)**:
+  - Nhiều bản ghi của bảng A liên kết với nhiều bản ghi của bảng B và ngược lại.
+  - Ví dụ: Trong hệ thống đặt đồ ăn, một **Customer** có thể đặt nhiều **Food**s, và một **Food** có thể được đặt bởi nhiều **Customer**s.
+
+![M-N](/public/database/chapter2/M-N.png)
+
+**c. Recursive Relationships**
+
+**Mô tả**: Cùng một loại thực thể tham gia nhiều hơn một lần trong một quan hệ nhưng với các vai trò khác nhau.
+
+**Vai trò (Roles)**: Mỗi thực thể trong mối quan hệ này sẽ đảm nhiệm vai trò cụ thể và cần được xác định rõ. Điều này giúp hiểu rõ về cách thực thể liên kết với chính nó.
+
+- Trong bảng **EMPLOYEE**, mỗi nhân viên có thể là một "supervisor" (người giám sát) của những nhân viên khác, và đồng thời cũng có thể là "subordinate" (nhân viên dưới quyền) của một người giám sát khác.
+- Cấu trúc này tạo thành một mối quan hệ một-nhiều (1:N), vì một người giám sát có thể quản lý nhiều nhân viên, nhưng mỗi nhân viên chỉ có một người giám sát.
+
+**d. Participation Constraints (Ràng buộc tham gia)**
+
+Xác định liệu một thực thể có phải tham gia vào một mối quan hệ hay không:
+
+- **Total Participation (Tham gia toàn phần)**:
+  - Tất cả các thực thể của một loại phải tham gia vào mối quan hệ. 
+  - Ví dụ, mỗi nhân viên trong một công ty phải thuộc về một phòng ban.
+- **Partial Participation (Tham gia một phần)**:
+  - Không bắt buộc tất cả các thực thể phải tham gia vào mối quan hệ. 
+  - Ví dụ, không phải tất cả các sinh viên đều tham gia vào câu lạc bộ nào đó.
+
+**e. Existence Dependency Constraints (Ràng buộc phụ thuộc tồn tại)**:
+- Xác định rằng sự tồn tại của một thực thể phụ thuộc vào sự tồn tại của một thực thể khác.
+- Ví dụ: Nếu có mối quan hệ giữa **Order** và **Customer**, thì một đơn hàng chỉ có thể tồn tại khi có khách hàng tương ứng.
+
+## 5. ER Diagram and Naming Conventions
+
+**Tên có Ý Nghĩa**:
+  - Tên của các thành phần trong sơ đồ (thực thể, mối quan hệ, thuộc tính) nên truyền tải rõ ràng thông tin về dữ liệu mà chúng đại diện. Điều này giúp người dùng hiểu cấu trúc cơ sở dữ liệu một cách dễ dàng.
+
+**Tên Thực Thể**:
+  - Sử dụng **danh từ** để đặt tên cho các loại thực thể. Danh từ thể hiện các đối tượng hoặc sự vật mà mô hình dữ liệu tập trung vào.
+
+**Tên Mối Quan Hệ:**
+  - Sử dụng **động từ** để chỉ định tên cho các loại mối quan hệ. Động từ đại diện cho hành động hoặc sự liên kết giữa các thực thể.
+
+**Tên Mối Quan Hệ Nhị Phân Dễ Đọc:**
+  - Đối với các mối quan hệ nhị phân, chọn tên để dễ dàng đọc sơ đồ ER. Tên nên cho phép sơ đồ được dễ dàng hiểu từ **trái sang phải** và từ **trên xuống dưới**.
+
+**Ví Dụ về Đặt Tên Đúng trong Mô Hình ER**:
+
+Xét một sơ đồ ER với các thành phần như sau:
+
+- **Thực Thể:**
+  - `Khách Hàng`
+  - `Đơn Hàng`
+  - `Sản Phẩm`
+
+- **Mối Quan Hệ:**
+  - `Đặt` (giữa `Khách Hàng` và `Đơn Hàng`)
+  - `Chứa` (giữa `Đơn Hàng` và `Sản Phẩm`)
+
+## 6. Alternative Diagrammatic Notations
+
+#### Khái Niệm:
+
+- Notation (Min-max) được sử dụng để chỉ định các ràng buộc cấu trúc trên các mối quan hệ trong mô hình ER. Nó thay thế cho tỷ lệ số lượng (cardinality ratio) như (1:1, 1:N, M:N) và ký hiệu đường đơn/đường đôi để biểu thị các ràng buộc tham gia.
+
+#### Cách Thức Hoạt Động:
+
+- Mỗi sự tham gia của một loại thực thể `E` trong một loại mối quan hệ `R` sẽ được gán một cặp số nguyên (min, max), trong đó:
+  - $$ 0 \leq \text{min} \leq \text{max} \quad \text{và} \quad \text{max} \geq 1 $$
+
+#### Ý Nghĩa của Các Tham Số:
+- **Min:** Số lượng tối thiểu của thực thể loại `E` phải tham gia vào mối quan hệ `R`.
+- **Max:** Số lượng tối đa của thực thể loại `E` có thể tham gia vào mối quan hệ `R`.
+
+#### Ví Dụ:
+
+Giả sử có hai thực thể `Khách Hàng` và `Đơn Hàng` với mối quan hệ là `Đặt`. Trong trường hợp này:
+- **Khách Hàng** có thể đặt từ 1 đến nhiều đơn hàng:
+  - Gán cặp (1, N) cho `Khách Hàng` trong mối quan hệ `Đặt`.
+- **Đơn Hàng** phải có ít nhất một khách hàng:
+  - Gán cặp (1, 1) cho `Đơn Hàng` trong mối quan hệ `Đặt`.
+
+![min-max](/public/database/chapter2/min-max.png)
+
+**Kết Luận**:
+
+Notation (Min-max) giúp xác định rõ ràng và chính xác các ràng buộc tham gia của thực thể trong các mối quan hệ, từ đó cải thiện khả năng mô hình hóa và hiểu biết về cấu trúc dữ liệu trong hệ thống.
+
+## 7. Problems with ER Models
+
+### 7.1. Semantic constraints
+
+Những ràng buộc này phải được diễn đạt và thực thi thông qua cơ chế trigger, chương trình ứng dụng hoặc các phương pháp khác.
+
+- **Tuổi của nhân viên**: Tuổi của một nhân viên phải lớn hơn 18 tuổi.
+  
+- **Mức lương của quản lý phòng**: Mức lương của quản lý phòng phải cao hơn mức lương của những nhân viên khác làm việc cho phòng đó.
+
+- **Tăng lương cho nhân viên**: Khi tăng lương cho nhân viên, số tiền tăng không được vượt quá 20% mức lương hiện tại.
+
+### 7.2. Connection traps
+
+#### Fan Trap
+- **Định Nghĩa**: Là trường hợp mà một mô hình thể hiện mối quan hệ giữa các loại thực thể, nhưng con đường giữa một số thực thể lại không rõ ràng.
+- **Thường Gặp**: Hai hoặc nhiều mối quan hệ 1:N phát sinh từ cùng một thực thể.
+
+![fan-trap-1](/public/database/chapter2/fan-trap-1.png)
+
+![fan-trap-2](/public/database/chapter2/fan-trap-2.png)
+
+#### Chasm Trap
+- **Định Nghĩa**: Là trường hợp mà một mô hình gợi ý sự tồn tại của một mối quan hệ giữa các loại thực thể, nhưng con đường không tồn tại giữa một số thực thể.
+- **Thường Gặp**: Tham gia tùy chọn (optional participation).
+
+![chasm-trap-1](/public/database/chapter2/chasm-trap-1.png)
+
+![chasm-trap-2](/public/database/chapter2/chasm-trap-2.png)
+
+## Tổng kết
+
+Chương 2 đã trình bày một cái nhìn tổng quan về quy trình thiết kế cơ sở dữ liệu, từ việc hiểu rõ các khái niệm cơ bản đến việc ứng dụng mô hình thực thể - quan hệ (ER Model) trong thực tế. Chúng ta đã khám phá:
+
+1. **Quy Trình Thiết Kế Cơ Sở Dữ Liệu**: Đề cập đến các bước cần thiết để xây dựng một cơ sở dữ liệu hiệu quả.
+2. **Ứng Dụng Cơ Sở Dữ Liệu Mẫu**: Cung cấp ví dụ thực tế để minh họa cách thức hoạt động của cơ sở dữ liệu.
+3. **Khái Niệm Về Mô Hình ER**: Giải thích vai trò của mô hình ER trong việc thiết kế cơ sở dữ liệu và lý do tại sao nó quan trọng.
+4. **Các Khái Niệm Chính của Mô Hình ER**: Nhấn mạnh các thành phần chính như thực thể, thuộc tính và mối quan hệ.
+5. **Sơ Đồ ER và Quy Tắc Đặt Tên**: Đưa ra hướng dẫn về cách tạo sơ đồ ER và quy tắc đặt tên để đảm bảo tính nhất quán.
+6. **Các Ký Hiệu Biểu Diễn Thay Thế**: Trình bày các ký hiệu khác nhau để biểu diễn mô hình ER.
+7. **Vấn Đề Với Mô Hình ER**: Thảo luận về các vấn đề tiềm ẩn trong thiết kế mô hình ER, như các cái bẫy kết nối.
+
+Những kiến thức này cung cấp nền tảng vững chắc cho các bước tiếp theo trong thiết kế và triển khai cơ sở dữ liệu, giúp đảm bảo rằng dữ liệu được tổ chức một cách hợp lý và dễ dàng truy xuất. Qua đó, người thiết kế có thể phát triển các giải pháp hiệu quả, đáp ứng nhu cầu thực tiễn của tổ chức.
+
+
+
+
+
+
+
+
+
+
+
