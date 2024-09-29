@@ -13,10 +13,18 @@
 - [#8. Data Storage Indexing Structures](/public/database/slide/8_DataStorageIndexingStructures.pdf)
 - [#9. DBS](/public/database/slide/9_DBS.pdf)
 
+## Bài tập
+
+- [Lab1_ERD](/public/database/exercise/Lab1_ERD.pdf)
+- [Lab2_ERD](/public/database/exercise/Lab2_EERD.pdf)
+- [Exercise EERD](/public/database/exercise/Exercise%20EERD.pdf)
+
 ## Textbook
 
 - [Fundamentals of Database Systems](/public/database/textbook/Fundamentals_of_Database_Systems.pdf)
 - [Database Systems – A Practical Approach to Design, Implementation, and Management](/public/database/textbook/Pearson_Database_Systems_A_Practical_Approach_to_Design_Implementation_and_Management_6th_Global_Edition_1292061189.pdf)
+
 ## Tìm hiểu
 
 - [Chapter 1: Concepts and Architecture](/posts/database/Chapter_1-Concepts_and_Architecture.mdx)
+- [Chapter 2: Entity - Relationship Model](/posts/database/Chapter_2-Entity_RelationshipModel.mdx)
