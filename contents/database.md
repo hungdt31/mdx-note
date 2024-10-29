@@ -28,3 +28,4 @@
 
 - [Chapter 1: Concepts and Architecture](/posts/database/Chapter_1-Concepts_and_Architecture.mdx)
 - [Chapter 2: Entity - Relationship Model](/posts/database/Chapter_2-Entity_RelationshipModel.mdx)
+- [Chapter 5: chapter 5 Relational Algebra](/posts/database/Chapter_5-Relational_Algebra.mdx)

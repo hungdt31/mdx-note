@@ -1,0 +1,198 @@
+---
+title: "Chapter 5: Relational Algebra (Đại số quan hệ)"
+date: 2024-10-27
+tags:
+  - Database
+---
+
+## Overview
+
+Quan hệ đại số là tập hợp các phép toán cơ bản cho mô hình quan hệ. Các phép toán này cho phép người dùng thực hiện các yêu cầu truy xuất đơn giản.
+
+Kết quả của một phép toàn là một quan hệ mới, được tạo ra từ một hoặc nhiều quan hệ đầu vào (tính chất đóng gói của quan hệ).
+
+Một chuỗi các phép toàn quan hệ biểu diễn một biểu thức đại số quan hệ.
+
+Đại số quan hệ bao gồm các phép toán sau:
+
+- Các phép toán quan hệ một ngôi:
+  - SELECT (σ)
+  - PROJECT (π)
+  - RENAME (ρ)
+- Các phép toán quan hệ từ lý thuyết tập hợp:
+  - UNION (⋃)
+  - DIFFENCE or MINUS(−)
+  - CARTESIAN PRODUCT (×)
+  - INTERSECTION (⋂)
+- Các phép toán nhị phân:
+  - JOIN 
+  - DIVISION
+- Các phép toán khác:
+  - OUTER JOINS, OUTER UNION
+  - AGGREGATE FUNCTIONS (SUM, AVG, COUNT, MAX, MIN)
+
+![company-schema](/public/database/chapter5/company-schema.png)
+
+![database-state](/public/database/chapter5/database-state.png)
+
+![database-state-2](/public/database/chapter5/database-state-2.png)
+
+## 1. Unary Relational Operations
+
+### 1.1. SELECT Operation (σ)
+
+Phép toán **SELECT** (σ) tạo ra một tập hợp con của các hàng (tuples) từ một quan hệ dựa trên một điều kiện cụ thể.
+
+$\Rightarrow$ Số lượng tuples trong kết quả SELECT có thể bằng hoặc ít hơn số lượng tuples trong quan hệ đầu vào.
+
+**Ví dụ**:
+
+- Chọn EMPLOYEE tuples có department number là 7:
+$\sigma_{DNO = 4}$(EMPLOYEE)
+- Chọn EMPLOYEE tuples có lương lớn hơn $30,000:
+$\sigma$ SALARY > 30,000 (EMPLOYEE)
+
+![Unary Relational Operations: SELECT](/public/database/chapter5/select.png)
+
+### 1.2. PROJECT Operation (π)
+
+Phép toán **PROJECT** (π) tạo ra một tập hợp con của các cột (attributes) từ một quan hệ.
+
+π \<attribute list\> (R)
+
+*attribute list*: danh sách các cột cần lấy ra từ quan hệ R.
+
+$\Rightarrow$ Số lượng cột trong kết quả PROJECT có thể bằng hoặc ít hơn số lượng cột trong quan hệ đầu vào.
+
+- Project sẽ loại bỏ các tuples trùng lặp trong kết quả.
+- Project không có tính giao hoán: πA(πB(R)) ≠ πB(πA(R))
+
+### 1.3. RENAME Operation (ρ)
+
+Phép toán **RENAME** (ρ) đổi tên cho các cột (attributes) trong quan hệ.
+
+Trong một số trường hợp, có thể đổi tên cho cả quan hệ.
+
+- Hữu ích khi một truy vấn yêu cầu nhiều phép toàn và cần phải tham chiếu đến kết quả của một phép toán trước đó.
+- Cần thiết khi sử dụng JOIN với các cột có tên trùng nhau.
+
+![rename](/public/database/chapter5/rename.png)
+
+### 1.4. Single expression versus sequence of relational operations
+
+![single](/public/database/chapter5/single.png)
+
+## 2. Relational Algebra Operations from Set Theory
+
+### 2.1. UNION Operation (⋃)
+
+Là kết quả của phép kết hợp hai quan hệ R ⋃ S bao gồm các tuples có trong R hoặc S hoặc cả hai.
+
+Các tuples trùng lặp sẽ bị loại bỏ.
+
+Hai loại quan hệ R và S phải tương thích với nhau “type compatible”:
+
+- Phải có các thuộc tính giống nhau.
+- Các thuộc tính phải có cùng kiểu dữ liệu.
+
+### 2.2. INTERSECTION Operation (⋂)
+
+Là kết quả của phép kết hợp hai quan hệ R ⋂ S bao gồm các tuples có trong cả R và S.
+
+Các tuples trùng lặp sẽ bị loại bỏ.
+
+R và S phải có các thuộc tính giống nhau và cùng kiểu dữ liệu.
+
+### 2.3. SET DIFFERENCE Operation (−)
+
+Là kết quả của phép kết hợp hai quan hệ R - S bao gồm các tuples có trong R nhưng không có trong S.
+
+### 2.4. CARTESIAN PRODUCT Operation (×)
+
+Là kết quả của phép kết hợp hai quan hệ R × S bao gồm tất cả các cặp tuples từ R và S.
+
+$\Rightarrow$ Số lượng tuples trong kết quả CARTESIAN PRODUCT bằng số lượng tuples trong R nhân với số lượng tuples trong S.
+
+## 3. Binary Relational Operations
+
+### 3.1. JOIN Operation
+
+Phép toán **JOIN** kết hợp các tuples từ hai quan hệ dựa trên một điều kiện cụ thể.
+
+![join](/public/database/chapter5/join.png)
+
+![join example](/public/database/chapter5/join-example.png)
+
+Điều kiện join được gọi là *theta*. Theta có thể là một phép so sánh bất kỳ giữa các cột của hai quan hệ (boolean expression).
+
+*for example*: R.Ai < S.Bj AND (R.Ak = S.Bl OR R.Ap < S.Bq)
+
+Sử dụng dấu "=" để so sánh thì được gọi là **EQUIJOIN**.
+
+### 3.2. NATURAL JOIN Operation
+
+Phép toán **NATURAL JOIN** kết hợp các tuples từ hai quan hệ dựa trên các cột có cùng tên và giá trị.
+
+### 3.3. Complete Set of Relational Operations
+
+![complete-set](/public/database/chapter5/complete.png)
+
+### 3.4. DIVISION Operation
+
+Phép toán **DIVISION** tạo ra một quan hệ mới từ hai quan hệ R và S. Kết quả của phép toán DIVISION là tập hợp các giá trị trong R mà không có bất kỳ giá trị nào trong S có cùng giá trị với tất cả các giá trị trong R.
+
+**Tóm tắt đại số quan hệ**:
+
+![summary 1](/public/database/chapter5/summary_1.png)
+
+![summary 2](/public/database/chapter5/summary_2.png)
+
+### 3.5. Notation for Query Trees
+
+**Cây truy vấn**: biểu diễn các quan hệ đầu vào của truy vấn như các nút lá và các phép toán quan hệ như các nút trong cây.
+
+![query tree](/public/database/chapter5/query-tree.png)
+
+## 4. Additional Relational Operations
+
+### 4.1. Aggregate Functions and Grouping
+
+Các hàm tổng hợp (aggregate functions) như SUM, AVG, COUNT, MAX, MIN được sử dụng để thực hiện các phép toán trên các tập hợp giá trị.
+
+![additional](/public/database/chapter5/addtional.png)
+
+### 4.2. Recursive Closure operations
+
+**Các phép toán đóng đệ quy**
+
+- Một loại phép toán khác, nói chung không thể được chỉ định trong đại số quan hệ gốc, là phép toán đóng đệ quy. Phép toán này được áp dụng cho một mối quan hệ đệ quy.
+- Một ví dụ về phép toán đệ quy là lấy tất cả các nhân viên trực tiếp dưới quyền (SUPERVISEES) của một nhân viên (EMPLOYEE) e ở tất cả các cấp bậc.
+- Mặc dù có thể truy xuất nhân viên ở từng cấp và sau đó lấy hợp nhất (union), nhưng chúng ta không thể, nói chung, chỉ định một truy vấn như “lấy tất cả các nhân viên dưới quyền của 'James Borg' ở tất cả các cấp” mà không sử dụng một cơ chế lặp.
+- Tiêu chuẩn SQL3 bao gồm cú pháp cho phép đóng đệ quy.
+
+### 4.3. Outer Join Operation
+
+Phép toán **OUTER JOIN**
+
+Trong **NATURAL JOIN** và **EQUIJOIN**, các bộ dữ liệu (tuples) không có bộ dữ liệu tương ứng (hoặc liên quan) sẽ bị loại bỏ khỏi kết quả của phép nối (join).
+
+Các bộ dữ liệu có giá trị null trong các thuộc tính nối cũng bị loại bỏ.
+
+Điều này dẫn đến việc mất thông tin. Một tập hợp các phép toán, được gọi là OUTER JOIN, có thể được sử dụng khi chúng ta muốn giữ lại tất cả các bộ dữ liệu trong R, hoặc tất cả các bộ dữ liệu trong S, hoặc tất cả các bộ dữ liệu trong cả hai quan hệ trong kết quả của phép nối, bất kể việc chúng có bộ dữ liệu tương ứng trong quan hệ còn lại hay không.
+
+Các loại OUTER JOIN
+
+- **Left Outer Join**: Phép nối này giữ lại mọi bộ dữ liệu trong quan hệ đầu tiên (trái) R trong kết quả của R S. Nếu không tìm thấy bộ dữ liệu tương ứng trong S, thì các thuộc tính của S trong kết quả nối sẽ được lấp đầy hoặc "đệm" bằng giá trị null.
+![left outer join](/public/database/chapter5/left-outer-join.png)
+- **Right Outer Join**: Phép nối tương tự, nhưng giữ lại mọi bộ dữ liệu trong quan hệ thứ hai (phải) S trong kết quả của R S. Nếu không tìm thấy bộ dữ liệu tương ứng trong R, thì các thuộc tính của R trong kết quả nối sẽ được lấp đầy bằng giá trị null.
+![right outer join](/public/database/chapter5/right-outer-join.png)
+- **Full Outer Join**: Phép nối này giữ tất cả các bộ dữ liệu trong cả hai quan hệ trái và phải, khi không tìm thấy bộ dữ liệu tương ứng, chúng sẽ được lấp đầy bằng giá trị null.
+![full outer join](/public/database/chapter5/full-outer-join.png)
+
+## Tài liệu tham khảo
+
+[5. RelationaAlgebra_no_sol](/public/database/slide/5_RelationaAlgebra_no_sol.pdf)
+
+
+
+
