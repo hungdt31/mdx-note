@@ -1,0 +1,84 @@
+---
+title: "84. Largest Rectangle in Histogram"
+date: 2025-01-29
+tags: 
+  - Leetcode
+  - Stack
+---
+## Description
+
+You are given an array of integers `heights` where `heights[i]` represents the height of a bar. The width of each bar is `1`.
+
+Return the area of the largest rectangle that can be formed among the bars.
+
+Note: This chart is known as a histogram.
+
+## Example
+
+### Example 1
+
+> **Input:** `heights = [7, 1, 7, 2, 2, 4]`
+<br/> **Output:** `8`
+
+> **Input:** `heights = [1, 3, 7]`
+<br/> **Output:** `7`
+
+## Constraints
+
+- `1 <= heights.length <= 1000`
+- `0 <= heights[i] <= 1000`
+
+## Code
+
+```python
+from typing import List
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        maxArea = 0
+        stack = []  # pair: (index, height)
+
+        for i, h in enumerate(heights):
+            start = i
+            # stack[-1] lấy phần tử trên cùng của stack
+            # stack[-1][1]: ví dụ [(1, 2), (2, 6), (4, 5)] -> stack[-1][1] = 5
+            while stack and stack[-1][1] > h:
+                index, height = stack.pop()
+                maxArea = max(maxArea, height * (i - index))
+                start = index
+            # sử dụng tuple để lưu index và height
+            stack.append((start, h))
+
+        for i, h in stack:
+            maxArea = max(maxArea, h * (len(heights) - i))
+        return maxArea
+
+if __name__ == '__main__':
+    Sol = Solution()
+    print(Sol.largestRectangleArea([2,1,5,6,2,3]))
+```
+
+## Explanation
+
+- Stack lưu cột có chiều cao tăng dần.
+- Khi gặp cột thấp hơn, pop stack và tính diện tích.
+- Sau khi duyệt xong, xử lý các phần còn lại trong stack.
+- **Độ phức tạp** `O(n)`.
+
+**heights=  `[2, 1, 5, 6, 2, 3]`**
+
+**Diễn giải từng bước**:
+
+| Duyệt qua | Stack (index, height) | maxArea |
+|:------:|-----------------------|:---------:|
+|2	|[(0,2)]|	0|
+|1	|pop (0,2), tính diện tích 2*1=2 → [(0,1)]	| 2|
+|5	|[(0,1), (1,5)]	|2|
+|6	|[(0,1), (1,5), (2,6)]|	2|
+|2	|pop (2,6), (1,5), tính diện tích 6*1=6, 5*2=10 → [(0,1), (1,2)]| 10|
+|3	|[(0,1), (1,2), (2,3)]|	10|
+
+**Xử lý phần còn lại**:
+
+- Pop `(2,3)`, `(1,2)`, `(0,1)` tính diện tích còn lại → `maxArea = 10`
+- **Output**: 10
+

@@ -28,7 +28,7 @@
 |--|:--|
 |Easy|[1717. Maximum Score From removing Substrings](/posts/leetcode/Leetcode_1717-Maximum_Score_From_removing_Substrings.mdx) <br/> [20. Valid Parentheses](/posts/leetcode/Leetcode_20-Valid_Parentheses.mdx)|
 |Medium|[155. Min Stack](/posts/leetcode/Leetcode_155-Min_Stack.mdx) <br/> [150. Evaluate Reverse Polish Notation](/posts/leetcode/Leetcode_150-Evaluate_Reverse_Polish_Notation.mdx) <br/> [22. Generate Parentheses](/posts/leetcode/Leetcode_22-Generate_Parentheses.mdx) <br/> [739. Daily Temperatures](/posts/leetcode/Leetcode_739-Daily_Temperatures.mdx) <br/> [853. Car Fleet](/posts/leetcode/Leetcode_853-Car_Fleet.mdx)|
-|Hard||
+|Hard|[84. Largest Rectangle in Histogram](/posts/leetcode/Leetcode_84-Largest_Rectangle_In_Histogram.mdx)|
 
 ## 1-D Dynamic Programming
 
