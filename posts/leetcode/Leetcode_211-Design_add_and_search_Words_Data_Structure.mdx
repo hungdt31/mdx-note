@@ -1,0 +1,161 @@
+---
+title: "211. Design Add and Search Words Data Structure"
+date: 2025-06-10
+tags:
+  - Leetcode
+  - String
+  - Trie
+  - Depth-First Search
+  - Design
+---
+## Description
+
+Design a data structure that supports adding new words and finding if a string matches any previously added string.
+
+Implement the `WordDictionary` class:
+
+- `WordDictionary()` Initializes the object.
+- `void addWord(word)` Adds `word` to the data structure, it can be matched later.
+- `bool search(word)` Returns `true` if there is any string in the data structure that matches `word`, or `false` otherwise. `word` may contain dots `'.'` where dots can be matched with any letter.
+
+## Example
+
+### Example 1
+
+> **Input** `["WordDictionary","addWord","addWord","addWord","search","search","search","search"]`
+<br/> `[[],["bad"],["dad"],["mad"],["pad"],["bad"],[".ad"],["b.."]]`
+<br/> **Output** `[null,null,null,null,false,true,true,true]`
+<br/> **Explanation**
+<br/> WordDictionary wordDictionary = new WordDictionary();
+<br/> wordDictionary.addWord("bad");
+<br/> wordDictionary.addWord("dad");
+<br/> wordDictionary.addWord("mad");
+<br/> wordDictionary.search("pad"); // return False
+<br/> wordDictionary.search("bad"); // return True
+<br/> wordDictionary.search(".ad"); // return True
+<br/> wordDictionary.search("b.."); // return True
+
+## Code
+
+```c++
+class TrieNode {
+public:
+    TrieNode* children[26]; // Mỗi ký tự từ 'a' đến 'z' là một nhánh
+    bool isLeaf;            // Đánh dấu nếu đây là nút kết thúc của một từ
+
+    TrieNode() {
+        isLeaf = false;
+        for (int i = 0; i < 26; i++)
+            children[i] = nullptr;
+    }
+};
+
+class WordDictionary {
+private:
+    TrieNode* root;
+
+    // Hàm đệ quy để tìm kiếm từ có thể chứa ký tự '.'
+    bool dfs(TrieNode* node, const string& word, int index) {
+        if (!node) return false;
+
+        // Nếu đã duyệt hết ký tự, kiểm tra nếu node hiện tại là từ hoàn chỉnh
+        if (index == word.length()) return node->isLeaf;
+
+        char ch = word[index];
+        if (ch == '.') {
+            // Nếu là dấu '.', thử tất cả các ký tự con
+            for (int i = 0; i < 26; ++i) {
+                if (dfs(node->children[i], word, index + 1))
+                    return true;
+            }
+            return false;
+        } else {
+            // Nếu là ký tự thường, duyệt tiếp theo nhánh tương ứng
+            int idx = ch - 'a';
+            return dfs(node->children[idx], word, index + 1);
+        }
+    }
+
+public:
+    // Hàm khởi tạo: tạo root node rỗng
+    WordDictionary() {
+        root = new TrieNode();
+    }
+
+    // Thêm từ vào cây Trie
+    void addWord(const string& word) {
+        TrieNode* node = root;
+        for (char ch : word) {
+            int idx = ch - 'a';
+            // Tạo node mới nếu chưa tồn tại
+            if (!node->children[idx])
+                node->children[idx] = new TrieNode();
+            node = node->children[idx];
+        }
+        node->isLeaf = true; // Đánh dấu kết thúc từ
+    }
+
+    // Tìm kiếm từ, có thể chứa dấu '.'
+    bool search(const string& word) {
+        return dfs(root, word, 0);
+    }
+};
+```
+
+## Explanation
+
+### Approach
+
+This solution uses a **Trie** (prefix tree) data structure, which is perfect for dictionary implementations. A Trie excels at word lookup operations and provides an elegant way to handle the wildcard character search requirement.
+
+### Data Structure Design
+
+1. **TrieNode Class**:
+   - Each node contains an array of 26 pointers (representing lowercase English letters a-z)
+   - The `isLeaf` boolean flag marks complete words in the trie
+   - When initialized, all child pointers are set to `nullptr`
+
+2. **WordDictionary Class**:
+   - Maintains a root node as the entry point to the trie
+   - Implements three main operations: constructor, addWord, and search
+
+### Key Operations
+
+1. **Adding Words (`addWord`)**:
+   - Traverses the trie character by character
+   - Creates new nodes for characters not yet in the path
+   - Marks the final node as a leaf to indicate a complete word
+   - Time complexity: O(m) where m is the length of the word
+
+2. **Searching Words (`search`)**:
+   - Uses depth-first search (DFS) to handle the wildcard character '.'
+   - For regular characters: follows a single path in the trie
+   - For wildcard characters: explores all 26 possible paths (branches)
+   - Returns true as soon as a match is found
+
+3. **DFS Implementation**:
+   - Base cases: 
+     - Return false if current node is null
+     - Return node's leaf status when we've processed all characters
+   - For wildcards: recursively try all possible children
+   - For regular characters: only follow the specific path
+
+### Time & Space Complexity
+
+- **Space Complexity**: O(n·m) where n is the number of words and m is the average word length
+  
+- **Time Complexity**:
+  - `addWord`: O(m) where m is the word length
+  - `search`: 
+    - Best case (no wildcards): O(m)
+    - Worst case: O(26^k) where k is the number of wildcards
+    - For patterns like "..." the search explores all possible combinations
+
+### Benefits of This Approach
+
+1. Efficient prefix matching inherent to trie structures
+2. Elegant handling of wildcard characters through DFS
+3. Fast lookups for exact matches (better than hash table for this specific problem)
+4. Memory efficiency through sharing of common prefixes
+
+The wildcard handling is the most challenging aspect of this problem, and using DFS to explore all possible character substitutions provides an elegant solution.
