@@ -1,0 +1,101 @@
+---
+title: "Xây dựng code xử lý call API tiêu chuẩn chung trong một dự án nhiều người"
+date: 2025-08-01
+tags: 
+  - React
+---
+
+Khi làm việc nhóm và call API bằng Axios trong dự án thực tế, nếu không có quy chuẩn chung, sẽ dễ phát sinh bất tiện:
+
+## 1. Thiếu thống nhất về cách gọi API
+
+**Ví dụ:** người A dùng `axios.get(url, { params })`, người B tự nối chuỗi `url + '?id=1'`.
+
+**Hậu quả:** code khó đọc, khó bảo trì, dễ sinh bug khi backend thay đổi định dạng query.
+
+**Giải pháp:**
+
+- Xây dựng một API wrapper (giống APIManager của bạn).
+- Quy định rõ:
+  - Tham số query truyền qua `params`.
+  - Body của POST/PUT truyền qua `data`.
+  - Không nối thủ công vào URL.
+
+## 2. Thiếu xử lý lỗi tập trung
+
+**Ví dụ:** mỗi người tự `.catch()` và `toast.error()` → nhiều đoạn code lặp lại, thiếu đồng nhất về thông báo lỗi.
+
+**Hậu quả:** UI hiển thị thông báo lỗi không đồng nhất (người thì "Error", người thì "Something went wrong").
+
+**Giải pháp:**
+
+- Sử dụng axios interceptor hoặc một hàm request duy nhất để:
+  - Bắt lỗi chung (401, 403, 500, network error).
+  - Hiển thị toast/message chuẩn.
+
+## 3. Quản lý token và header không đồng nhất
+
+**Ví dụ:** người A thêm token bằng `headers.Authorization`, người B lấy token từ `localStorage` mỗi lần call.
+
+**Hậu quả:** dễ quên gửi token, bug 401 random, code trùng lặp.
+
+**Giải pháp:**
+
+- Sử dụng interceptor để tự động thêm Authorization và các header cần thiết.
+- Token chỉ cần quản lý tại một nơi (vd: StorageEnhance hoặc auth store).
+
+## 4. Không phân biệt các loại response
+
+- Có người trả về `res.data`, người khác trả cả `res`.
+- Có người check success trong component, người khác check trong API layer.
+
+**Hậu quả:** khó dự đoán cấu trúc dữ liệu trả về → dễ bug.
+
+**Giải pháp:**
+
+- Thống nhất response format → ví dụ: luôn trả về `{ data, error, success }`.
+- Kiểm tra `res.data.success` ở tầng API (như bạn đang làm).
+
+## 5. Không có request id hoặc cancel token
+
+- Không có cách phân biệt các request đồng thời (vd: 2 request GET cùng lúc).
+- Khi user chuyển trang, request cũ vẫn chạy → gây lỗi race condition.
+
+**Giải pháp:**
+
+- Thêm X-Request-Id hoặc CancelToken của axios.
+- Quản lý các request đang chạy để có thể hủy khi không cần.
+
+## 6. Không có config chung (baseURL, timeout, content-type)
+
+- Có người gọi `axios.get('https://api.example.com/users')`, người khác dùng `axios.get('/users')` (quên baseURL).
+- Có người set timeout, người khác không set.
+
+**Giải pháp:**
+
+- Dùng axios instance với config chung: baseURL, timeout, headers.
+- Không dùng trực tiếp `axios.get/post` trong component.
+
+## 7. Không quản lý các API đặc biệt (download file, upload)
+
+- Có người tự set `responseType: 'blob'`, người khác quên set → download bị hỏng.
+- Có người quên `Content-Type: multipart/form-data` khi upload.
+
+**Giải pháp:**
+
+- Có hàm API riêng hoặc flag trong request để xử lý file/download.
+
+## Tóm lại
+
+**Nếu để mỗi người call API tùy ý:**
+- Code khó đọc, khó maintain.
+- Thông báo lỗi không đồng nhất.
+- Dễ bug do thiếu token hoặc sai query.
+
+**Cách tránh:**
+- Tạo API manager duy nhất.
+- Định nghĩa quy chuẩn:
+  - Format dữ liệu trả về (success/error).
+  - Cách handle toast và error.
+  - Cách thêm token và header.
+- Sử dụng axios instance thay vì axios raw.

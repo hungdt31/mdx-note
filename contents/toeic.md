@@ -27,6 +27,14 @@
 
 - [Lesson 25: Financial Statements](/posts/toeic/Toeic-Lesson_25-Financial_Statements.mdx)
 
+### Management issues
+
+- [Lesson 29: Product Development](/posts/toeic/Toeic-Lesson_29-Product_Development.mdx)
+
+### Restaurants and events
+
+- [Lesson 31: Selecting a Restaurant](/posts/toeic/Toeic-Lesson_31-Selecting_a_Restaurant.mdx)
+
 ## HACKER TOEIC START LISTENING
 
 - [Day 11: Các tình huống diễn ra nơi công sở (1)](/posts/toeic/Hackers_Toeic_Start_Day_11.mdx)

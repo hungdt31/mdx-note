@@ -9,29 +9,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <head>
-          <title>MDX</title>
-          <link rel="icon" href="/images/favicon.png" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-            rel="stylesheet"
-          ></link>
-        </head>
-        <body>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>MDX</title>
+        <link rel="icon" href="/images/favicon.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-screen flex flex-col justify-between" suppressHydrationWarning>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <Header />
           <div className="px-6">{children}</div>
           <Footer />
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

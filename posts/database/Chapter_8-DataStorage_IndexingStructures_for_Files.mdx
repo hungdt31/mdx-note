@@ -1,0 +1,128 @@
+---
+title: "Chapter 8: Data Storage - Indexing Structures for Files"
+date: 2024-12-11
+tags:
+  - Database
+---
+
+## 1. Data Storage
+
+### 1.1. Disk Storage Devices
+
+Một track được chia thành các block hoặc sector nhỏ hơ
+- Bởi vì một track thường chứa một lượng lớn thông tin.
+Một track được chia thành các block
+- Block size B được cố định cho mỗi hệ thống
+  - Kích thước block thường là 512 bytes hoặc 4KB
+- Toàn bộ block được chuyển đổi giữa đĩa và bộ nhớ chính trong quá trình xử lý.
+
+### 1.2. File of Records
+
+- Một file chứa một số lượng lớn các bản ghi (records)
+  - **Fixed Length Records**: mỗi bản ghi có đoạn dữ liệu cố định, tất cả các bản ghi có cùng kích thước.
+  - **Variable Length Records**: mỗi bản ghi có đoạn dữ liệu thay đổi, phụ thuộc vào dữ liệu thực tế trong các trường.
+  - Một bản ghi được chia thành các fields, mỗi trường chứa giá trị của một loại dữ liệu cụ thể. 
+
+![records](/public/database/chapter8/records.png)
+
+#### 1.2.1. Blocking
+
+- **Blocking factor**: số lượng bản ghi mà một block có thể chứa.
+- **Spanned records**: bản ghi không thể chứa trong một block, được chia thành nhiều phần và lưu trữ trong nhiều block.
+
+![blocking](/public/database/chapter8/blocking.png)
+
+#### 1.2.2 Files of Records
+
+- Một file là một chuỗi các bản ghi, mỗi bản ghi là một tập hợp các giá trị dữ liệu.
+- Một **file header** (hay file mô tả) chứa thông tin về file, như tên trường, kiểu dữ liệu của trường, và địa chỉ của các file blocks trên đĩa.
+- Các bản ghi được lưu trữ trong disk blocks, mỗi block chứa một số lượng bản ghi.
+- `Blocking factor bfr` cho một file là số lượng bản ghi trung bình mà một block có thể chứa.
+- Một file có thể có bản ghi có độ dài cố định hoặc độ dài thay đổi. (**fixed-length records** or **variable-length records**).
+
+### 1.3. Operations on Files
+
+![op1](/public/database/chapter8/op1.png)
+
+![op2](/public/database/chapter8/op2.png)
+
+### 1.4. Unordered Files & Ordered Files & Hashed Files
+
+#### 1.4.1. Unordered Files
+
+- A heap or a pile file: bản ghi mới được thêm vào cuối file.
+- A linear search được sử dụng để tìm kiếm bản ghi trong file.
+
+`Easy to insertion. Reading and searching are slow.`
+
+#### 1.4.2. Ordered Files
+
+- A sequential file: bản ghi được sắp xếp theo một trường khóa.
+- Tốn nhiều chi phí để insert vào file. Dễ tìm kiếm hơn.
+
+![avrage_time](/public/database/chapter8/average_time.png)
+
+#### 1.4.3. Hashed Files
+
+**External Hashing**:
+
+- Là kỹ thuật băm được sử dụng để lưu trữ và truy xuất dữ liệu trên tệp đĩa.
+- Dữ liệu được tổ chức thành các khối trên đĩa và được quản lý thông qua các bucket.
+
+**Buckets và Disk Blocks**:
+
+- Tệp được chia thành M buckets có kích thước bằng nhau: `bucket0`, `bucket1`, ..., `bucketM-1`.
+- Bucket:
+  - Một bucket tương ứng với một block trên đĩa.
+  - Mỗi bucket chứa một số lượng bản ghi có cùng giá trị băm.
+- Hash Key: Một trường trong tệp được chọn làm hash key, Đây là trường mà dữ liệu sẽ được băm dựa trên giá trị của nó.
+- Collision: Khi hai bản ghi có cùng giá trị băm được lưu trữ trong cùng một bucket.
+  - `Open Addressing` (Địa chỉ mở):
+    - Xuất phát từ vị trí đã bị chiếm dụng được xác định bởi địa chỉ băm, chương trình kiểm tra lần lượt các vị trí tiếp theo trong thứ tự cho đến khi tìm được một vị trí chưa được sử dụng (trống).
+
+    ![overflow_openaddressing](/public/database/chapter8/overflow-openaddressing.png)
+
+  - `Chaining`: Một phương pháp giải quyết xung đột, mỗi bucket chứa một danh sách liên kết các bản ghi.
+
+  ![overflow_chaining](/public/database/chapter8/overflow_chaining.png)
+
+  - `Multiple Hashing`: Chương trình áp dụng hàm băm thứ hai nếu kết quả của hàm băm đầu tiên dẫn đến xung đột.
+
+### 1.5. RAID Technology and Storage Area Networks
+
+#### 1.5.1. RAID Technology
+
+**Công nghệ RAID (Mảng đĩa độc lập dự phòng)**  
+RAID là công nghệ lưu trữ kết hợp nhiều ổ cứng thành một đơn vị logic để tăng hiệu suất, độ tin cậy hoặc cả hai.  
+
+**Các cấp độ RAID chính**  
+  - **RAID 0 (Striping):**  
+    - Chia dữ liệu thành các dải (strip) lưu trên nhiều ổ cứng.  
+    - **Ưu:** Hiệu suất cao.  
+    - **Nhược:** Không có khả năng dự phòng, mất dữ liệu nếu hỏng 1 ổ.  
+
+  - **RAID 1 (Mirroring):**  
+    - Sao chép dữ liệu giống nhau trên 2 hoặc nhiều ổ.  
+    - **Ưu:** Bảo vệ dữ liệu tốt.  
+    - **Nhược:** Tốn gấp đôi dung lượng.  
+
+  - **RAID 5:**  
+    - Lưu dữ liệu và thông tin dự phòng (parity) trên ít nhất 3 ổ cứng.  
+    - **Ưu:** Cân bằng giữa hiệu suất và bảo vệ dữ liệu.  
+    - **Nhược:** Tốc độ ghi chậm hơn, cần ít nhất 3 ổ.  
+
+  - **RAID 10 (1+0):**  
+    - Kết hợp giữa RAID 0 và RAID 1 (striping và mirroring).  
+    - **Ưu:** Hiệu suất cao, dự phòng tốt.  
+    - **Nhược:** Tốn dung lượng, cần ít nhất 4 ổ.  
+
+**Storage Area Network (SAN - Mạng lưu trữ)**
+- SAN là một mạng tốc độ cao kết nối các thiết bị lưu trữ chuyên dụng với máy chủ.  
+- **Ưu:**  
+  - Truy cập dữ liệu nhanh.  
+  - Tập trung quản lý lưu trữ.  
+  - Tăng khả năng mở rộng.  
+- **Nhược:**  
+  - Chi phí cao, yêu cầu cấu hình phức tạp.
+
+## 2. Indexing Structures for Files

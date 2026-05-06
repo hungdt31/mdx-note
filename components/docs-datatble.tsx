@@ -28,21 +28,26 @@ interface DataTableProps<TData, TValue> {
   choosenTag?: string[];
 }
 
-export function DataTable<TData, TValue>({
+function DataTable<TData, TValue>({
   columns,
   data,
   tags,
   setChoosenTag,
-  choosenTag,
+  choosenTag = [],
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [Tags, setTags] = React.useState<TagProps[]>(tags);
+  const [filteredTags, setFilteredTags] = React.useState<TagProps[]>(tags);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
+
+  // Cập nhật filteredTags khi tags prop thay đổi
+  React.useEffect(() => {
+    setFilteredTags(tags);
+  }, [tags]);
 
   const table = useReactTable({
     data,
@@ -68,22 +73,25 @@ export function DataTable<TData, TValue>({
     <div>
       {/* input */}
       <div className="flex items-center py-4 gap-3">
-        <Input
-          placeholder="Search titles"
-          value={(table.getColumn("title")?.getFilterValue() as string) || ""}
-          onChange={(e) => {
-            table.getColumn("title")?.setFilterValue(e.target.value);
-          }}
-          className="max-w-sm"
-        />
+        <div className="relative w-full max-w-sm">
+          <Input
+            placeholder="Search titles..."
+            value={(table.getColumn("title")?.getFilterValue() as string) || ""}
+            onChange={(e) => {
+              table.getColumn("title")?.setFilterValue(e.target.value);
+            }}
+            className="w-full rounded-full bg-muted/50 border-muted focus-visible:ring-cyan-500 pl-4"
+          />
+        </div>
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
             {/* Page content here */}
             <label
               htmlFor="my-drawer"
-              className="text-cyan-700 py-2 rounded-sm px-5 font-bold border-2 border-cyan-700 bg-muted"
+              className="cursor-pointer text-cyan-600 py-2 rounded-full px-6 font-semibold border border-cyan-600 hover:bg-cyan-600 hover:text-white transition-colors flex items-center gap-2"
             >
+              <TagsLucide className="w-4 h-4" />
               Tags
             </label>
           </div>
@@ -94,74 +102,85 @@ export function DataTable<TData, TValue>({
               className="drawer-overlay"
             ></label>
 
-            <ul className="p-4 w-80 min-h-full bg-primary-foreground">
+            <div className="p-4 w-80 min-h-full bg-primary-foreground">
               {/* Sidebar content here */}
               <div className="mb-3 flex flex-col gap-3">
                 <div className="flex gap-3 items-center">
                   <Input
                     placeholder="Search tag"
                     onChange={(e) => {
-                      setTags(tags.filter((el : TagProps) => el.name.includes(e.target.value)));
+                      const searchValue = e.target.value.toLowerCase();
+                      setFilteredTags(
+                        tags.filter((el: TagProps) =>
+                          el.name.toLowerCase().includes(searchValue)
+                        )
+                      );
                     }}
                   />
-                  <Button onClick={() => setChoosenTag([])} className="bg-cyan-500 text-white hover:bg-cyan-500">
+                  <Button onClick={() => setChoosenTag?.([])} className="bg-cyan-500 text-white hover:bg-cyan-500">
                     Reset
                   </Button>
                 </div>
                 <hr />
               </div>
-              {Tags.map((tag, index) => (
-                <button
-                  key={index}
-                  // style item base checked or not
-                  className={
-                    choosenTag.includes(tag.name)
-                      ? "bg-primary-foreground text-primary-background my-1 inline mr-2"
-                      : "my-1 inline mr-2"
-                  }
-                  onClick={() =>
-                    setChoosenTag((prev : string[]) =>
-                      prev.includes(tag.name)
-                        ? prev.filter((item : string) => item !== tag.name)
-                        : [...prev, tag.name]
-                    )
-                  }
-                >
-                  <div className="flex justify-center items-center">
-                    <p>{tag.name} ({tag.count})</p>
-                    {choosenTag.includes(tag.name) && (
-                      <CircleCheckBig className="w-4 h-4 ml-2" />
-                    )}
-                  </div>
-                </button>
-              ))}
-            </ul>
+              <div className="flex flex-wrap gap-2">
+                {filteredTags.map((tag) => {
+                  const isSelected = choosenTag.includes(tag.name);
+                  return (
+                    <button
+                      key={tag.name}
+                      className={`px-3 py-1.5 text-sm font-medium rounded-full border transition-colors flex items-center gap-1 ${isSelected
+                        ? "bg-cyan-500 border-cyan-500 text-white"
+                        : "bg-background border-border hover:border-cyan-500 text-foreground"
+                        }`}
+                      onClick={() =>
+                        setChoosenTag?.((prev: string[]) =>
+                          prev.includes(tag.name)
+                            ? prev.filter((item: string) => item !== tag.name)
+                            : [...prev, tag.name]
+                        )
+                      }
+                    >
+                      {tag.name} <span className="opacity-70 text-xs">({tag.count})</span>
+                      {isSelected && <CircleCheckBig className="w-3.5 h-3.5 ml-1" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </div>
       {choosenTag.length > 0 && (
-        <div className="flex items-center gap-2 mb-5 flex-wrap">
-          <TagsLucide />
+        <div className="flex items-center gap-2 mb-6 flex-wrap">
+          <span className="text-sm font-medium text-muted-foreground mr-1">Filtered by:</span>
           {choosenTag.map((tag) => (
             <div key={tag} className="flex items-center gap-1">
-              {/* <p className="text-sm"></p> */}
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
-                className="rounded-full"
-                // onClick={() => setChoosenTag((prev) => prev.filter((item) => item !== tag))}
+                className="rounded-full h-7 px-3 text-xs bg-cyan-100 hover:bg-cyan-200 text-cyan-800 border border-cyan-200"
+                onClick={() => setChoosenTag?.((prev) => prev.filter((item) => item !== tag))}
               >
-                #{tag}
+                {tag} <span className="ml-1 opacity-60 hover:opacity-100">×</span>
               </Button>
             </div>
           ))}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 text-xs text-muted-foreground hover:text-foreground"
+            onClick={() => setChoosenTag?.([])}
+          >
+            Clear all
+          </Button>
         </div>
       )}
       {/* table */}
       <div className="">
         {/* <Table>
           <TableBody > */}
-        <div>
+        <div className="flex flex-col">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <div key={row.id}>
@@ -204,7 +223,7 @@ export function DataTable<TData, TValue>({
                   ? "border-cyan-500 text-cyan-500 px-3"
                   : "px-3 border-0"
               }
-              // disabled={table.getState().pagination.pageIndex === i}
+            // disabled={table.getState().pagination.pageIndex === i}
             >
               {i + 1}
             </button>

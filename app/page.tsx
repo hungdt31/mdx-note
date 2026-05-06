@@ -1,6 +1,6 @@
 "use client";
-import { compareDesc, format, parseISO } from "date-fns";
-import { allPosts, Post } from "contentlayer/generated";
+import { compareDesc } from "date-fns";
+import { allPosts } from "contentlayer/generated";
 import DocsDataTable from "components/docs-datatble";
 import { Docs } from "lib/columns";
 import { useState } from "react";
@@ -8,31 +8,27 @@ import removeDuplicates from "helpers/removeDuplicates";
 import TagProps from "interfaces/tag-props";
 
 export default function Home() {
-  const [choosenTag, setChoosenTag] = useState<string[]>([]);
-  let posts = allPosts
-  .sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)))
-  .map((post) => {
-    post.tags = post.tags.map((tag) => tag.replace(/\r/g, ""));
-    return post;
-  });
-  // lấy ra tất cả các giá trị của trường tags
-  posts = posts.filter((post) => {
-    if (choosenTag.length === 0) {
-      return true;
-    }
-    let count = 0;
-    for (let i = 0; i < choosenTag.length; i++) {
-      if (post.tags.includes(choosenTag[i])) {
-        count += 1;
-      }
-    }
-    if (count === choosenTag.length) {
-      return true;
-    }
-    return false;
-  });
-  // lọc ra các giá trị trùng lặp
-  const tags : TagProps[] = removeDuplicates(posts.map((post) => post.tags).flat());
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  // Chuẩn hóa tags và sort bài viết
+  const normalizedPosts = allPosts
+    .map(post => ({
+      ...post,
+      tags: post.tags.map(tag => tag.replace(/\r/g, "")),
+    }))
+    .sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)));
+
+  // Lọc bài viết theo tag đã chọn
+  const filteredPosts = selectedTags.length === 0
+    ? normalizedPosts
+    : normalizedPosts.filter(post =>
+      selectedTags.every(tag => post.tags.includes(tag))
+    );
+
+  // Lấy tất cả tag duy nhất
+  const tags: TagProps[] = removeDuplicates(
+    normalizedPosts.flatMap(post => post.tags)
+  );
 
   return (
     <div className="max-w-xl py-8 mx-auto">
@@ -41,10 +37,10 @@ export default function Home() {
       </div>
       <DocsDataTable
         columns={Docs}
-        data={posts}
+        data={filteredPosts}
         tags={tags}
-        setChoosenTag={setChoosenTag}
-        choosenTag={choosenTag}
+        setChoosenTag={setSelectedTags}
+        choosenTag={selectedTags}
       />
     </div>
   );

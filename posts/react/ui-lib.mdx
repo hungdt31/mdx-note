@@ -1,0 +1,46 @@
+---
+title: "Một số UI library thông dụng"
+date: 2024-07-31
+tags:
+  - NextJS
+  - React
+  - Front End
+---
+## Light/ Dark switcher
+### Sử dụng 
+
+## Tìm hiểu về framer motion
+
+Đối với phiên bản React 18 `npm install framer-motion`
+
+Sử dụng Framer Motion 12 alpha cho bản nâng cấp lên React 19 `npm install framer-motion@12.0.0-alpha.0`
+
+Importing syntax `import { motion } from "framer-motion"`
+
+### Motion components
+
+- Là các nguyên hàm DOM được tối ưu cho hoạt ảnh với 60 khung hình / giây.
+- Hoạt động với mọi thẻ HTML và SVG, for instance `motion.div`, `motion.circle`
+- Cung cấp các props cho phép:
+  - Phản hồi các thao tác và thành phần đi vào khung hình bằng hoạt ảnh.
+  - Các thao tác: kéo, xoay, di chuột và nhấn (drag, pan, hover and tap gestures).
+  - Tạo hoạt ảnh (animate) có chiều sâu thông qua các biến thế (variants).
+
+#### Supported values
+
+Motion có thể hoạt ảnh với các dữ liệu sau:
+- Các con số `0`, `10` etc.
+- Các chuỗi chứa các con số `"0vh"`, `"10px"` etc.
+- Màu sắc: Hex, RGB, HSLA.
+- Chuỗi phức tạp chứa nhiều số và/hoặc màu (tức là `"10px 0 #000"`)
+
+#### Value type conversion
+
+Nói chung, các giá trị chỉ có thể được làm động giữa hai giá trị cùng loại (tức là hai `px`, hai `%`, v.v.).
+
+```javascript
+<motion.div
+  initial={{ x: "100%" }}
+  animate={{ x: "calc(100vw - 50%)" }}
+/>
+```

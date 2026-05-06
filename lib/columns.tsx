@@ -1,5 +1,5 @@
 "use client";
-import { compareDesc, format, parseISO } from "date-fns";
+import { format, parseISO } from "date-fns";
 import {
   Card,
   CardContent,
@@ -10,8 +10,6 @@ import {
 } from "components/ui/card";
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "components/ui/badge";
-import { TbH1 } from "react-icons/tb";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Docs = {
@@ -25,39 +23,44 @@ export type Docs = {
   url: string;
 };
 
+import { CalendarDays } from "lucide-react";
+
 export const Docs: ColumnDef<Docs>[] = [
   {
     accessorKey: "title",
     cell: ({ row }) => {
       return (
-        <Card className="mb-8 shadow-md">
-          <CardHeader>
-            <CardTitle>
+        <Card className="mb-6 shadow-md hover:shadow-md transition-all duration-300 border-muted/60 overflow-hidden group">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-xl md:text-2xl text-cyan-700 dark:text-cyan-500 group-hover:text-cyan-600 transition-colors">
               <Link
                 href={row.original.url}
                 legacyBehavior
               >
-                <h2 className="hover:underline">
+                <a className="font-semibold">
                   {row.original.title}
-                </h2>
+                </a>
               </Link>
             </CardTitle>
             <CardDescription>
               <time
                 dateTime={row.original.date}
-                className="block mb-2 text-xs text-gray-600"
+                className="flex items-center gap-1.5 mt-2 text-xs text-muted-foreground"
               >
+                <CalendarDays className="w-3.5 h-3.5" />
                 {format(parseISO(row.original.date), "LLLL d, yyyy")}
               </time>
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-2 flex-wrap mt-1">
               {row.original?.tags?.map((tag, idx) => (
-                <button key={idx}>{tag}</button>
+                <span key={idx} className="px-2.5 py-0.5 rounded-md bg-secondary text-secondary-foreground text-xs font-medium border">
+                  {tag}
+                </span>
               ))}
             </div>
-            <CardFooter></CardFooter>
+            <CardFooter className="p-0"></CardFooter>
           </CardContent>
         </Card>
       );

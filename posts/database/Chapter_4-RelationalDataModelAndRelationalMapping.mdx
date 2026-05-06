@@ -1,0 +1,131 @@
+---
+title: "Chapter 4: Relational Data Model and ER/EER-to-Relational Mapping"
+date: 2024-10-03
+tags:
+  - Database
+---
+
+## 1. Relational Data Model
+
+### 1.1. Các khái niệm cơ bản
+
+Mô hình quan hệ của dữ liệu được xây dựng dựa vào chủ đề của một quan hệ.
+
+- **Mô hình dữ liệu quan hệ**: đại diện cho một database dưới định dạng của các quan hệ - bảng hai chiều với hàng và cột của dữ liệu. Một database có thể chứa ít nhất một bảng. Một lược đồ quan hệ được sử dụng để biểu diễn một quan hệ.
+- **Lược đồ quan hệ**: R(A1, A2, ..., An) được tạo ra từ một quan hệ tên R và một danh sách các thuộc tính A1, A2, ..., An. Mỗi thuộc tính Ai là tên của một quy tắc thuộc domain D trong lược đồ quan hệ R. R được gọi là tên của quan hệ đó.
+- **Bậc của một quan hệ**: số lượng thuộc tính n của chính lược đồ quan hệ của nó.
+- **Domain D**: dom(Ai) là một tập hợp các giá trị đơn nguyên (miền giá trị) và tập hợp các ràng buộc toàn vẹn.
+
+```
+STUDENT (Name, SSN, HomePhone, Address, OfficePhone, Age, GPA)
+- Degree = 7
+- dom(GPA) = [0.0, 4.0]
+```
+
+- **Tuple**: hàng hoặc bản ghi (row/record) trong một bảng
+- **Cardinality**: số lượng bộ dữ liệu (tuples) trong một bảng
+- **Database schema**: S = \{R1, R2, ..., Rm\}
+
+![basic](/public/database/chapter4/basic.png)
+
+Trong cơ sở dữ liệu quan hệ:
+
+1. **Quan hệ \( r \)**: Một quan hệ \( r \) (còn gọi là trạng thái quan hệ hay thể hiện quan hệ) của lược đồ quan hệ \( R(A1, A2, ..., An) \) là một tập hợp các bộ n giá trị (n-tuples) trong lược đồ đó. Mỗi bộ \( t \) chứa các giá trị cho từng thuộc tính \( Ai \) của lược đồ \( R \).
+
+2. **Ký hiệu**: Quan hệ \( r \) của \( R \) có thể được ký hiệu là \( r(R) \) và là tập hợp các bộ \( r = \{ t1, t2, ..., tm \} \), trong đó \( m \) là số bộ dữ liệu trong quan hệ \( r \).
+
+3. **Bộ n giá trị \( t \)**: Mỗi bộ \( t \) là một danh sách có thứ tự gồm \( n \) giá trị \( t = $\langle$ v1, v2, ..., vn $\rangle$ \), trong đó mỗi giá trị \( vi \) là một phần tử thuộc **miền** của thuộc tính \( Ai \) (hoặc có thể là giá trị đặc biệt null nếu dữ liệu thiếu hoặc không áp dụng).
+
+4. **Tham chiếu thuộc tính trong bộ \( t \)**: Giá trị thứ \( i \) trong bộ \( t \), tương ứng với thuộc tính \( Ai \), được gọi là \( t[Ai] \). 
+
+**Tóm lại**:
+
+- A relation == A table
+
+- Các cột của quan hệ dạng bảng đại diện các thuộc tính.
+- Mỗi thuộc tính sở hữu một cái tên riêng biệt, và luôn luôn được tham chiếu bởi tên, không bao giờ bởi vị trí của nó.
+- Mỗi hàng của bảng đại diện một bộ dữ liệu (tuple). Thứ tự của các bộ dữ liệu là không quan trọng và tất cả các bộ dữ liệu phải riêng biệt
+
+### 1.2. Ràng buộc quan hệ toàn vẹn
+
+
+## 3. ER-/EER-to-Relational Mapping
+
+### Step 1: Mapping of Regular Entity Types
+
+- Thực thể $\rightarrow$ Quan hệ 
+- Thuộc tính đơn giản $\rightarrow$ Thuộc tính của quan hệ
+- Thuộc tính tổng hợp $\rightarrow$ Tập hợp thuộc tính thành phần đơn giản
+- Thuộc tính khóa của thực thể $\rightarrow$ Khóa chính của quan hệ
+
+**Example**: We create the relations EMPLOYEE, DEPARTMENT, and PROJECT in the relational schema corresponding to the regular entities in the ER diagram. SSN, DNUMBER, and PNUMBER are the primary keys for the relations EMPLOYEE, DEPARTMENT, and PROJECT as shown.
+
+![erd](/public/database/chapter4/erd.png)
+
+**Kết quả**:
+
+![regular entity](/public/database/chapter4/step1.png)
+
+### Step 2: Mapping of Weak Entity Types
+
+Đối với mỗi loại thực thể yếu \( W \) trong lược đồ ER với thực thể chủ \( E \), ta thực hiện các bước sau để tạo ra một quan hệ \( R \):
+
+- Tạo quan hệ \( R \): Bao gồm tất cả các thuộc tính đơn (hoặc các thành phần đơn giản của thuộc tính tổ hợp) của \( W \) như là các thuộc tính của \( R \).
+- Thêm khóa ngoại: Ngoài ra, bao gồm các thuộc tính khóa ngoại của \( R \) là các thuộc tính khóa chính của các quan hệ tương ứng với các thực thể chủ.
+- Khóa chính của \( R \): Khóa chính của \( R \) là sự kết hợp của các khóa chính của thực thể chủ và khóa riêng phần (partial key) của loại thực thể yếu \( W \), nếu có.
+
+**Ví dụ**:
+
+Tạo quan hệ **DEPENDENT** trong bước này để tương ứng với loại thực thể yếu **DEPENDENT**. Bao gồm khóa chính **SSN** của quan hệ **EMPLOYEE** như là một thuộc tính khóa ngoại của **DEPENDENT** (được đổi tên thành **ESSN**).
+
+Khóa chính của quan hệ **DEPENDENT** là sự kết hợp của \(\{ **ESSN**, **DEPENDENT_NAME** \}\) vì **DEPENDENT_NAME** là khóa riêng phần của **DEPENDENT**.
+
+**Lưu ý**: Tùy chọn **CASCADE** được thực hiện.
+
+![weak entity](/public/database/chapter4/step2.png)
+
+### Step 3: Mapping of Binary 1:1 Relationship Types
+
+Có 3 hướng tiếp cận:
+
+- **Khóa ngoại**:
+  - Chọn E1 và lưu khóa chính của E2 như khóa ngoại của E1
+  - Bao gồm các thuộc tính đơn giản của kiểu quan hệ 1:1 như thuộc tính của E1.
+  ![step3_1](/public/database/chapter4/step3_1.png)
+- **Mối quan hệ hợp nhất**:
+  - Hợp E1, E2, R thành một quan hệ duy nhất.
+  ![step3_2](/public/database/chapter4/step3_2.png)
+- **Tham chiếu chéo quan hệ**:
+  - Tạo một quan hệ R mới.
+  - **Bao gồm khóa chính của các loại thực thể tham gia**: Thêm các thuộc tính khóa chính của các thực thể tham gia vào R dưới dạng các khóa ngoại.
+  - **Bao gồm các thuộc tính đơn giản của loại quan hệ 1:1**: Nếu loại quan hệ là 1:1, thêm các thuộc tính đơn giản của nó vào R.
+  - **Khóa chính của R**: Khóa chính của một trong các loại thực thể sẽ là khóa chính của R.
+  ![step3_3](/public/database/chapter4/step3_3.png)
+
+### Step 4: Mapping of Binary 1:N Relationship Types
+
+**Với mỗi loại quan hệ nhị phân 1:N thông thường**:
+
+1. Xác định quan hệ \( E2 \) đại diện cho kiểu thực thể tham gia nằm ở phía \( N \) của kiểu quan hệ.
+2. Bao gồm khóa chính của kiểu thực thể khác làm khóa ngoại trong \( E2 \).
+3. Bao gồm các thuộc tính đơn giản của kiểu quan hệ 1:N làm các thuộc tính của \( E2 \).
+
+![step4_1](/public/database/chapter4/step4_1.png)
+
+**Cách tiếp cận thay thế**:
+
+1. Sử dụng tùy chọn **quan hệ liên kết (cross-reference)**, giống như phương án thứ ba cho quan hệ nhị phân 1:1.
+2. Phía \( N \) của quan hệ là tùy chọn (không bắt buộc).
+
+![step4_2](/public/database/chapter4/step4_2.png)
+
+![step3-4](/public/database/chapter4/step3-4.png)
+
+### Step 5: Mapping of Binary M:N Relationship Types
+
+### Step 6: Mapping of Multivalued attributes
+
+### Step 7: Mapping of N-ary Relationship Types
+
+
+

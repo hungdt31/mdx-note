@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { ModeToggle } from "./theme-toggle";
-import { CircleUser, BookCopy, LayoutPanelTop} from "lucide-react";
+import { CircleUser, BookCopy, LayoutPanelTop } from "lucide-react";
 import { usePathname } from "next/navigation";
 function Icon() {
   return (
@@ -50,7 +50,7 @@ const nav = [
   },
   {
     name: "Topic",
-    icon: <LayoutPanelTop className="z-50"/>,
+    icon: <LayoutPanelTop className="z-50" />,
     path: "/topics"
   }
 ];
@@ -69,12 +69,11 @@ export function Header() {
               return (
                 <Link href={el.path} key={index}>
                   <button
-                    className={`flex items-center gap-2 bg-background px-3 ${
-                      (pathName.includes(el.path) && el.path != "/") ||
-                      (pathName == "/" && el.path == "/")
+                    className={`flex items-center gap-2 bg-background px-3 ${(pathName.includes(el.path) && el.path != "/") ||
+                        (pathName == "/" && el.path == "/")
                         ? "text-cyan-500"
                         : ""
-                    }`}
+                      }`}
                   >
                     {el.icon} <p className="sm:block hidden z-50 font-semibold">{el.name}</p>
                   </button>

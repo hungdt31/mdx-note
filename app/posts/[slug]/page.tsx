@@ -1,115 +1,100 @@
 "use client";
-import { TagIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer/hooks";
 import { notFound } from "next/navigation";
-import { useEffect, useState } from "react";
-import { GitCommitVertical, GitMerge, ArrowUp, Bookmark} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardDescription,
-} from "components/ui/card";
-// export const generateStaticParams = async () =>
-//   allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
+import { useEffect } from "react";
+import dynamic from "next/dynamic";
+import { ArrowUp } from "lucide-react";
 
-// export const generateMetadata = ({ params }) => {
-//   const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
-//   return { title: post.title };
-// };
-const Table_of_contents = ({tags}) => {
-  const [headings, setHeadings] = useState([]);
+const TableOfContents = dynamic(() => import("./toc-client"), { ssr: false });
 
+const BUTTON_STYLES = {
+  copy: "absolute top-2 right-2 z-50 text-cyan-900 border-2 border-cyan-900 rounded-md px-3 py-[1px]",
+  language: "absolute top-2 left-2 z-50 text-white border-2 border-white px-3 py-[1px] min-w-[80px] rounded-full",
+} as const;
+
+const PostLayout = ({ params }: { params: { slug: string } }) => {
+  // Tìm bài post theo slug
+  const post = allPosts.find((post) => {
+    const pathSegments = post._raw.flattenedPath.split("/");
+    return pathSegments[pathSegments.length - 1] === params.slug;
+  });
+
+  if (!post) notFound();
+
+  const Content = getMDXComponent(post.body.code);
+
+  // Thêm copy button và language label cho code blocks
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const h2Elements = Array.from(document.querySelectorAll("h2, h3"));
-      //console.log(h2Elements);
-      const h2contents = h2Elements.map((el) => ({
-        id: el.id,
-        text: el.textContent,
-        type: el.tagName,
-      }));
-      //console.log(h2contents);
-      setHeadings(h2contents);
-    }
+    const preTags = document.querySelectorAll("pre");
+    const buttons: HTMLButtonElement[] = [];
+    const labels: HTMLLabelElement[] = [];
+
+    preTags.forEach((preTag) => {
+      const codeTag = preTag.querySelector("code");
+      if (!codeTag) return;
+
+      // Tạo Copy button
+      const copyButton = document.createElement("button");
+      copyButton.className = BUTTON_STYLES.copy;
+      copyButton.innerHTML = "<strong>Copy</strong>";
+      copyButton.onclick = () => {
+        navigator.clipboard.writeText(codeTag.textContent || "");
+      };
+
+      // Tạo Language label
+      const languageLabel = document.createElement("label");
+      languageLabel.className = BUTTON_STYLES.language;
+      const language = codeTag.getAttribute("data-language") || "code";
+      languageLabel.innerHTML = `<p class="text-center underline">${language}</p>`;
+
+      codeTag.appendChild(copyButton);
+      codeTag.appendChild(languageLabel);
+
+      buttons.push(copyButton);
+      labels.push(languageLabel);
+    });
+
+    // Cleanup function để xóa buttons khi component unmount
+    return () => {
+      buttons.forEach((btn) => btn.remove());
+      labels.forEach((label) => label.remove());
+    };
   }, []);
 
-  // console.log(headings);
+  const scrollToTop = () => {
+    document.getElementById("my-title")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
-  return (
-    <Card className="my-5">
-      <CardHeader>
-        <p className="text-xl font-semibold flex items-center"><Bookmark className="mr-3"/> Table Of Contents</p>
-      </CardHeader>
-      <CardContent>
-        {headings.map((heading, index) => (
-          <div key={index} className={heading.type == 'H3' ? 'text-base ml-9' : 'text-lg'}>
-            <a href={`#${heading.id}`} className="flex gap-3 items-center text-cyan-700">
-            {heading.type == 'H2' ? <GitCommitVertical /> : <GitMerge size={16}/>} {heading.text}
-            </a>
-          </div>
-        ))}
-      </CardContent>
-      <CardFooter>
-      <div className="flex items-center gap-3 flex-wrap">
-      <TagIcon/> {tags?.map((tag, idx) => (
-        <button key={idx}>{tag}</button>
-      ))}
-      </div>
-      </CardFooter>
-    </Card>
-  );
-};
-const PostLayout = ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find((post) => {
-    const ind = post._raw.flattenedPath.indexOf("/")
-    return post._raw.flattenedPath.slice(ind + 1) === params.slug
-});
-  // console.log(post);
-  if (!post) notFound();
-  const Content = getMDXComponent(post.body.code);
-  useEffect(() => {
-    const preTags = document.querySelectorAll("pre")
-    for (let i = 0; i < preTags.length; i++){
-      const codeTag = preTags[i].querySelector("code")
-      const copiedText = codeTag.textContent
-
-      const cssCopyButton = "absolute top-2 block right-2 z-50 text-cyan-900 border-2 border-cyan-900 rounded-md px-3 py-[1px]"
-      const copyButton = document.createElement("button")
-      copyButton.className = cssCopyButton
-      copyButton.innerHTML = '<strong>Copy</strong>'
-
-      const csslanguageButton = "absolute top-2 block left-2 z-50 text-white border-2 border-white px-3 py-[1px] min-w-[80px] rounded-full"
-      const languageButton = document.createElement("label")
-      languageButton.className = csslanguageButton
-      languageButton.innerHTML = `<p className="text-center underline">${codeTag.getAttribute("data-language")}</p>`
-
-      codeTag.appendChild(copyButton)
-      codeTag.appendChild(languageButton)
-
-      copyButton.addEventListener("click", () => {
-        navigator.clipboard.writeText(copiedText)
-      })
-    } 
-  },[])
   return (
     <article className="py-8 mx-auto max-w-xl">
-      <div className="mb-8 text-center">
+      {/* Header với thông tin bài viết */}
+      <header className="mb-8 text-center">
         <time dateTime={post.date} className="mb-1 text-xs text-gray-600">
           {format(parseISO(post.date), "LLLL d, yyyy")}
         </time>
         <h1 id="my-title">{post.title}</h1>
-      </div>
-      <Table_of_contents tags={post.tags}/>
+      </header>
+
+      {/* Table of contents */}
+      <TableOfContents tags={post.tags} />
+
+      {/* Nội dung bài viết */}
       <Content />
-      <a className="fixed bottom-2 right-2 bg-transparent" href="#my-title">
-        <button className="border-cyan-700">
-          <ArrowUp />
-        </button>
-      </a>
+
+      {/* Nút scroll to top */}
+      <button
+        className="fixed bottom-2 right-2 bg-transparent border-cyan-700 p-2 rounded-md hover:bg-cyan-50 dark:hover:bg-cyan-900 transition-colors"
+        onClick={scrollToTop}
+        aria-label="Scroll to top"
+        type="button"
+      >
+        <ArrowUp />
+      </button>
     </article>
   );
 };

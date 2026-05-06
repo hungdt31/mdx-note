@@ -67,6 +67,10 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   * {
     font-family: "Open Sans", sans-serif;
     @apply border-border;
